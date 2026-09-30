@@ -28,11 +28,4 @@ export const variables = defineEnvVars({
 		description: "Cadena de conexión a PostgreSQL para Prisma ORM",
 		schema: v.pipe(v.string(), v.nonEmpty("DATABASE_URL es requerida")),
 	},
-	GOTENBERG_API_URL: {
-		public: false,
-		static: false,
-		description:
-			"URL del servicio Gotenberg para renderizado y exportación de PDFs oficiales",
-		schema: v.pipe(v.string(), v.url()),
-	},
 });
