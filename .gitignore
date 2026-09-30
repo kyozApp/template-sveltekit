@@ -1,23 +1,20 @@
-node_modules
+# Dependencias del proyecto
+node_modules/
+/.svelte-kit/
+/src/lib/paraglide/
+/project.inlang/cache/
 
-# Output
-.output
-.vercel
-.netlify
-.wrangler
-/.svelte-kit
-/build
-
-# OS
+# Basura del sistema
 .DS_Store
 Thumbs.db
 
-# Env
+# Proyecto compilado
+/build/
+
+# Variables de entorno
 .env
 .env.*
 !.env.example
-!.env.test
 
-# Vite
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
+# Documentación privada y runbooks locales
+docs/*.local.md

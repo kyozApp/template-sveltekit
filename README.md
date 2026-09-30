@@ -1,42 +1,44 @@
-# sv
+# ⚡ Template SvelteKit
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Plantilla base de desarrollo rápido para aplicaciones web Fullstack modernas, construida sobre
+**SvelteKit**, **Svelte 5 (Runes)**, **Prisma 8 (Contract Builder)**, **PostgreSQL 18**,
+**Tailwind CSS v4**, **Inter Variable**, **Paraglide JS (i18n)**, **Subpath Imports (`#lib`)**,
+**Valibot**, **Argon2** y **Biome**.
 
-## Creating a project
+---
 
-If you're seeing this, you've probably already done this step. Congrats!
+## 🚀 Cómo Usar Esta Plantilla
 
-```sh
-# create a new project
-npx sv create my-app
+### 1. Clonar el proyecto con degit
+
+Ejecuta el siguiente comando para descargar una copia limpia sin historial git:
+
+```bash
+pnpm dlx degit kyozApp/template-sveltekit mi-app
+cd mi-app
 ```
 
-To recreate this project with the same configuration:
+### 2. Personalizar la plantilla
 
-```sh
-# recreate this project
-pnpm dlx sv@0.17.1 create --template minimal --types ts --install pnpm template-sveltekit
-```
+Edita los siguientes archivos para adaptar la plantilla al nombre de tu proyecto:
 
-## Developing
+- **`package.json`**: actualiza `"name"` (`mi-app`).
+- **`.env.example`**: configura `PORT`, `ORIGIN`, `BODY_SIZE_LIMIT` y `DATABASE_URL`.
+- **`docs/dev.md`**: actualiza la ruta del proyecto (`cd ~/proyectos/mi-app`).
+- **`docs/prod.md`**:
+  - Con el buscador (`Ctrl + F`) reemplaza en este archivo:
+    - `mi-app` por el nombre de tu proyecto.
+  - Actualiza el campo `Description` de cada servicio en Systemd:
+    - En `mi-app.service`: descripción de tu aplicación web (`Mi Aplicación SvelteKit`).
+    - En `mi-app-worker.service`: descripción del worker (`Mi Aplicación Worker`).
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### 3. Continuar en desarrollo local
 
-```sh
-npm run dev
+Una vez renombrado el proyecto, abre la **[Guía de Desarrollo Local (docs/dev.md)](docs/dev.md)**
+para instalar dependencias, inicializar Prisma 8 y arrancar la aplicación web junto a su worker.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+---
 
-## Building
+## 📄 Licencia
 
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Este proyecto se distribuye bajo la licencia [MIT](LICENSE).

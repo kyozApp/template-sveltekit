@@ -1,0 +1,239 @@
+@import "@fontsource-variable/inter/index.css";
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
+@theme {
+	--font-sans: "Inter Variable", sans-serif;
+	--z-base: 0;
+	--z-raised: 1;
+	--z-field-control: 2;
+	--z-sticky: 30;
+	--z-sidebar: 35;
+	--z-sidebar-floating: 40;
+	--z-dropdown: 1000;
+	--z-fixed: 1500;
+	--z-toast: 2000;
+	--z-modal: 2500;
+	--z-tooltip: 2800;
+	--z-popover: 2900;
+	--z-progress-bar: 3000;
+	--z-imperative: 9999;
+}
+:root {
+	color-scheme: light;
+}
+
+.dark {
+	color-scheme: dark;
+}
+
+/* Ocultar iconos nativos de revelar/limpiar contraseñas del navegador */
+input::-ms-reveal,
+input::-ms-clear {
+	display: none;
+}
+
+/* Ocultar flechas nativas (spin buttons) en inputs numéricos */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	margin: 0;
+	-webkit-appearance: none;
+}
+
+input[type="number"] {
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+/* ============================================================
+   TOOLTIP UNIVERSAL ([data-tooltip])
+   ============================================================ */
+[data-tooltip] {
+	position: relative;
+}
+
+[data-tooltip]::after {
+	position: absolute;
+	inset-block-end: calc(100% + 7px);
+	inset-inline-start: 50%;
+	z-index: var(--z-tooltip, 2800);
+	visibility: hidden;
+	padding-block: 0.32rem;
+	padding-inline: 0.65rem;
+	font-size: 0.72rem;
+	font-weight: 550;
+	line-height: 1;
+	color: light-dark(oklch(20% 0.02 255), oklch(98% 0.01 255));
+	white-space: nowrap;
+	pointer-events: none;
+	content: attr(data-tooltip);
+	background-color: light-dark(oklch(100% 0 0), oklch(18% 0.03 255));
+	border: 1px solid light-dark(oklch(85% 0.01 255), oklch(34% 0.02 255));
+	border-radius: 6px;
+	box-shadow: 0 4px 12px light-dark(oklch(0% 0 0 / 0.08), oklch(0% 0 0 / 0.3));
+	opacity: 0;
+	transform: translateX(-50%) translateY(4px);
+	transition:
+		opacity 0.14s ease,
+		transform 0.14s ease,
+		visibility 0.14s ease;
+	transition-delay: 0.06s;
+}
+
+[data-tooltip]::before {
+	position: absolute;
+	inset-block-end: calc(100% + 3px);
+	inset-inline-start: 50%;
+	z-index: var(--z-tooltip, 2800);
+	visibility: hidden;
+	pointer-events: none;
+	content: "";
+	border-block-start: 4px solid
+		light-dark(oklch(85% 0.01 255), oklch(34% 0.02 255));
+	border-inline: 4px solid transparent;
+	opacity: 0;
+	transform: translateX(-50%) translateY(4px);
+	transition:
+		opacity 0.14s ease,
+		transform 0.14s ease,
+		visibility 0.14s ease;
+	transition-delay: 0.06s;
+}
+
+[data-tooltip]:hover:not(:disabled)::after,
+[data-tooltip]:hover:not(:disabled)::before,
+[data-tooltip]:focus-visible:not(:disabled)::after,
+[data-tooltip]:focus-visible:not(:disabled)::before {
+	visibility: visible;
+	opacity: 1;
+	transform: translateX(-50%) translateY(0);
+}
+
+/* Variante para elementos en bordes laterales (ej. Sidebar colapsado) */
+[data-tooltip][data-tooltip-position="right"]::after {
+	inset-block-start: 50%;
+	inset-block-end: auto;
+	inset-inline-start: calc(100% + 9px);
+	transform: translateY(-50%) translateX(-4px);
+}
+
+[data-tooltip][data-tooltip-position="right"]::before {
+	inset-block-start: 50%;
+	inset-block-end: auto;
+	inset-inline-start: calc(100% + 3px);
+	border-block-start: 4px solid transparent;
+	border-block-end: 4px solid transparent;
+	border-inline-start: none;
+	border-inline-end: 4px solid
+		light-dark(oklch(85% 0.01 255), oklch(34% 0.02 255));
+	transform: translateY(-50%) translateX(-4px);
+}
+
+[data-tooltip][data-tooltip-position="right"]:hover:not(:disabled)::after,
+[data-tooltip][data-tooltip-position="right"]:hover:not(:disabled)::before,
+[data-tooltip][data-tooltip-position="right"]:focus-visible:not(
+	:disabled
+)::after,
+[data-tooltip][data-tooltip-position="right"]:focus-visible:not(
+	:disabled
+)::before {
+	transform: translateY(-50%) translateX(0);
+}
+
+/* ============================================================
+   Variante centrada arriba explícita (top)
+   ============================================================ */
+[data-tooltip][data-tooltip-position="top"]::after {
+	inset-block-end: calc(100% + 7px);
+	inset-inline-start: 50%;
+	inset-inline-end: auto;
+	transform: translateX(-50%) translateY(4px);
+}
+
+[data-tooltip][data-tooltip-position="top"]::before {
+	inset-block-end: calc(100% + 3px);
+	inset-inline-start: 50%;
+	inset-inline-end: auto;
+	transform: translateX(-50%) translateY(4px);
+}
+
+[data-tooltip][data-tooltip-position="top"]:hover:not(:disabled)::after,
+[data-tooltip][data-tooltip-position="top"]:hover:not(:disabled)::before,
+[data-tooltip][data-tooltip-position="top"]:focus-visible:not(:disabled)::after,
+[data-tooltip][data-tooltip-position="top"]:focus-visible:not(
+	:disabled
+)::before {
+	visibility: visible;
+	opacity: 1;
+	transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================================
+   Variante anclada a la derecha (top-end)
+   Ideal para botones en la última columna / celdas de acciones de tablas.
+   Crece hacia la izquierda y evita desbordamiento / scroll horizontal.
+   ============================================================ */
+:is(.col-actions, .col-actions-val, .action-cell)
+[data-tooltip]:not([data-tooltip-position]),
+[data-tooltip][data-tooltip-position="top-end"] {
+	&::after {
+		inset-block-end: calc(100% + 7px);
+		inset-inline-start: auto;
+		inset-inline-end: 0;
+		transform: translateY(4px);
+	}
+
+	&::before {
+		inset-block-end: calc(100% + 3px);
+		inset-inline-start: auto;
+		inset-inline-end: 12px;
+		transform: translateY(4px);
+	}
+
+	&:is(:hover, :focus-visible):not(:disabled) {
+		&::after,
+		&::before {
+			visibility: visible;
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+}
+
+/* ============================================================
+   Variante hacia la izquierda (left)
+   ============================================================ */
+[data-tooltip][data-tooltip-position="left"]::after {
+	inset-block-start: 50%;
+	inset-block-end: auto;
+	inset-inline-start: auto;
+	inset-inline-end: calc(100% + 9px);
+	transform: translateY(-50%) translateX(4px);
+}
+
+[data-tooltip][data-tooltip-position="left"]::before {
+	inset-block-start: 50%;
+	inset-block-end: auto;
+	inset-inline-start: auto;
+	inset-inline-end: calc(100% + 3px);
+	border-block-start: 4px solid transparent;
+	border-block-end: 4px solid transparent;
+	border-inline-start: 4px solid
+		light-dark(oklch(85% 0.01 255), oklch(34% 0.02 255));
+	border-inline-end: none;
+	transform: translateY(-50%) translateX(4px);
+}
+
+[data-tooltip][data-tooltip-position="left"]:hover:not(:disabled)::after,
+[data-tooltip][data-tooltip-position="left"]:hover:not(:disabled)::before,
+[data-tooltip][data-tooltip-position="left"]:focus-visible:not(
+	:disabled
+)::after,
+[data-tooltip][data-tooltip-position="left"]:focus-visible:not(
+	:disabled
+)::before {
+	visibility: visible;
+	opacity: 1;
+	transform: translateY(-50%) translateX(0);
+}

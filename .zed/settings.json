@@ -1,0 +1,66 @@
+{
+	"languages": {
+		"JSON": {
+			"tab_size": 2,
+			"hard_tabs": true,
+			"prettier": { "allowed": false },
+			"formatter": { "language_server": { "name": "biome" } }
+		},
+		"JSONC": {
+			"tab_size": 2,
+			"hard_tabs": true,
+			"prettier": { "allowed": false },
+			"formatter": { "language_server": { "name": "biome" } }
+		},
+		"HTML": {
+			"tab_size": 2,
+			"hard_tabs": true,
+			"prettier": { "allowed": false },
+			"formatter": { "language_server": { "name": "biome" } }
+		},
+		"CSS": {
+			"tab_size": 2,
+			"hard_tabs": true,
+			"prettier": { "allowed": false },
+			"language_servers": [
+				"tailwindcss-intellisense-css",
+				"!vscode-css-language-server",
+				"..."
+			],
+			"formatter": { "language_server": { "name": "biome" } }
+		},
+		"JavaScript": {
+			"tab_size": 2,
+			"hard_tabs": true,
+			"prettier": { "allowed": false },
+			"formatter": { "language_server": { "name": "biome" } }
+		},
+		"TypeScript": {
+			"tab_size": 2,
+			"hard_tabs": true,
+			"prettier": { "allowed": false },
+			"formatter": { "language_server": { "name": "biome" } }
+		},
+		"Svelte": {
+			"tab_size": 2,
+			"hard_tabs": true,
+			"formatter": { "language_server": { "name": "biome" } }
+		}
+	},
+	"lsp": {
+		"tailwindcss-language-server": {
+			"settings": {
+				"includeLanguages": { "svelte": "html" },
+				"experimental": {
+					"classRegex": [
+						"class=\"([^\"]*)\"",
+						"class='([^']*)'",
+						"class:\\s*([^\\s{]+)",
+						"\\{\\s*class:\\s*\"([^\"]*)\"",
+						"\\{\\s*class:\\s*'([^']*)'"
+					]
+				}
+			}
+		}
+	}
+}
