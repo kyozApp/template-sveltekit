@@ -20,22 +20,14 @@ cd mi-app
 
 ### 2. Personalizar la plantilla
 
-Edita los siguientes archivos para adaptar la plantilla al nombre de tu proyecto:
-
-- **`package.json`**: actualiza `"name"` (`mi-app`).
-- **`.env.example`**: configura `PORT`, `ORIGIN`, `BODY_SIZE_LIMIT` y `DATABASE_URL`.
-- **`docs/dev.md`**: actualiza la ruta del proyecto (`cd ~/proyectos/mi-app`).
-- **`docs/prod.md`**:
-  - Con el buscador (`Ctrl + F`) reemplaza en este archivo:
-    - `mi-app` por el nombre de tu proyecto.
-  - Actualiza el campo `Description` de cada servicio en Systemd:
-    - En `mi-app.service`: descripción de tu aplicación web (`Mi Aplicación SvelteKit`).
-    - En `mi-app-worker.service`: descripción del worker (`Mi Aplicación Worker`).
+1. En **`package.json`**, actualiza el campo `"name"` con el nombre de tu proyecto.
+2. En tu editor, presiona `Ctrl + Shift + F` (búsqueda global) y reemplaza estos 2 valores:
+   - **`mi-app`**: Nombre de la carpeta de tu proyecto.
+   - **`template_sveltekit_db`**: Nombre de tu base de datos en PostgreSQL.
 
 ### 3. Continuar en desarrollo local
 
-Una vez renombrado el proyecto, abre la **[Guía de Desarrollo Local (docs/dev.md)](docs/dev.md)**
-para instalar dependencias, inicializar Prisma 8 y arrancar la aplicación web junto a su worker.
+Abre la **[Guía de Desarrollo Local](docs/dev.md)** para preparar tu entorno en desarrollo.
 
 ---
 
