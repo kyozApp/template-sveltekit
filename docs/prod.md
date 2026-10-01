@@ -122,7 +122,7 @@ Pega la siguiente configuración:
 
 ```ini
 [Unit]
-Description=Mi Aplicacion SvelteKit
+Description=mi-app Web Application
 After=network.target
 
 [Service]
@@ -163,7 +163,7 @@ Pega la siguiente configuración:
 
 ```ini
 [Unit]
-Description=Mi Aplicacion Worker (Background Tasks)
+Description=mi-app Worker Service
 After=network.target mi-app.service
 
 [Service]
