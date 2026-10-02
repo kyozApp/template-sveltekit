@@ -313,17 +313,42 @@ journalctl -u mi-app -u mi-app-worker -b
 journalctl --disk-usage
 ```
 
-### Pausar, deshabilitar o reanudar servicios (Mantenimiento)
+### Detener por completo los servicios de Systemd sin eliminar
 
 ```bash
-# Pausar temporalmente ambos servicios
+# 1. Detener los procesos inmediatamente
 sudo systemctl stop mi-app mi-app-worker
 
-# Evitar que arranquen automáticamente en reinicios del host
+# 2. Deshabilitar el inicio automático al reiniciar el servidor
 sudo systemctl disable mi-app mi-app-worker
 
-# Volver a habilitar el arranque automático e iniciarlos de inmediato
-sudo systemctl enable --now mi-app mi-app-worker
+# 3. Comprobar que quedaron detenidos y deshabilitados (Active: inactive)
+sudo systemctl status mi-app mi-app-worker
+
+# Para volver a habilitar el arranque automático e iniciarlos de inmediato:
+# sudo systemctl enable --now mi-app mi-app-worker
+```
+
+### Detener y eliminar por completo los servicios de Systemd
+
+```bash
+# 1. Detener los procesos si están en ejecución
+sudo systemctl stop mi-app mi-app-worker
+
+# 2. Deshabilitar el arranque automático al encender el sistema
+sudo systemctl disable mi-app mi-app-worker
+
+# 3. Eliminar los archivos de definición del servicio
+sudo rm /etc/systemd/system/mi-app.service
+sudo rm /etc/systemd/system/mi-app-worker.service
+
+# 4. Recargar systemd para que olvide los servicios eliminados
+sudo systemctl daemon-reload
+
+# 5. Limpiar cualquier estado residual que haya quedado en memoria
+sudo systemctl reset-failed
+
+# 6. Comprobar que los servicios ya no existen en el sistema
 sudo systemctl status mi-app mi-app-worker
 ```
 
