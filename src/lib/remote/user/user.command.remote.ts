@@ -42,7 +42,7 @@ export const toggleUserStatus = command(
 		const newIsActive = !existing.isActive;
 
 		if (!newIsActive) {
-			await db.orm.public.Session.where({ userId: data.id }).delete();
+			await db.orm.public.Session.where({ userId: data.id }).deleteAll();
 		}
 
 		// 6. Actualizar estado del usuario en la base de datos
@@ -80,7 +80,7 @@ export const deleteUser = command(userDeleteSchema.body, async (data) => {
 	}
 
 	// 5. Revocar todas las sesiones del usuario a eliminar
-	await db.orm.public.Session.where({ userId: data.id }).delete();
+	await db.orm.public.Session.where({ userId: data.id }).deleteAll();
 
 	// 6. Aplicar baja lógica (Soft Delete)
 	await db.orm.public.User.where({ id: data.id }).update({

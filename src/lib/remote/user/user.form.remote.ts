@@ -144,7 +144,7 @@ export const updateUser = form(userUpdateSchema.body, async (data) => {
 
 	// 7. Revocar sesiones activas si el usuario es desactivado
 	if (data.isActive === false) {
-		await db.orm.public.Session.where({ userId: data.id }).delete();
+		await db.orm.public.Session.where({ userId: data.id }).deleteAll();
 	}
 
 	// 8. Actualizar usuario en la base de datos
