@@ -205,6 +205,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 	gap: 0.35rem;
 
 	padding: 0.5rem 0.75rem;
+	overflow-x: hidden;
 	overflow-y: auto;
 }
 
@@ -277,6 +278,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 
 	&.collapsed {
 		inline-size: 80px;
+		overflow: visible;
 	}
 
 	@media (width <= 768px) {
@@ -289,6 +291,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 
 		&.collapsed {
 			inline-size: 280px;
+			overflow: hidden;
 			transform: translateX(-100%);
 		}
 	}
@@ -301,6 +304,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 
 .sidebar.collapsed .sidebar-nav {
 	padding: 0.5rem;
+	overflow: visible;
 }
 
 .sidebar.collapsed .sidebar-link {
