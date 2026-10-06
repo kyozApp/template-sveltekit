@@ -57,10 +57,7 @@ const submitting = $derived(updateForm.pending > 0);
 <div class="form-wrapper">
 	<svelte:boundary>
 		{@const details = await getUserDetails({ id: userId })}
-
-		{@const currentIsActive =
-	fieldIsActive.value() ?? (details.isActive ? "true" : "false")}
-		{@const isActiveChecked = currentIsActive === "true"}
+		{@const isActiveChecked = fieldIsActive.value() ?? details.isActive}
 
 		<form
 			class="user-form"
@@ -280,24 +277,20 @@ const submitting = $derived(updateForm.pending > 0);
 							</span>
 						</div>
 						<input {...fieldId.as("hidden", details.id)}>
-						<input {...fieldIsActive.as("hidden", currentIsActive)}>
-						<button
-							type="button"
-							role="switch"
-							aria-checked={isActiveChecked}
-							class="switch-control"
-							class:active={isActiveChecked}
-							onclick={() => fieldIsActive.set(isActiveChecked ? "false" : "true")}
-							disabled={submitting}
-						>
+						<label class="switch-control" class:active={isActiveChecked}>
+							<input
+								{...fieldIsActive.as("checkbox", details.isActive)}
+								class="sr-only"
+								disabled={submitting}
+							>
 							<span class="switch-track"></span>
 							<span class="switch-thumb"></span>
 							<span class="sr-only">Estado de la cuenta</span>
-						</button>
+						</label>
 					</div>
 				{:else}
 					<input {...fieldId.as("hidden", details.id)}>
-					<input {...fieldIsActive.as("hidden", "true")}>
+					<input {...fieldIsActive.as("hidden", true)}>
 				{/if}
 			</div>
 
@@ -723,6 +716,7 @@ const submitting = $derived(updateForm.pending > 0);
 	cursor: pointer;
 
 	position: relative;
+	display: inline-block;
 
 	flex-shrink: 0;
 
@@ -736,6 +730,7 @@ const submitting = $derived(updateForm.pending > 0);
 
 	-webkit-tap-highlight-color: transparent;
 
+	&:has(input:disabled),
 	&:disabled {
 		cursor: not-allowed;
 		opacity: 0.55;

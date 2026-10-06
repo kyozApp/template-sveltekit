@@ -41,9 +41,7 @@ let showPassword = $state(false);
 
 const submitting = $derived(createForm.pending > 0);
 
-const isActiveChecked = $derived(
-	fieldIsActive.value() === "true" || fieldIsActive.value() === undefined,
-);
+const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 </script>
 
 <div class="form-wrapper">
@@ -98,7 +96,7 @@ const isActiveChecked = $derived(
 							<User size="16" />
 						</span>
 						<input
-							{...fieldName.as("text", "")}
+							{...fieldName.as("text")}
 							id="user-create-name"
 							class="form-input"
 							placeholder=""
@@ -124,7 +122,7 @@ const isActiveChecked = $derived(
 							<User size="16" />
 						</span>
 						<input
-							{...fieldUsername.as("text", "")}
+							{...fieldUsername.as("text")}
 							id="user-create-username"
 							class="form-input"
 							placeholder=""
@@ -150,7 +148,7 @@ const isActiveChecked = $derived(
 							<Mail size="16" />
 						</span>
 						<input
-							{...fieldEmail.as("text", "")}
+							{...fieldEmail.as("text")}
 							id="user-create-email"
 							class="form-input"
 							placeholder=""
@@ -176,7 +174,7 @@ const isActiveChecked = $derived(
 							<Lock size="16" />
 						</span>
 						<input
-							{...fieldPassword.as(showPassword ? "text" : "password", "")}
+							{...fieldPassword.as(showPassword ? "text" : "password")}
 							id="user-create-password"
 							class="form-input"
 							placeholder=""
@@ -214,7 +212,7 @@ const isActiveChecked = $derived(
 						<Shield size="16" />
 					</span>
 					<select
-						{...fieldRole.as("select", "")}
+						{...fieldRole.as("select")}
 						id="user-create-role"
 						class="form-input form-select"
 						disabled={submitting}
@@ -247,20 +245,16 @@ const isActiveChecked = $derived(
 						{isActiveChecked ? "Cuenta activa" : "Cuenta inactiva"}
 					</span>
 				</div>
-				<input {...fieldIsActive.as("hidden", fieldIsActive.value() ?? "true")}>
-				<button
-					type="button"
-					role="switch"
-					aria-checked={isActiveChecked}
-					class="switch-control"
-					class:active={isActiveChecked}
-					onclick={() => fieldIsActive.set(isActiveChecked ? "false" : "true")}
-					disabled={submitting}
-				>
+				<label class="switch-control" class:active={isActiveChecked}>
+					<input
+						{...fieldIsActive.as("checkbox", true)}
+						class="sr-only"
+						disabled={submitting}
+					>
 					<span class="switch-track"></span>
 					<span class="switch-thumb"></span>
 					<span class="sr-only">Estado de la cuenta</span>
-				</button>
+				</label>
 			</div>
 		</div>
 
@@ -616,6 +610,7 @@ const isActiveChecked = $derived(
 	cursor: pointer;
 
 	position: relative;
+	display: inline-block;
 
 	flex-shrink: 0;
 
@@ -629,6 +624,7 @@ const isActiveChecked = $derived(
 
 	-webkit-tap-highlight-color: transparent;
 
+	&:has(input:disabled),
 	&:disabled {
 		cursor: not-allowed;
 		opacity: 0.55;

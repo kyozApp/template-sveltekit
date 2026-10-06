@@ -17,7 +17,7 @@ import { loginUser } from "#lib/remote/auth/auth.form.remote";
 import { notifications } from "#lib/services/notifications.svelte";
 import { authLoginSchema } from "#lib/validations/auth/auth.form.validation";
 
-const { username, password } = loginUser.fields;
+const { username: fieldUsername, password: fieldPassword } = loginUser.fields;
 
 let showPassword = $state(false);
 
@@ -74,19 +74,19 @@ const submitting = $derived(loginUser.pending > 0);
 					<User size="16" />
 				</span>
 				<input
-					{...username.as("text")}
+					{...fieldUsername.as("text")}
 					id="username"
 					class="form-input"
 					placeholder="Introduce tu usuario"
 					autocomplete="username"
 					disabled={submitting}
-					class:has-error={username.issues()?.length}
+					class:has-error={fieldUsername.issues()?.length}
 				>
 			</div>
-			{#if username.issues()?.length}
+			{#if fieldUsername.issues()?.length}
 				<span class="field-error">
 					<CircleAlert size="14" />
-					<span>{username.issues()?.[0]?.message}</span>
+					<span>{fieldUsername.issues()?.[0]?.message}</span>
 				</span>
 			{/if}
 		</div>
@@ -98,13 +98,13 @@ const submitting = $derived(loginUser.pending > 0);
 					<Lock size="16" />
 				</span>
 				<input
-					{...password.as(showPassword ? "text" : "password")}
+					{...fieldPassword.as(showPassword ? "text" : "password")}
 					id="password"
 					class="form-input"
 					placeholder="••••••••"
 					autocomplete="current-password"
 					disabled={submitting}
-					class:has-error={password.issues()?.length}
+					class:has-error={fieldPassword.issues()?.length}
 				>
 				<button
 					type="button"
@@ -120,10 +120,10 @@ const submitting = $derived(loginUser.pending > 0);
 					{/if}
 				</button>
 			</div>
-			{#if password.issues()?.length}
+			{#if fieldPassword.issues()?.length}
 				<span class="field-error">
 					<CircleAlert size="14" />
-					<span>{password.issues()?.[0]?.message}</span>
+					<span>{fieldPassword.issues()?.[0]?.message}</span>
 				</span>
 			{/if}
 		</div>

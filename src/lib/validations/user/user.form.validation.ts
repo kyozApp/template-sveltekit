@@ -54,7 +54,7 @@ export const userCreateSchema = {
 				"Selecciona un rol válido de la lista.",
 			),
 		),
-		isActive: v.pipe(v.string(), v.parseBoolean()),
+		isActive: v.optional(v.boolean(), true),
 	}),
 };
 
@@ -130,7 +130,7 @@ export const userUpdateSchema = {
 			v.optional(v.string(), ""),
 			v.picklist(ROLES, "Selecciona un rol válido de la lista."),
 		),
-		isActive: v.pipe(v.string(), v.parseBoolean()),
+		isActive: v.optional(v.boolean(), false),
 	}),
 };
 
