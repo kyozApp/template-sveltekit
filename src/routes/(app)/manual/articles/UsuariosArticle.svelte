@@ -11,7 +11,7 @@ import {
 	SlidersHorizontal,
 	TableProperties,
 	ToggleRight,
-	Trash2,
+	Trash,
 	User,
 	UserPlus,
 } from "@lucide/svelte";
@@ -292,7 +292,7 @@ const userFaqs = [
 			<!-- Tarea 4: Baja Definitiva -->
 			<div class="step-card">
 				<div class="step-card-header">
-					<span class="step-icon delete"><Trash2 size={20} /></span>
+					<span class="step-icon delete"><Trash size={20} /></span>
 					<div>
 						<h4 class="step-card-title">
 							4. Retiro Definitivo del Colaborador

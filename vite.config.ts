@@ -15,9 +15,7 @@ export default defineConfig(({ mode }) => {
 		plugins: [
 			tailwindcss(),
 			sveltekit({
-				alias: { "#lib/*": "src/lib/*" },
 				experimental: {
-					explicitEnvironmentVariables: true,
 					remoteFunctions: true,
 				},
 				compilerOptions: {

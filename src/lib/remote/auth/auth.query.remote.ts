@@ -2,7 +2,7 @@ import { getRequestEvent, query } from "$app/server";
 
 import * as v from "valibot";
 
-import { authCheckSchema } from "#lib/validations/auth/auth.query.validation";
+import { authCheckSchema } from "#lib/validations/auth/auth.query.validation.ts";
 
 /**
  * Comprueba la autenticidad del usuario actual.

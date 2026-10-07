@@ -14,9 +14,9 @@ import {
 } from "@lucide/svelte";
 import { nanoid } from "nanoid";
 
-import { createUser } from "#lib/remote/user/user.form.remote";
-import { notifications } from "#lib/services/notifications.svelte";
-import { userCreateSchema } from "#lib/validations/user/user.form.validation";
+import { createUser } from "#lib/remote/user/user.form.remote.ts";
+import { notifications } from "#lib/services/notifications.svelte.ts";
+import { userCreateSchema } from "#lib/validations/user/user.form.validation.ts";
 
 interface Props {
 	onClose: () => void;
@@ -212,7 +212,7 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 						<Shield size="16" />
 					</span>
 					<select
-						{...fieldRole.as("select")}
+						{...fieldRole.as("select", "")}
 						id="user-create-role"
 						class="form-input form-select"
 						disabled={submitting}

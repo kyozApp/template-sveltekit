@@ -1,7 +1,7 @@
 import { error } from "@sveltejs/kit";
 import { getRequestEvent } from "$app/server";
 
-import type { Role } from "#lib/constants";
+import type { Role } from "#lib/constants.ts";
 
 export const assertAuthenticated = (): App.AuthenticatedLocals => {
 	const event = getRequestEvent();

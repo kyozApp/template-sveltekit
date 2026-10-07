@@ -1,24 +1,24 @@
-import type {
-	Handle,
-	HandleServerError,
-	HandleValidationError,
-} from "@sveltejs/kit";
-import { sequence } from "@sveltejs/kit/hooks";
+import {
+	type Handle,
+	type HandleServerError,
+	sequence,
+} from "@sveltejs/kit/hooks";
 
-import { getTextDirection } from "#lib/paraglide/runtime";
-import { paraglideMiddleware } from "#lib/paraglide/server";
-import { db } from "#lib/server/db";
+import { getTextDirection } from "#lib/paraglide/runtime.js";
+import { paraglideMiddleware } from "#lib/paraglide/server.js";
+import { db } from "#lib/server/db.ts";
 
 const handleParaglide: Handle = ({ event, resolve }) =>
 	paraglideMiddleware(event.request, ({ request, locale }) => {
-		event.request = request;
-
-		return resolve(event, {
-			transformPageChunk: ({ html }) =>
-				html
-					.replace("%paraglide.lang%", locale)
-					.replace("%paraglide.dir%", getTextDirection(locale)),
-		});
+		return resolve(
+			{ ...event, request },
+			{
+				transformPageChunk: ({ html }) =>
+					html
+						.replace("%paraglide.lang%", locale)
+						.replace("%paraglide.dir%", getTextDirection(locale)),
+			},
+		);
 	});
 
 const handleSession: Handle = async ({ event, resolve }) => {
@@ -75,12 +75,20 @@ export const handle: Handle = sequence(handleParaglide, handleSession);
 /**
  * Intercepta y sanitiza excepciones ocurridas en el servidor.
  */
-export const handleError: HandleServerError = ({ error, event, status }) => {
+export const handleError: HandleServerError = ({ error, event, kind }) => {
 	// Las rutas no encontradas (404) son normales y no deben registrarse como fallo interno (500)
-	if (status === 404) {
+	if (kind === "framework" && error.status === 404) {
 		return {
 			message: "Página no encontrada.",
 		};
+	}
+
+	if (kind === "validation") {
+		return error;
+	}
+
+	if (kind === "app") {
+		return error;
 	}
 
 	const err = error as (Error & { code?: string }) | undefined;
@@ -97,14 +105,5 @@ export const handleError: HandleServerError = ({ error, event, status }) => {
 
 	return {
 		message: "Ocurrió un error inesperado en el servidor.",
-	};
-};
-
-/**
- * Intercepta errores de validación de esquemas en peticiones o Remote Functions.
- */
-export const handleValidationError: HandleValidationError = () => {
-	return {
-		message: "Solicitud no válida.",
 	};
 };

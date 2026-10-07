@@ -13,9 +13,9 @@ import {
 	User,
 } from "@lucide/svelte";
 
-import { loginUser } from "#lib/remote/auth/auth.form.remote";
-import { notifications } from "#lib/services/notifications.svelte";
-import { authLoginSchema } from "#lib/validations/auth/auth.form.validation";
+import { loginUser } from "#lib/remote/auth/auth.form.remote.ts";
+import { notifications } from "#lib/services/notifications.svelte.ts";
+import { authLoginSchema } from "#lib/validations/auth/auth.form.validation.ts";
 
 const { username: fieldUsername, password: fieldPassword } = loginUser.fields;
 
@@ -31,38 +31,38 @@ const submitting = $derived(loginUser.pending > 0);
 	try {
 		const ok = await f.submit();
 
-		if (ok) {
-			const res = f.result;
-			if (res && !res.success) {
-				notifications.showToastError(res.error);
+			if (ok) {
+				const res = f.result;
+				if (res && !res.success) {
+					notifications.showToastError(res.error);
+					return;
+				}
+				notifications.showToastSuccess("¡Sesión iniciada con éxito!");
+				await goto(resolve('dashboard'));
 				return;
 			}
-			notifications.showToastSuccess("¡Sesión iniciada con éxito!");
-			await goto(resolve("/dashboard"));
-			return;
-		}
 
-		console.error("[AUTH LOGIN][PROCESSING ERROR]", { ok });
+			console.error("[AUTH LOGIN][PROCESSING ERROR]", { ok });
 		notifications.showErrorAlert(
 			"Error de Procesamiento",
 			"Ocurrió un problema inesperado al procesar el inicio de sesión. Por favor, comuníquese con sistemas.",
 		);
 	} catch (e) {
-		if (isHttpError(e)) {
-			console.error("[AUTH LOGIN][HTTP ERROR]", e);
+			if (isHttpError(e)) {
+				console.error("[AUTH LOGIN][HTTP ERROR]", e);
 			notifications.showErrorAlert(
 				"Servicio No Disponible",
 				"No pudimos iniciar sesión en este momento. Por favor, comuníquese con sistemas.",
 			);
-		} else {
-			console.error("[AUTH LOGIN][CONNECTION ERROR]", e);
+			} else {
+				console.error("[AUTH LOGIN][CONNECTION ERROR]", e);
 			notifications.showErrorAlert(
 				"Error de Conexión",
 				"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
 			);
+			}
 		}
-	}
-})}
+	})}
 	oninput={() => loginUser.validate()}
 	novalidate
 >
@@ -109,7 +109,7 @@ const submitting = $derived(loginUser.pending > 0);
 				<button
 					type="button"
 					class="input-icon-right"
-					onclick={() => (showPassword = !showPassword)}
+					onclick={() => showPassword = !showPassword}
 					aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
 					disabled={submitting}
 				>

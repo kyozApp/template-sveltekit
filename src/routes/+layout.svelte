@@ -1,9 +1,9 @@
 <script lang="ts">
 import { resolve } from "$app/paths";
 import { page } from "$app/state";
-import type { Pathname } from "$app/types";
+import type { Path } from "$app/types";
 
-import { locales, localizeHref } from "#lib/paraglide/runtime";
+import { locales, localizeHref } from "#lib/paraglide/runtime.js";
 import "./layout.css";
 
 import { ModeWatcher } from "mode-watcher";
@@ -21,7 +21,7 @@ let { children } = $props();
 
 <div style="display:none">
 	{#each locales as locale (locale)}
-		<a href={resolve(localizeHref(page.url.pathname, { locale }) as Pathname)}
+		<a href={resolve(localizeHref(page.url.pathname, { locale }) as Path)}
 			>{locale}</a
 		>
 	{/each}

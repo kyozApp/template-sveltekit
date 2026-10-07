@@ -3,8 +3,8 @@ import { fade, fly, scale } from "svelte/transition";
 
 import { CircleCheck, CircleX, TriangleAlert, X } from "@lucide/svelte";
 
-import type { ToastPosition } from "#lib/services/notifications.svelte";
-import { notifications } from "#lib/services/notifications.svelte";
+import type { ToastPosition } from "#lib/services/notifications.svelte.ts";
+import { notifications } from "#lib/services/notifications.svelte.ts";
 
 const positions: ToastPosition[] = [
 	"top-left",

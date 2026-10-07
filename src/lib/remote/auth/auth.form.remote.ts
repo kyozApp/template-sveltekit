@@ -2,8 +2,8 @@ import { form, getRequestEvent } from "$app/server";
 
 import argon2 from "argon2";
 
-import { db } from "#lib/server/db";
-import { authLoginSchema } from "#lib/validations/auth/auth.form.validation";
+import { db } from "#lib/server/db.ts";
+import { authLoginSchema } from "#lib/validations/auth/auth.form.validation.ts";
 
 /**
  * Inicia sesión para un usuario autenticando con Prisma y Argon2.

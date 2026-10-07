@@ -2,14 +2,14 @@ import { form } from "$app/server";
 
 import argon2 from "argon2";
 
-import { assertAdminOrSuperAdmin } from "#lib/server/auth";
-import { db } from "#lib/server/db";
+import { assertAdminOrSuperAdmin } from "#lib/server/auth.ts";
+import { db } from "#lib/server/db.ts";
 import {
 	userCreateSchema,
 	userUpdateSchema,
-} from "#lib/validations/user/user.form.validation";
+} from "#lib/validations/user/user.form.validation.ts";
 
-import { getUserDetails, getUserList } from "./user.query.remote";
+import { getUserDetails, getUserList } from "./user.query.remote.ts";
 
 /**
  * Registra un nuevo usuario en el sistema.

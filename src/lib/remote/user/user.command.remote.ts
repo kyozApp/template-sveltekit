@@ -1,14 +1,14 @@
 import { error } from "@sveltejs/kit";
 import { command } from "$app/server";
 
-import { assertAdminOrSuperAdmin } from "#lib/server/auth";
-import { db } from "#lib/server/db";
+import { assertAdminOrSuperAdmin } from "#lib/server/auth.ts";
+import { db } from "#lib/server/db.ts";
 import {
 	userDeleteSchema,
 	userToggleStatusSchema,
-} from "#lib/validations/user/user.command.validation";
+} from "#lib/validations/user/user.command.validation.ts";
 
-import { getUserDetails, getUserList } from "./user.query.remote";
+import { getUserDetails, getUserList } from "./user.query.remote.ts";
 
 /**
  * Cambia el estado de activación de un usuario (isActive).
@@ -87,6 +87,8 @@ export const deleteUser = command(userDeleteSchema.body, async (data) => {
 		isDeleted: true,
 		deletedAt: new Date().toISOString(),
 		isActive: false,
+		email: `${existing.email}.deleted.${existing.id}`,
+		username: `${existing.username}.deleted.${existing.id}`,
 	});
 
 	// 7. Invalidar caché y refrescar listados

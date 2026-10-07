@@ -16,7 +16,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 	<button
 		type="button"
 		class="sidebar-overlay"
-		onclick={() => (isSidebarOpen = false)}
+		onclick={() => isSidebarOpen = false}
 		tabindex="-1"
 		aria-hidden="true"
 	></button>
@@ -25,7 +25,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 <aside class="sidebar" class:collapsed={!isSidebarOpen}>
 	<div class="sidebar-brand-container">
 		<a
-			href={resolve("/dashboard")}
+			href={resolve('dashboard')}
 			class="brand"
 			in:fly={{ y: 4, duration: 300 }}
 		>
@@ -40,7 +40,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 			<button
 				type="button"
 				class="mobile-close-btn"
-				onclick={() => (isSidebarOpen = false)}
+				onclick={() => isSidebarOpen = false}
 				aria-label="Cerrar menú"
 			>
 				<X size="20" />
@@ -56,7 +56,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 
 	<nav class="sidebar-nav">
 		<a
-			href={resolve("/dashboard")}
+			href={resolve('dashboard')}
 			class="sidebar-link"
 			class:active={page.url.pathname.startsWith("/dashboard")}
 			data-tooltip={!isSidebarOpen ? "Dashboard" : undefined}
@@ -71,7 +71,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 
 		{#if page.data.user?.role === "SUPERADMIN" || page.data.user?.role === "ADMIN"}
 			<a
-				href={resolve("/usuarios")}
+				href={resolve('usuarios')}
 				class="sidebar-link"
 				class:active={page.url.pathname.startsWith("/usuarios")}
 				data-tooltip={!isSidebarOpen ? "Usuarios" : undefined}
@@ -86,7 +86,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 		{/if}
 
 		<a
-			href={resolve("/manual")}
+			href={resolve('manual')}
 			class="sidebar-link"
 			class:active={page.url.pathname.startsWith("/manual")}
 			data-tooltip={!isSidebarOpen ? "Manual" : undefined}

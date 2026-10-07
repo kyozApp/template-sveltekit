@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { ROLES } from "#lib/constants";
+import { ROLES } from "#lib/constants.ts";
 
 /**
  * Listar usuarios

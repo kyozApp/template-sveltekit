@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { UserListItemResponse } from "#lib/validations/user/user.query.validation";
+import type { UserListItemResponse } from "#lib/validations/user/user.query.validation.ts";
 
 interface Props {
 	role: UserListItemResponse["role"];

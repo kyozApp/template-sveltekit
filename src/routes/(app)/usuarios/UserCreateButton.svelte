@@ -1,5 +1,5 @@
 <script lang="ts">
-import { pushState } from "$app/navigation";
+import { goto } from "$app/navigation";
 import { page } from "$app/state";
 
 import { UserPlus } from "@lucide/svelte";
@@ -8,9 +8,12 @@ import { UserPlus } from "@lucide/svelte";
 <button
 	type="button"
 	onclick={() =>
-	pushState("", {
-		...page.state,
-		showUserCreate: { isOpen: true },
+	goto("", {
+		shallow: true,
+		state: {
+			...page.state,
+			showUserCreate: { isOpen: true },
+		},
 	})}
 	class="btn-create-form"
 >

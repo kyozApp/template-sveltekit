@@ -3,8 +3,8 @@ import { isHttpError } from "@sveltejs/kit";
 
 import { LoaderCircle, LogOut } from "@lucide/svelte";
 
-import { logoutUser } from "#lib/remote/auth/auth.command.remote";
-import { notifications } from "#lib/services/notifications.svelte";
+import { logoutUser } from "#lib/remote/auth/auth.command.remote.ts";
+import { notifications } from "#lib/services/notifications.svelte.ts";
 
 let isSubmitting = $state(false);
 </script>

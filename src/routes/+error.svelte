@@ -30,7 +30,7 @@ import { CircleAlert, House } from "@lucide/svelte";
 			{/if}
 		</p>
 
-		<a href={resolve("/")} class="btn-home">
+		<a href={resolve("")} class="btn-home">
 			<House size="18" />
 			<span>Volver al Inicio</span>
 		</a>

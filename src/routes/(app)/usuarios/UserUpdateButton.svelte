@@ -1,5 +1,5 @@
 <script lang="ts">
-import { pushState } from "$app/navigation";
+import { goto } from "$app/navigation";
 import { page } from "$app/state";
 
 import { Pencil } from "@lucide/svelte";
@@ -15,9 +15,12 @@ let { userId }: Props = $props();
 	type="button"
 	class="edit-btn"
 	onclick={() =>
-	pushState("", {
-		...page.state,
-		showUserUpdate: { isOpen: true, data: { userId } },
+	goto("", {
+		shallow: true,
+		state: {
+			...page.state,
+			showUserUpdate: { isOpen: true, data: { userId } },
+		},
 	})}
 	aria-label="Editar usuario"
 	data-tooltip="Editar usuario"

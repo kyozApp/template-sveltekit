@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { ROLES } from "#lib/constants";
+import { ROLES } from "#lib/constants.ts";
 
 /**
  * Verificación del estado de autenticación (Watchdog / Layout)

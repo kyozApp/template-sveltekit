@@ -23,10 +23,10 @@ import {
 } from "@lucide/svelte";
 import { nanoid } from "nanoid";
 
-import { updateUser } from "#lib/remote/user/user.form.remote";
-import { getUserDetails } from "#lib/remote/user/user.query.remote";
-import { notifications } from "#lib/services/notifications.svelte";
-import { userUpdateSchema } from "#lib/validations/user/user.form.validation";
+import { updateUser } from "#lib/remote/user/user.form.remote.ts";
+import { getUserDetails } from "#lib/remote/user/user.query.remote.ts";
+import { notifications } from "#lib/services/notifications.svelte.ts";
+import { userUpdateSchema } from "#lib/validations/user/user.form.validation.ts";
 
 interface Props {
 	userId: string;

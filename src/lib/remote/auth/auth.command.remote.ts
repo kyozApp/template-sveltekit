@@ -1,6 +1,6 @@
 import { command, getRequestEvent } from "$app/server";
 
-import { db } from "#lib/server/db";
+import { db } from "#lib/server/db.ts";
 
 /**
  * Cierra sesión para un usuario eliminando el registro en base de datos.

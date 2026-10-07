@@ -5,8 +5,8 @@ import { page } from "$app/state";
 import AppHeader from "#lib/components/layout/AppHeader.svelte";
 import AppProgressBar from "#lib/components/layout/AppProgressBar.svelte";
 import AppSidebar from "#lib/components/layout/AppSidebar.svelte";
-import { checkUserAuth } from "#lib/remote/auth/auth.query.remote";
-import { notifications } from "#lib/services/notifications.svelte";
+import { checkUserAuth } from "#lib/remote/auth/auth.query.remote.ts";
+import { notifications } from "#lib/services/notifications.svelte.ts";
 
 let { children } = $props();
 

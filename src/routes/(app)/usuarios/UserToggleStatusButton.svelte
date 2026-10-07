@@ -1,8 +1,8 @@
 <script lang="ts">
 import { isHttpError } from "@sveltejs/kit";
 
-import { toggleUserStatus } from "#lib/remote/user/user.command.remote";
-import { notifications } from "#lib/services/notifications.svelte";
+import { toggleUserStatus } from "#lib/remote/user/user.command.remote.ts";
+import { notifications } from "#lib/services/notifications.svelte.ts";
 
 interface Props {
 	userId: string;

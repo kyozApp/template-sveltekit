@@ -3,7 +3,7 @@ import { page } from "$app/state";
 
 import { LoaderCircle } from "@lucide/svelte";
 
-import { getUserList } from "#lib/remote/user/user.query.remote";
+import { getUserList } from "#lib/remote/user/user.query.remote.ts";
 
 import UserDeleteButton from "./UserDeleteButton.svelte";
 import UserRoleCell from "./UserRoleCell.svelte";

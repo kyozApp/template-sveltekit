@@ -1,10 +1,10 @@
 <script lang="ts">
 import { isHttpError } from "@sveltejs/kit";
 
-import { LoaderCircle, Trash2 } from "@lucide/svelte";
+import { LoaderCircle, Trash } from "@lucide/svelte";
 
-import { deleteUser } from "#lib/remote/user/user.command.remote";
-import { notifications } from "#lib/services/notifications.svelte";
+import { deleteUser } from "#lib/remote/user/user.command.remote.ts";
+import { notifications } from "#lib/services/notifications.svelte.ts";
 
 interface Props {
 	userId: string;
@@ -62,7 +62,7 @@ const handleDelete = async () => {
 	{#if isSubmitting}
 		<LoaderCircle size={16} class="spinner" />
 	{:else}
-		<Trash2 size={16} />
+		<Trash size={16} />
 	{/if}
 </button>
 

@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { ROLES } from "#lib/constants";
+import { ROLES } from "#lib/constants.ts";
 
 /**
  * Crear usuario
@@ -54,7 +54,7 @@ export const userCreateSchema = {
 				"Selecciona un rol válido de la lista.",
 			),
 		),
-		isActive: v.optional(v.boolean(), true),
+		isActive: v.optional(v.boolean(), false),
 	}),
 };
 
