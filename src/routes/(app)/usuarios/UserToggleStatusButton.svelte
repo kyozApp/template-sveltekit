@@ -17,31 +17,31 @@ let isSubmitting = $state(false);
 <button
 	type="button"
 	onclick={async () => {
-	if (isSubmitting) return;
-	isSubmitting = true;
+		if (isSubmitting) return;
+		isSubmitting = true;
 
-	try {
-		await toggleUserStatus({ id: userId, isActive: !isActive });
+		try {
+			await toggleUserStatus({ id: userId, isActive: !isActive });
 
-		notifications.showToastSuccess(
-			`Usuario ${!isActive ? "activado" : "desactivado"} con éxito.`,
-		);
-	} catch (e) {
-		if (isHttpError(e)) {
-			console.error("[USER TOGGLE STATUS][HTTP ERROR]", e);
-			notifications.showToastError(
-				"No pudimos cambiar el estado del usuario en este momento. Por favor, comuníquese con sistemas.",
+			notifications.showToastSuccess(
+				`Usuario ${!isActive ? "activado" : "desactivado"} con éxito.`,
 			);
-		} else {
-			console.error("[USER TOGGLE STATUS][CONNECTION ERROR]", e);
-			notifications.showToastError(
-				"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
-			);
+		} catch (e) {
+			if (isHttpError(e)) {
+				console.error("[USER TOGGLE STATUS][HTTP ERROR]", e);
+				notifications.showToastError(
+					"No pudimos cambiar el estado del usuario en este momento. Por favor, comuníquese con sistemas.",
+				);
+			} else {
+				console.error("[USER TOGGLE STATUS][CONNECTION ERROR]", e);
+				notifications.showToastError(
+					"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
+				);
+			}
+		} finally {
+			isSubmitting = false;
 		}
-	} finally {
-		isSubmitting = false;
-	}
-}}
+	}}
 	role="switch"
 	aria-checked={isActive}
 	aria-label="Alternar estado del usuario"

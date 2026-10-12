@@ -8,13 +8,13 @@ import { UserPlus } from "@lucide/svelte";
 <button
 	type="button"
 	onclick={() =>
-	goto("", {
-		shallow: true,
-		state: {
-			...page.state,
-			showUserCreate: { isOpen: true },
-		},
-	})}
+		goto("", {
+			shallow: true,
+			state: {
+				...page.state,
+				showUserCreate: { isOpen: true },
+			},
+		})}
 	class="btn-create-form"
 >
 	<UserPlus size="20" />

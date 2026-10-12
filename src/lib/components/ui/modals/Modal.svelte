@@ -55,13 +55,13 @@ $effect(() => {
 <dialog
 	bind:this={dialogEl}
 	oncancel={(e) => {
-	// Segun la doc oficial de <dialog>, ESC dispara "cancel" antes del
-	// cierre nativo.
-	// Interceptamos ese cierre y lo delegamos al mismo flujo controlado
-	// del padre.
-	e.preventDefault();
-	onRequestClose?.();
-}}
+		// Segun la doc oficial de <dialog>, ESC dispara "cancel" antes del
+		// cierre nativo.
+		// Interceptamos ese cierre y lo delegamos al mismo flujo controlado
+		// del padre.
+		e.preventDefault();
+		onRequestClose?.();
+	}}
 	aria-modal="true"
 	class="modal-dialog"
 	style:--modal-max-inline-size={resolvedMaxInlineSize}

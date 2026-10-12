@@ -28,8 +28,8 @@ const submitting = $derived(loginUser.pending > 0);
 	class="login-form"
 	{...loginUser.preflight(authLoginSchema.body)}
 	{...loginUser.enhance(async (f) => {
-	try {
-		const ok = await f.submit();
+		try {
+			const ok = await f.submit();
 
 			if (ok) {
 				const res = f.result;
@@ -38,28 +38,28 @@ const submitting = $derived(loginUser.pending > 0);
 					return;
 				}
 				notifications.showToastSuccess("¡Sesión iniciada con éxito!");
-				await goto(resolve('dashboard'));
+				await goto(resolve("dashboard"));
 				return;
 			}
 
 			console.error("[AUTH LOGIN][PROCESSING ERROR]", { ok });
-		notifications.showErrorAlert(
-			"Error de Procesamiento",
-			"Ocurrió un problema inesperado al procesar el inicio de sesión. Por favor, comuníquese con sistemas.",
-		);
-	} catch (e) {
+			notifications.showErrorAlert(
+				"Error de Procesamiento",
+				"Ocurrió un problema inesperado al procesar el inicio de sesión. Por favor, comuníquese con sistemas.",
+			);
+		} catch (e) {
 			if (isHttpError(e)) {
 				console.error("[AUTH LOGIN][HTTP ERROR]", e);
-			notifications.showErrorAlert(
-				"Servicio No Disponible",
-				"No pudimos iniciar sesión en este momento. Por favor, comuníquese con sistemas.",
-			);
+				notifications.showErrorAlert(
+					"Servicio No Disponible",
+					"No pudimos iniciar sesión en este momento. Por favor, comuníquese con sistemas.",
+				);
 			} else {
 				console.error("[AUTH LOGIN][CONNECTION ERROR]", e);
-			notifications.showErrorAlert(
-				"Error de Conexión",
-				"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
-			);
+				notifications.showErrorAlert(
+					"Error de Conexión",
+					"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
+				);
 			}
 		}
 	})}
@@ -109,8 +109,10 @@ const submitting = $derived(loginUser.pending > 0);
 				<button
 					type="button"
 					class="input-icon-right"
-					onclick={() => showPassword = !showPassword}
-					aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+					onclick={() => (showPassword = !showPassword)}
+					aria-label={showPassword
+						? "Ocultar contraseña"
+						: "Mostrar contraseña"}
 					disabled={submitting}
 				>
 					{#if showPassword}

@@ -63,39 +63,41 @@ const submitting = $derived(updateForm.pending > 0);
 			class="user-form"
 			{...updateForm.preflight(userUpdateSchema.body)}
 			{...updateForm.enhance(async (f) => {
-	try {
-		const ok = await f.submit();
+				try {
+					const ok = await f.submit();
 
-		if (ok) {
-			const res = f.result;
-			if (res && !res.success) {
-				notifications.showToastError(res.error);
-				return;
-			}
+					if (ok) {
+						const res = f.result;
+						if (res && !res.success) {
+							notifications.showToastError(res.error);
+							return;
+						}
 
-			notifications.showToastSuccess("¡Usuario actualizado correctamente!");
-			onClose();
-			return;
-		}
+						notifications.showToastSuccess(
+							"¡Usuario actualizado correctamente!",
+						);
+						onClose();
+						return;
+					}
 
-		console.error("[USER UPDATE][PROCESSING ERROR]", { ok });
-		notifications.showToastError(
-			"Ocurrió un problema inesperado al procesar la actualización del usuario. Por favor, comuníquese con sistemas.",
-		);
-	} catch (e) {
-		if (isHttpError(e)) {
-			console.error("[USER UPDATE][HTTP ERROR]", e);
-			notifications.showToastError(
-				"No pudimos actualizar el usuario en este momento. Por favor, comuníquese con sistemas.",
-			);
-		} else {
-			console.error("[USER UPDATE][CONNECTION ERROR]", e);
-			notifications.showToastError(
-				"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
-			);
-		}
-	}
-})}
+					console.error("[USER UPDATE][PROCESSING ERROR]", { ok });
+					notifications.showToastError(
+						"Ocurrió un problema inesperado al procesar la actualización del usuario. Por favor, comuníquese con sistemas.",
+					);
+				} catch (e) {
+					if (isHttpError(e)) {
+						console.error("[USER UPDATE][HTTP ERROR]", e);
+						notifications.showToastError(
+							"No pudimos actualizar el usuario en este momento. Por favor, comuníquese con sistemas.",
+						);
+					} else {
+						console.error("[USER UPDATE][CONNECTION ERROR]", e);
+						notifications.showToastError(
+							"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
+						);
+					}
+				}
+			})}
 			oninput={() => updateForm.validate()}
 			novalidate
 		>
@@ -200,7 +202,9 @@ const submitting = $derived(updateForm.pending > 0);
 								type="button"
 								class="input-icon-right"
 								onclick={() => (showPassword = !showPassword)}
-								aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+								aria-label={showPassword
+									? "Ocultar contraseña"
+									: "Mostrar contraseña"}
 								disabled={submitting}
 							>
 								{#if showPassword}
@@ -224,14 +228,16 @@ const submitting = $derived(updateForm.pending > 0);
 						>Rol del Usuario</label
 					>
 
-					{#if details.role === "SUPERADMIN" || page.data.user?.id === details.id}
+					{#if details.role === "SUPERADMIN" ||
+						page.data.user?.id === details.id}
 						<input {...fieldRole.as("hidden", details.role)}>
 						<div class="static-role-display">
 							<span class="input-icon-left">
 								<Shield size="16" />
 							</span>
 							<span class="role-text"
-								>{ROLE_LABELS[details.role as keyof typeof ROLE_LABELS] || details.role}</span
+								>{ROLE_LABELS[details.role as keyof typeof ROLE_LABELS] ||
+									details.role}</span
 							>
 							<span class="role-badge">Rol protegido</span>
 						</div>

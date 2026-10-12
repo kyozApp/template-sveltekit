@@ -39,7 +39,7 @@ const user = $derived(page.data.user);
 			<div class="stat-content">
 				<span class="stat-label">Gestión de Acceso</span>
 				<span class="stat-value">Usuarios</span>
-				<a href={resolve('usuarios')} class="stat-link"
+				<a href={resolve("usuarios")} class="stat-link"
 					>Administrar cuentas →</a
 				>
 			</div>
@@ -74,7 +74,7 @@ const user = $derived(page.data.user);
 			<div class="stat-content">
 				<span class="stat-label">Documentación</span>
 				<span class="stat-value">Manual</span>
-				<a href={resolve('manual')} class="stat-link">Consultar guía →</a>
+				<a href={resolve("manual")} class="stat-link">Consultar guía →</a>
 			</div>
 		</div>
 	</div>

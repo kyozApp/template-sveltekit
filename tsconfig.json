@@ -5,6 +5,12 @@
 		"module": "preserve",
 		"types": ["$app/types", "node"]
 	},
-	"include": ["src", "vite.config.ts", "prisma.config.ts"],
+	"include": [
+		"src",
+		"vite.config.ts",
+		"vite.worker.config.ts",
+		"prisma.config.ts",
+		"scripts"
+	],
 	"exclude": ["node_modules"]
 }

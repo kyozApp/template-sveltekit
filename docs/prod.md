@@ -204,10 +204,10 @@ sudo systemctl status mi-app mi-app-worker
 
 ---
 
-## 🔄 Actualizaciones Posteriores
+## 🔄 Cada Actualización
 
 <details>
-<summary>📋 Ver procedimiento de actualización (3 pasos)</summary>
+<summary>📋 Ver procedimiento de actualización (4 pasos)</summary>
 
 ### 1. Transferir cambios desde tu máquina local
 
@@ -222,7 +222,20 @@ ssh -p 22 mi-usuario@mi-servidor
 cd ~/proyectos/mi-app
 ```
 
-### 3. En el servidor VPS: actualizar, compilar y reiniciar
+### 3. Respaldar la base de datos antes de migrar (obligatorio)
+
+`prisma db update` es el único paso de la actualización que puede alterar datos. Genera una
+copia de seguridad antes de continuar:
+
+```bash
+mkdir -p ~/backups/mi-app
+podman exec -i template_sveltekit_prod_db pg_dump -U prod_user -Fc -d template_sveltekit_db > ~/backups/mi-app/backup-$(date +%F-%H%M%S).dump
+```
+
+> [!TIP]
+> Para restaurar esta copia ante un fallo, consulta la **[Guía de Base de Datos](database.md)**.
+
+### 4. Actualizar, compilar y reiniciar
 
 Instalar dependencias:
 
@@ -248,28 +261,6 @@ Reiniciar ambos servicios en Systemd:
 
 ```bash
 sudo systemctl restart mi-app mi-app-worker
-```
-
-</details>
-
----
-
-## 🗄️ Base de Datos y Disaster Recovery (Producción)
-
-<details>
-<summary>📋 Ver comandos de exportación y restauración</summary>
-
-### 1. Exportar (Copia de seguridad completa)
-
-```bash
-mkdir -p ~/backups/mi-app
-podman exec -i template_sveltekit_prod_db pg_dump -U prod_user -Fc -d template_sveltekit_db > ~/backups/mi-app/backup-$(date +%F-%H%M%S).dump
-```
-
-### 2. Importar (Restaurar copia ante fallos)
-
-```bash
-podman exec -i template_sveltekit_prod_db pg_restore -U prod_user -d template_sveltekit_db --clean --if-exists < ~/backups/mi-app/backup_a_restaurar.dump
 ```
 
 </details>
@@ -367,4 +358,5 @@ ss -tulpn | grep 8000
 ---
 
 - ⬅️ [Volver al README](../README.md)
-- 📘 [Guía de Desarrollo (dev.md)](dev.md) ➡️
+- 📘 [Guía de Desarrollo (dev.md)](dev.md)
+- 🗄️ [Guía de Base de Datos (database.md)](database.md)

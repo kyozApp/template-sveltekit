@@ -15,13 +15,13 @@ let { userId }: Props = $props();
 	type="button"
 	class="edit-btn"
 	onclick={() =>
-	goto("", {
-		shallow: true,
-		state: {
-			...page.state,
-			showUserUpdate: { isOpen: true, data: { userId } },
-		},
-	})}
+		goto("", {
+			shallow: true,
+			state: {
+				...page.state,
+				showUserUpdate: { isOpen: true, data: { userId } },
+			},
+		})}
 	aria-label="Editar usuario"
 	data-tooltip="Editar usuario"
 	data-tooltip-position="top-end"

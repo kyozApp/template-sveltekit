@@ -49,39 +49,39 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 		class="user-form"
 		{...createForm.preflight(userCreateSchema.body)}
 		{...createForm.enhance(async (f) => {
-	try {
-		const ok = await f.submit();
+			try {
+				const ok = await f.submit();
 
-		if (ok) {
-			const res = f.result;
-			if (res && !res.success) {
-				notifications.showToastError(res.error);
-				return;
+				if (ok) {
+					const res = f.result;
+					if (res && !res.success) {
+						notifications.showToastError(res.error);
+						return;
+					}
+
+					notifications.showToastSuccess("¡Usuario creado correctamente!");
+					onClose();
+					return;
+				}
+
+				console.error("[USER CREATE][PROCESSING ERROR]", { ok });
+				notifications.showToastError(
+					"Ocurrió un problema inesperado al procesar la creación del usuario. Por favor, comuníquese con sistemas.",
+				);
+			} catch (e) {
+				if (isHttpError(e)) {
+					console.error("[USER CREATE][HTTP ERROR]", e);
+					notifications.showToastError(
+						"No pudimos crear el usuario en este momento. Por favor, comuníquese con sistemas.",
+					);
+				} else {
+					console.error("[USER CREATE][CONNECTION ERROR]", e);
+					notifications.showToastError(
+						"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
+					);
+				}
 			}
-
-			notifications.showToastSuccess("¡Usuario creado correctamente!");
-			onClose();
-			return;
-		}
-
-		console.error("[USER CREATE][PROCESSING ERROR]", { ok });
-		notifications.showToastError(
-			"Ocurrió un problema inesperado al procesar la creación del usuario. Por favor, comuníquese con sistemas.",
-		);
-	} catch (e) {
-		if (isHttpError(e)) {
-			console.error("[USER CREATE][HTTP ERROR]", e);
-			notifications.showToastError(
-				"No pudimos crear el usuario en este momento. Por favor, comuníquese con sistemas.",
-			);
-		} else {
-			console.error("[USER CREATE][CONNECTION ERROR]", e);
-			notifications.showToastError(
-				"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
-			);
-		}
-	}
-})}
+		})}
 		oninput={() => createForm.validate()}
 		novalidate
 	>
@@ -186,7 +186,9 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 							type="button"
 							class="input-icon-right"
 							onclick={() => (showPassword = !showPassword)}
-							aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+							aria-label={showPassword
+								? "Ocultar contraseña"
+								: "Mostrar contraseña"}
 							disabled={submitting}
 						>
 							{#if showPassword}

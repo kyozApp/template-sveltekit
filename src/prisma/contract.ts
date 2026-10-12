@@ -5,11 +5,13 @@ import {
 } from "@prisma/orm-postgres/contract-builder";
 
 export const contract = defineContract({}, ({ field, model, rel }) => {
-	// ─── Enums ───────────────────────────────────────────────────────────────────
+	// ─── 1. Enums Nativos (PostgreSQL) ───────────────────────────────────────────
+
 	const Role = nativeEnum("Role", "SUPERADMIN", "ADMIN", "USER", "VIEWER");
 
-	// ─── Modelos Core ────────────────────────────────────────────────────────────
+	// ─── 2. Modelos Core ─────────────────────────────────────────────────────────
 
+	// Usuario (Autenticación y Perfil)
 	const User = model("User", {
 		fields: {
 			id: field.id.uuidv7Native(),
@@ -26,6 +28,7 @@ export const contract = defineContract({}, ({ field, model, rel }) => {
 		},
 	});
 
+	// Sesión (Persistencia con TTL)
 	const Session = model("Session", {
 		fields: {
 			id: field.id.uuidv7Native(),
@@ -35,6 +38,8 @@ export const contract = defineContract({}, ({ field, model, rel }) => {
 			updatedAt: field.temporal.updatedAtString(),
 		},
 	});
+
+	// ─── 3. Relaciones del Dominio ───────────────────────────────────────────────
 
 	return {
 		models: {
