@@ -1,13 +1,7 @@
 <script lang="ts">
 import { isHttpError } from "@sveltejs/kit";
+import { refreshAll } from "$app/navigation";
 import { page } from "$app/state";
-
-const ROLE_LABELS: Record<string, string> = {
-	SUPERADMIN: "Superadministrador",
-	ADMIN: "Administrador",
-	USER: "Usuario",
-	VIEWER: "Visitante",
-};
 
 import {
 	CircleAlert,
@@ -23,6 +17,7 @@ import {
 } from "@lucide/svelte";
 import { nanoid } from "nanoid";
 
+import { ROLE_LABELS, type Role } from "#lib/constants.ts";
 import { updateUser } from "#lib/remote/user/user.form.remote.ts";
 import { getUserDetails } from "#lib/remote/user/user.query.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
@@ -76,6 +71,7 @@ const submitting = $derived(updateForm.pending > 0);
 						notifications.showToastSuccess(
 							"¡Usuario actualizado correctamente!",
 						);
+						await refreshAll();
 						onClose();
 						return;
 					}
@@ -183,17 +179,17 @@ const submitting = $derived(updateForm.pending > 0);
 
 					<div class="form-group">
 						<label for="user-update-password" class="form-label"
-							>Contraseña</label
+							>Nueva Contraseña</label
 						>
 						<div class="input-wrapper">
 							<span class="input-icon-left">
 								<Lock size="16" />
 							</span>
 							<input
-								{...fieldPassword.as(showPassword ? "text" : "password", "")}
+								{...fieldPassword.as(showPassword ? "text" : "password")}
 								id="user-update-password"
 								class="form-input"
-								placeholder="Solo si cambia"
+								placeholder=""
 								autocomplete="new-password"
 								disabled={submitting}
 								class:has-error={fieldPassword.issues()?.length}
@@ -220,6 +216,9 @@ const submitting = $derived(updateForm.pending > 0);
 								<span>{fieldPassword.issues()?.[0]?.message}</span>
 							</span>
 						{/if}
+						<span class="form-hint"
+							>Opcional: Déjalo en blanco para conservar la actual.</span
+						>
 					</div>
 				</div>
 
@@ -235,10 +234,7 @@ const submitting = $derived(updateForm.pending > 0);
 							<span class="input-icon-left">
 								<Shield size="16" />
 							</span>
-							<span class="role-text"
-								>{ROLE_LABELS[details.role as keyof typeof ROLE_LABELS] ||
-									details.role}</span
-							>
+							<span class="role-text">{ROLE_LABELS[details.role as Role]}</span>
 							<span class="role-badge">Rol protegido</span>
 						</div>
 					{:else}
@@ -258,31 +254,33 @@ const submitting = $derived(updateForm.pending > 0);
 								<option value="VIEWER">Visitante</option>
 							</select>
 						</div>
-					{/if}
-
-					{#if fieldRole.issues()?.length}
-						<span class="field-error">
-							<CircleAlert size="14" />
-							<span>{fieldRole.issues()?.[0]?.message}</span>
-						</span>
+						{#if fieldRole.issues()?.length}
+							<span class="field-error">
+								<CircleAlert size="14" />
+								<span>{fieldRole.issues()?.[0]?.message}</span>
+							</span>
+						{/if}
 					{/if}
 				</div>
 
-				{#if details.role !== "SUPERADMIN"}
-					<div class="status-section">
-						<div class="status-icon-wrap">
-							<span class="status-icon">
-								<User size="16" />
-							</span>
-						</div>
-						<div class="status-info">
-							<span class="status-label">Estado de la cuenta</span>
+				<div class="status-section">
+					<div class="status-icon-wrap">
+						<span class="status-icon">
+							<User size="16" />
+						</span>
+					</div>
+					<div class="status-info">
+						<span class="status-label">Estado de la cuenta</span>
 
-							<span class="status-pill" class:pill-active={isActiveChecked}>
-								{isActiveChecked ? "Cuenta activa" : "Cuenta inactiva"}
-							</span>
-						</div>
-						<input {...fieldId.as("hidden", details.id)}>
+						<span class="status-pill" class:pill-active={isActiveChecked}>
+							{isActiveChecked ? "Cuenta activa" : "Cuenta inactiva"}
+						</span>
+					</div>
+
+					{#if details.role === "SUPERADMIN" ||
+						page.data.user?.id === details.id}
+						<input {...fieldIsActive.as("hidden", details.isActive)}>
+					{:else}
 						<label class="switch-control" class:active={isActiveChecked}>
 							<input
 								{...fieldIsActive.as("checkbox", details.isActive)}
@@ -293,12 +291,21 @@ const submitting = $derived(updateForm.pending > 0);
 							<span class="switch-thumb"></span>
 							<span class="sr-only">Estado de la cuenta</span>
 						</label>
+					{/if}
+				</div>
+
+				{#if page.data.user?.id === details.id}
+					<div class="field-warning-box">
+						<TriangleAlert size={16} class="warning-icon" />
+						<span
+							>Por seguridad, no puedes modificar tu propio rol ni desactivar tu
+							sesión actual.</span
+						>
 					</div>
-				{:else}
-					<input {...fieldId.as("hidden", details.id)}>
-					<input {...fieldIsActive.as("hidden", true)}>
 				{/if}
 			</div>
+
+			<input {...fieldId.as("hidden", userId)}>
 
 			<div class="form-actions">
 				<button
@@ -315,10 +322,10 @@ const submitting = $derived(updateForm.pending > 0);
 				<button type="submit" disabled={submitting} class="submit-btn">
 					<span class="btn-inner">
 						{#if submitting}
-							<LoaderCircle size="18" class="spinner" />
-							<span>Guardando cambios...</span>
+							<LoaderCircle size={18} class="spinner" />
+							<span>Guardando...</span>
 						{:else}
-							<Pencil size="18" />
+							<Pencil size={18} />
 							<span>Actualizar Usuario</span>
 						{/if}
 					</span>
@@ -329,22 +336,20 @@ const submitting = $derived(updateForm.pending > 0);
 		{#snippet pending()}
 			<div class="details-loading-state">
 				<div class="loading-icon-wrap">
-					<LoaderCircle size="24" class="spinner" />
+					<LoaderCircle size={24} class="spinner" />
 				</div>
-				<p class="loading-title">Cargando información</p>
-				<p class="loading-sub">Estamos recuperando los datos del usuario.</p>
+				<p class="loading-title">Cargando datos del usuario...</p>
+				<p class="loading-sub">Por favor espera un momento.</p>
 			</div>
 		{/snippet}
 
 		{#snippet failed()}
 			<div class="details-error-state">
 				<div class="error-icon-wrap">
-					<TriangleAlert size="24" />
+					<CircleAlert size={24} />
 				</div>
-				<p class="error-title">No se pudo cargar la información</p>
-				<p class="error-sub">
-					Ocurrió un problema al obtener los detalles del usuario.
-				</p>
+				<p class="error-title">Error al cargar datos</p>
+				<p class="error-sub">No se pudieron obtener los datos del usuario.</p>
 			</div>
 		{/snippet}
 	</svelte:boundary>
@@ -412,10 +417,16 @@ const submitting = $derived(updateForm.pending > 0);
 
 .form-label {
 	font-size: 0.74rem;
-	font-weight: 700;
+	font-weight: 750;
 	color: light-dark(oklch(35% 0.012 255), oklch(75% 0.02 255));
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
+}
+
+.form-hint {
+	font-size: 0.74rem;
+	font-weight: 500;
+	color: light-dark(oklch(52% 0.01 255), oklch(70% 0.015 255));
 }
 
 .input-wrapper {
@@ -568,27 +579,11 @@ const submitting = $derived(updateForm.pending > 0);
 	}
 }
 
-.field-error {
-	display: inline-flex;
-	gap: 0.3rem;
-	align-items: center;
-	padding: 0;
-
-	margin-top: 0.04rem;
-
-	font-size: 0.72rem;
-	font-weight: 500;
-	line-height: 1.3;
-	color: light-dark(oklch(52% 0.12 25), oklch(66% 0.08 25));
-	border-radius: 0;
-}
-
 .static-role-display {
 	position: relative;
-
 	display: flex;
-	gap: 0.7rem;
 	align-items: center;
+	justify-content: space-between;
 
 	width: 100%;
 	min-block-size: 50px;
@@ -629,6 +624,21 @@ const submitting = $derived(updateForm.pending > 0);
 		oklch(31.5% 0.04 256.86)
 	);
 	border-radius: 999px;
+}
+
+.field-error {
+	display: inline-flex;
+	gap: 0.3rem;
+	align-items: center;
+	padding: 0;
+
+	margin-top: 0.04rem;
+
+	font-size: 0.72rem;
+	font-weight: 500;
+	line-height: 1.3;
+	color: light-dark(oklch(52% 0.12 25), oklch(66% 0.08 25));
+	border-radius: 0;
 }
 
 .status-section {
@@ -707,6 +717,7 @@ const submitting = $derived(updateForm.pending > 0);
 		oklch(97.6% 0.004 248),
 		oklch(31.5% 0.04 256.86)
 	);
+	border-radius: 999px;
 
 	transition:
 		color 0.25s ease,
@@ -796,6 +807,31 @@ const submitting = $derived(updateForm.pending > 0);
 
 .switch-control.active:active:not(:disabled) .switch-thumb {
 	transform: translateX(20px);
+}
+
+.field-warning-box {
+	display: flex;
+	gap: 0.65rem;
+	align-items: center;
+
+	padding: 0.85rem 1.15rem;
+
+	font-size: 0.84rem;
+	font-weight: 500;
+	line-height: 1.45;
+	color: light-dark(oklch(45% 0.12 78), oklch(84% 0.18 78));
+
+	background-color: light-dark(
+		oklch(76% 0.18 78 / 0.08),
+		oklch(76% 0.18 78 / 0.12)
+	);
+	border: 1px solid
+		light-dark(oklch(76% 0.18 78 / 0.25), oklch(76% 0.18 78 / 0.3));
+	border-radius: 12px;
+}
+
+:global(.warning-icon) {
+	flex-shrink: 0;
 }
 
 .form-actions {

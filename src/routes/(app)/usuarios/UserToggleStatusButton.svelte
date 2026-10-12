@@ -51,7 +51,9 @@ let isSubmitting = $state(false);
 >
 	<span class="toggle-track"></span>
 	<span class="toggle-thumb"></span>
-	<span class="sr-only">Estado del usuario</span>
+	<span class="sr-only"
+		>Estado del usuario: {isActive ? "Activo" : "Inactivo"}</span
+	>
 </button>
 
 <style>
@@ -71,10 +73,12 @@ let isSubmitting = $state(false);
 
 .toggle-status-btn {
 	position: relative;
+	display: inline-block;
 
 	inline-size: 54px;
 	block-size: 30px;
 	padding: 0;
+	vertical-align: middle;
 	cursor: pointer;
 
 	background: transparent;

@@ -5,19 +5,15 @@
 
 @theme {
 	--font-sans: "Inter Variable", sans-serif;
-	--z-base: 0;
 	--z-raised: 1;
 	--z-field-control: 2;
 	--z-sticky: 30;
 	--z-sidebar: 35;
 	--z-sidebar-floating: 40;
 	--z-dropdown: 1000;
-	--z-fixed: 1500;
 	--z-toast: 2000;
 	--z-modal: 2500;
 	--z-tooltip: 2800;
-	--z-popover: 2900;
-	--z-progress-bar: 3000;
 	--z-imperative: 9999;
 }
 :root {

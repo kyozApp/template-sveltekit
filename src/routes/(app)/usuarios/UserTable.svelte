@@ -56,7 +56,7 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 				<th class="table-head col-username">Usuario</th>
 				<th class="table-head col-email">Correo electrónico</th>
 				<th class="table-head col-role">Rol</th>
-				<th class="table-head col-status">Estado</th>
+				<th class="table-head col-status text-center">Estado</th>
 				<th class="table-head col-actions text-center">Acciones</th>
 			</tr>
 		</thead>
@@ -71,9 +71,14 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 						</td>
 						<td class="col-user table-cell">
 							<div class="user-details">
-								<span class="user-name" class:inactive={!user.isActive}
-									>{user.name}</span
-								>
+								<div class="user-name-wrapper">
+									<span class="user-name" class:inactive={!user.isActive}
+										>{user.name}</span
+									>
+									{#if user.id === page.data.user?.id}
+										<span class="you-badge">Tú</span>
+									{/if}
+								</div>
 							</div>
 						</td>
 						<td class="col-username table-cell">
@@ -85,17 +90,12 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 						<td class="col-role table-cell">
 							<UserRoleCell role={user.role} />
 						</td>
-						<td class="col-status table-cell">
+						<td class="col-status table-cell text-center">
 							{#if canToggleUserStatus(user)}
-								<div class="status-cell">
-									<UserToggleStatusButton
-										userId={user.id}
-										isActive={user.isActive}
-									/>
-									<span class="status-text" class:active={user.isActive}>
-										{user.isActive ? "Activo" : "Inactivo"}
-									</span>
-								</div>
+								<UserToggleStatusButton
+									userId={user.id}
+									isActive={user.isActive}
+								/>
 							{:else}
 								<span class="status-pill" data-active={user.isActive}>
 									{user.isActive ? "Activo" : "Inactivo"}
@@ -146,97 +146,62 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 <style>
 .table-responsive {
 	overflow-x: auto;
-
-	background-color: light-dark(
-		oklch(98.8% 0.003 248),
-		oklch(24.94% 0.0304 256.86)
-	);
-
-	border: 1px solid light-dark(oklch(89% 0.006 248), oklch(27% 0.015 260));
-	border-radius: 24px;
+	background-color: light-dark(oklch(100% 0 0), oklch(21% 0.018 260));
+	border: 1px solid light-dark(oklch(90% 0.008 248), oklch(27% 0.015 260));
+	border-radius: 16px;
+	box-shadow: 0 4px 20px -2px
+		light-dark(oklch(0% 0 0 / 0.03), oklch(0% 0 0 / 0.2));
 }
 
 .data-table {
-	width: 100%;
-	min-width: 1080px;
-	border-spacing: 0;
-	border-collapse: separate;
+	inline-size: 100%;
+	text-align: start;
+	border-collapse: collapse;
 }
 
 .table-head {
-	padding: 1rem 1.45rem;
+	padding: 1.1rem 1.25rem;
 
-	font-size: 0.74rem;
-	font-weight: 700;
-	line-height: 1.25;
-	color: light-dark(oklch(43% 0.01 255), oklch(74% 0.008 255));
-	text-align: left;
+	font-size: 0.72rem;
+	font-weight: 750;
+	color: light-dark(oklch(40% 0.05 250), oklch(75% 0.05 250));
 	text-transform: uppercase;
 	letter-spacing: 0.06em;
+	white-space: nowrap;
 
-	background-color: light-dark(
-		oklch(98.1% 0.004 248),
-		oklch(22.8% 0.027 256.86)
-	);
+	background-color: light-dark(oklch(98.5% 0.004 248), oklch(22.5% 0.018 255));
 	border-block-end: 1px solid
-		light-dark(oklch(90% 0.006 248), oklch(27% 0.015 260));
-
-	&:first-child {
-		border-top-left-radius: 24px;
-	}
-
-	&:last-child {
-		border-top-right-radius: 24px;
-	}
-
-	@media (width <= 768px) {
-		padding: 0.9rem 1rem;
-	}
+		light-dark(oklch(88% 0.008 248), oklch(27% 0.015 260));
 }
 
 .table-cell {
-	padding: 1rem 1.45rem;
-
-	font-size: 0.92rem;
-	font-weight: 500;
-	line-height: 1.45;
-	vertical-align: middle;
-	color: light-dark(oklch(23% 0.012 255), oklch(95% 0.004 255));
+	padding: 1.1rem 1.25rem;
 	border-block-end: 1px solid
-		light-dark(oklch(91% 0.006 248), oklch(26% 0.014 260));
-
-	&:last-child {
-		text-align: right;
-	}
-
-	@media (width <= 768px) {
-		padding: 0.9rem 1rem;
-	}
+		light-dark(oklch(93% 0.005 248), oklch(25% 0.015 260));
 }
 
-.table-row {
-	transition: background-color 0.18s ease;
-
-	&:hover {
-		background-color: light-dark(oklch(98% 0.003 248), oklch(27% 0.032 256.86));
-	}
-}
-
-.user-row:last-child .table-cell {
+.table-row:last-child .table-cell {
 	border-block-end: none;
 }
 
-.table-feedback-cell {
-	padding: 0;
+.user-row {
+	transition: background-color 0.15s ease;
+
+	&:hover {
+		background-color: light-dark(oklch(98.5% 0.004 248), oklch(24% 0.018 255));
+	}
 }
 
 .col-index {
-	inline-size: 64px;
-	min-inline-size: 64px;
+	inline-size: 70px;
+	min-inline-size: 70px;
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: light-dark(oklch(55% 0.008 255), oklch(65% 0.008 255));
 }
 
 .col-user {
-	min-inline-size: 240px;
+	min-inline-size: 200px;
 }
 
 .col-username {
@@ -252,12 +217,18 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 }
 
 .col-status {
-	min-inline-size: 130px;
+	inline-size: 110px;
+	min-inline-size: 110px;
+	text-align: center;
 }
 
 .col-actions {
 	inline-size: 110px;
 	min-inline-size: 110px;
+	text-align: center;
+}
+
+.text-center {
 	text-align: center;
 }
 
@@ -268,26 +239,16 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 	justify-content: center;
 }
 
-.status-cell {
-	display: inline-flex;
-	gap: 0.6rem;
-	align-items: center;
-}
-
-.status-text {
-	font-size: 0.78rem;
-	font-weight: 600;
-	color: light-dark(oklch(50% 0.02 255), oklch(65% 0.01 255));
-
-	&.active {
-		color: light-dark(oklch(45% 0.15 145), oklch(75% 0.15 145));
-	}
-}
-
 .user-details {
 	display: flex;
 	flex-direction: column;
 	gap: 0.2rem;
+}
+
+.user-name-wrapper {
+	display: inline-flex;
+	gap: 0.5rem;
+	align-items: center;
 }
 
 .user-name {
@@ -299,6 +260,21 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 		color: light-dark(oklch(40% 0.008 255), oklch(82% 0.012 255));
 		text-decoration: none;
 	}
+}
+
+.you-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.12rem 0.45rem;
+
+	font-size: 0.65rem;
+	font-weight: 750;
+	color: light-dark(oklch(38% 0.14 250), oklch(85% 0.12 250));
+	letter-spacing: 0.03em;
+
+	background-color: light-dark(oklch(93% 0.03 250), oklch(28% 0.04 260));
+	border: 1px solid light-dark(oklch(87% 0.02 250), oklch(34% 0.02 260));
+	border-radius: 6px;
 }
 
 .mono {

@@ -6,10 +6,10 @@ import { page } from "$app/state";
 import { BookOpen, Layers, LayoutDashboard, UserCog, X } from "@lucide/svelte";
 
 interface Props {
-	isSidebarOpen?: boolean;
+	isSidebarOpen: boolean;
 }
 
-let { isSidebarOpen = $bindable(true) }: Props = $props();
+let { isSidebarOpen = $bindable() }: Props = $props();
 </script>
 
 {#if isSidebarOpen}
@@ -27,15 +27,17 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 		<a
 			href={resolve("dashboard")}
 			class="brand"
+			aria-label="Ir al panel principal"
 			in:fly={{ y: 4, duration: 300 }}
 		>
 			<span class="brand-icon">
-				<Layers size="24" />
+				<Layers size={24} />
 			</span>
 			{#if isSidebarOpen}
 				<span class="brand-name">ADMIN PANEL</span>
 			{/if}
 		</a>
+
 		{#if isSidebarOpen}
 			<button
 				type="button"
@@ -63,7 +65,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 			data-tooltip-position="right"
 			aria-label="Dashboard"
 		>
-			<span class="sidebar-icon"><LayoutDashboard size="18" /></span>
+			<span class="sidebar-icon"><LayoutDashboard size={18} /></span>
 			{#if isSidebarOpen}
 				<span class="sidebar-label">Dashboard</span>
 			{/if}
@@ -79,7 +81,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 				data-tooltip-position="right"
 				aria-label="Usuarios"
 			>
-				<span class="sidebar-icon"><UserCog size="18" /></span>
+				<span class="sidebar-icon"><UserCog size={18} /></span>
 				{#if isSidebarOpen}
 					<span class="sidebar-label">Usuarios</span>
 				{/if}
@@ -94,7 +96,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 			data-tooltip-position="right"
 			aria-label="Manual de Usuario"
 		>
-			<span class="sidebar-icon"><BookOpen size="18" /></span>
+			<span class="sidebar-icon"><BookOpen size={18} /></span>
 			{#if isSidebarOpen}
 				<span class="sidebar-label">Manual</span>
 			{/if}
@@ -129,6 +131,7 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 
 	block-size: 70px;
 	padding: 0 1.5rem;
+
 	border-block-end: 1px solid
 		light-dark(oklch(90% 0.02 255), oklch(27% 0.015 260));
 }
@@ -137,7 +140,6 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 	display: flex;
 	gap: 0.75rem;
 	align-items: center;
-
 	text-decoration: none;
 }
 
@@ -151,7 +153,6 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 .brand-name {
 	font-size: 1.1rem;
 	font-weight: 800;
-
 	-webkit-text-fill-color: transparent;
 	letter-spacing: 0.05em;
 	white-space: nowrap;
@@ -162,10 +163,6 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 		light-dark(oklch(60% 0.02 255), oklch(75% 0.02 255)) 100%
 	);
 	background-clip: text;
-
-	@media (width <= 768px) {
-		font-size: 1rem;
-	}
 }
 
 .mobile-close-btn {
@@ -173,73 +170,116 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 	align-items: center;
 	justify-content: center;
 
-	padding: 0.25rem;
-
-	color: light-dark(oklch(60% 0.02 255), oklch(75% 0.02 255));
+	inline-size: 36px;
+	block-size: 36px;
+	color: light-dark(oklch(50% 0.02 255), oklch(70% 0.02 255));
 	cursor: pointer;
 
-	background: transparent;
+	background: none;
 	border: none;
+	border-radius: 8px;
+
+	transition: background-color 0.15s ease;
+
+	&:hover {
+		background-color: light-dark(oklch(92% 0.01 250), oklch(27% 0.015 260));
+	}
 
 	@media (width > 768px) {
 		display: none;
 	}
 }
 
-.menu-category {
+.sidebar {
+	position: sticky;
+	top: 0;
+	z-index: var(--z-sidebar);
+
+	display: flex;
 	flex-shrink: 0;
+	flex-direction: column;
 
-	padding: 1.75rem 1.5rem 0.5rem;
+	inline-size: 260px;
+	block-size: 100dvh;
 
-	font-size: 0.72rem;
+	background-color: light-dark(oklch(100% 0 0), oklch(21% 0.018 260));
+	border-inline-end: 1px solid
+		light-dark(oklch(90% 0.02 255), oklch(27% 0.015 260));
+
+	transition: inline-size 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+	&.collapsed {
+		inline-size: 80px;
+
+		.sidebar-brand-container {
+			justify-content: center;
+			padding: 0;
+		}
+
+		.sidebar-link {
+			justify-content: center;
+			padding: 0.75rem 0;
+		}
+	}
+
+	@media (width <= 768px) {
+		position: fixed;
+		left: 0;
+		z-index: var(--z-sidebar-floating);
+		transform: translateX(0);
+		transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+		&.collapsed {
+			inline-size: 260px;
+			transform: translateX(-100%);
+		}
+	}
+}
+
+.menu-category {
+	padding: 1.5rem 1.5rem 0.5rem;
+
+	font-size: 0.7rem;
 	font-weight: 700;
-	color: light-dark(oklch(60% 0.02 255), oklch(75% 0.02 255));
-	text-transform: uppercase;
-	letter-spacing: 0.1em;
-	user-select: none;
+	color: light-dark(oklch(60% 0.02 255), oklch(65% 0.02 255));
+	letter-spacing: 0.08em;
 }
 
 .sidebar-nav {
 	display: flex;
-	flex: 1;
 	flex-direction: column;
-	gap: 0.35rem;
-
-	padding: 0.5rem 0.75rem;
-	overflow-x: hidden;
-	overflow-y: auto;
+	gap: 0.4rem;
+	padding: 0.75rem;
 }
 
 .sidebar-link {
+	position: relative;
+
 	display: flex;
-	gap: 0.875rem;
+	gap: 0.85rem;
 	align-items: center;
 
 	padding: 0.75rem 1rem;
 
-	font-size: 0.925rem;
+	font-size: 0.9rem;
 	font-weight: 600;
-	color: light-dark(oklch(60% 0.02 255), oklch(75% 0.02 255));
-	white-space: nowrap;
+	color: light-dark(oklch(50% 0.02 255), oklch(75% 0.02 255));
 	text-decoration: none;
-	user-select: none;
+
 	border-radius: 12px;
 
-	transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
 
-	&:not(.disabled):hover {
-		color: light-dark(oklch(20% 0.02 255), oklch(91% 0.008 260));
-		background-color: light-dark(oklch(0% 0 0 / 0.04), oklch(100% 0 0 / 0.04));
+	&:hover {
+		color: light-dark(oklch(20% 0.02 255), oklch(95% 0.01 255));
+		background-color: light-dark(oklch(95% 0.01 250), oklch(26% 0.02 260));
 	}
 
 	&.active {
-		font-weight: 700;
-		color: light-dark(oklch(38% 0.14 250), oklch(74% 0.12 250));
-
-		background-color: light-dark(
-			oklch(42% 0.14 250 / 0.08),
-			oklch(74% 0.12 250 / 0.12)
-		);
+		color: light-dark(oklch(40% 0.14 250), oklch(85% 0.12 250));
+		background-color: light-dark(oklch(94% 0.03 250), oklch(27% 0.035 260));
 	}
 }
 
@@ -251,69 +291,6 @@ let { isSidebarOpen = $bindable(true) }: Props = $props();
 }
 
 .sidebar-label {
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.sidebar {
-	position: sticky;
-	inset-block-start: 0;
-	z-index: var(--z-sidebar-floating);
-	display: flex;
-	flex-shrink: 0;
-	flex-direction: column;
-
-	inline-size: 260px;
-	block-size: 100dvh;
-	min-block-size: 100dvh;
-
-	overflow: hidden;
-
-	background-color: light-dark(oklch(100% 0 0), oklch(21% 0.018 260));
-	border-inline-end: 1px solid
-		light-dark(oklch(90% 0.02 255), oklch(27% 0.015 260));
-
-	transition:
-		inline-size 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-		transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-
-	&.collapsed {
-		inline-size: 80px;
-		overflow: visible;
-	}
-
-	@media (width <= 768px) {
-		position: fixed;
-		inset-block-start: 0;
-		inset-inline-start: 0;
-
-		inline-size: 280px;
-		transform: translateX(0);
-
-		&.collapsed {
-			inline-size: 280px;
-			overflow: hidden;
-			transform: translateX(-100%);
-		}
-	}
-}
-
-.sidebar.collapsed .sidebar-brand-container {
-	justify-content: center;
-	padding: 1.25rem 0;
-}
-
-.sidebar.collapsed .sidebar-nav {
-	padding: 0.5rem;
-	overflow: visible;
-}
-
-.sidebar.collapsed .sidebar-link {
-	justify-content: center;
-	padding: 0.75rem 0;
-}
-
-.sidebar.collapsed .menu-category {
-	display: none;
+	white-space: nowrap;
 }
 </style>

@@ -9,6 +9,7 @@ import {
 	userUpdateSchema,
 } from "#lib/validations/user/user.form.validation.ts";
 
+import { getProfileData } from "../profile/profile.query.remote.ts";
 import { getUserDetails, getUserList } from "./user.query.remote.ts";
 
 /**
@@ -160,4 +161,5 @@ export const updateUser = form(userUpdateSchema.body, async (data) => {
 	// 9. Invalidar caché y refrescar datos
 	void getUserList().refresh();
 	void getUserDetails({ id: data.id }).refresh();
+	void getProfileData().refresh();
 });

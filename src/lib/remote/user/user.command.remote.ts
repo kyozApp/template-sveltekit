@@ -8,6 +8,7 @@ import {
 	userToggleStatusSchema,
 } from "#lib/validations/user/user.command.validation.ts";
 
+import { getProfileData } from "../profile/profile.query.remote.ts";
 import { getUserDetails, getUserList } from "./user.query.remote.ts";
 
 /**
@@ -53,6 +54,7 @@ export const toggleUserStatus = command(
 		// 7. Invalidar caché y refrescar datos
 		void getUserList().refresh();
 		void getUserDetails({ id: data.id }).refresh();
+		void getProfileData().refresh();
 	},
 );
 
@@ -94,4 +96,5 @@ export const deleteUser = command(userDeleteSchema.body, async (data) => {
 	// 7. Invalidar caché y refrescar listados
 	void getUserList().refresh();
 	void getUserDetails({ id: data.id }).refresh();
+	void getProfileData().refresh();
 });

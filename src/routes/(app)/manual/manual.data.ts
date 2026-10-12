@@ -1,6 +1,9 @@
 import type { Component } from "svelte";
 
-import { LayoutDashboard, UserCog } from "@lucide/svelte";
+import { configuracionArticleMeta } from "./configuracion/configuracion.data";
+import { dashboardArticleMeta } from "./dashboard/dashboard.data";
+import { perfilArticleMeta } from "./perfil/perfil.data";
+import { usuariosArticleMeta } from "./usuarios/usuarios.data";
 
 export interface ManualArticleMeta {
 	id: string;
@@ -12,21 +15,8 @@ export interface ManualArticleMeta {
 }
 
 export const MANUAL_ARTICLES: ManualArticleMeta[] = [
-	{
-		id: "dashboard",
-		title: "Dashboard",
-		description:
-			"Panel de control central, navegación, personalización visual y preguntas frecuentes de la plataforma.",
-		categoryLabel: "Módulo Principal",
-		icon: LayoutDashboard,
-	},
-	{
-		id: "usuarios",
-		title: "Usuarios",
-		description:
-			"Gestión de colaboradores, asignación de perfiles, control de estados y preguntas frecuentes del personal.",
-		categoryLabel: "Administración",
-		icon: UserCog,
-		minRole: "ADMIN",
-	},
+	dashboardArticleMeta,
+	perfilArticleMeta,
+	usuariosArticleMeta,
+	configuracionArticleMeta,
 ];

@@ -14,24 +14,7 @@ import {
 	Sparkles,
 } from "@lucide/svelte";
 
-const generalFaqs = [
-	{
-		q: "¿El cambio entre tema claro y oscuro afecta a los demás usuarios?",
-		a: "No. La preferencia de color es 100% individual y se guarda de forma segura en tu navegador. Puedes alternar entre modo oscuro o claro según la iluminación de tu lugar de trabajo sin modificar la vista de tus compañeros.",
-	},
-	{
-		q: "¿Puedo utilizar la plataforma desde una tablet o teléfono móvil?",
-		a: "Sí. Toda la aplicación está diseñada para adaptarse automáticamente a pantallas táctiles. El menú lateral se convierte en un panel deslizable y las tablas de datos permiten un desplazamiento horizontal fluido y cómodo.",
-	},
-	{
-		q: "¿Por qué se cerró mi sesión si dejé la pantalla abierta?",
-		a: "Para proteger la información confidencial de la empresa ante descuidos en oficinas o equipos compartidos, el sistema cierra automáticamente tu sesión tras un período prolongado de inactividad. Solo debes volver a escribir tu usuario y contraseña.",
-	},
-	{
-		q: "¿A quién debo acudir si experimento un problema técnico o lentitud?",
-		a: "Comunícate con el Administrador interno de tu empresa. Si se trata de una incidencia técnica general o de conectividad de red, tu administrador coordinará directamente con el equipo de soporte técnico designado.",
-	},
-];
+import { DASHBOARD_FAQS } from "./dashboard.data";
 </script>
 
 <article class="article-content">
@@ -198,7 +181,7 @@ const generalFaqs = [
 		</div>
 
 		<div class="faq-list">
-			{#each generalFaqs as { q, a }}
+			{#each DASHBOARD_FAQS as { q, a }}
 				<details class="faq-item">
 					<summary class="faq-question">
 						<span>{q}</span>
@@ -272,14 +255,14 @@ const generalFaqs = [
 .features-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-	gap: 1.25rem;
+	gap: 1.15rem;
 }
 
 .feature-card {
 	display: flex;
 	flex-direction: column;
-	gap: 0.75rem;
-	padding: 1.4rem;
+	gap: 0.65rem;
+	padding: 1.35rem;
 
 	background-color: light-dark(
 		oklch(98.8% 0.003 248),
@@ -293,8 +276,8 @@ const generalFaqs = [
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 40px;
-	height: 40px;
+	inline-size: 40px;
+	block-size: 40px;
 	border-radius: 12px;
 
 	&.primary {
@@ -317,15 +300,15 @@ const generalFaqs = [
 
 .feature-desc {
 	margin: 0;
-	font-size: 0.86rem;
+	font-size: 0.85rem;
 	line-height: 1.5;
-	color: light-dark(oklch(44% 0.01 255), oklch(74% 0.008 255));
+	color: light-dark(oklch(45% 0.01 255), oklch(74% 0.008 255));
 }
 
 .controls-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-	gap: 1rem;
+	gap: 1.15rem;
 }
 
 .control-card {
@@ -352,11 +335,7 @@ const generalFaqs = [
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 32px;
-	height: 32px;
-	color: light-dark(oklch(42% 0.14 250), oklch(78% 0.12 250));
-	background-color: light-dark(oklch(94% 0.03 250), oklch(30% 0.04 250));
-	border-radius: 8px;
+	color: light-dark(oklch(40% 0.14 250), oklch(78% 0.12 250));
 }
 
 .control-title {
@@ -371,22 +350,27 @@ const generalFaqs = [
 	font-size: 0.84rem;
 	line-height: 1.5;
 	color: light-dark(oklch(45% 0.01 255), oklch(74% 0.008 255));
+
+	& code {
+		padding: 0.12rem 0.35rem;
+		font-family: inherit;
+		font-size: 0.8rem;
+		background-color: light-dark(oklch(93% 0.01 248), oklch(30% 0.02 256.86));
+		border-radius: 6px;
+	}
 }
 
 .tips-box {
-	padding: 1.5rem;
-	background-color: light-dark(
-		oklch(98.8% 0.003 248),
-		oklch(24.94% 0.0304 256.86)
-	);
-	border: 1px solid light-dark(oklch(89% 0.006 248), oklch(31% 0.014 248));
+	padding: 1.25rem 1.5rem;
+	background-color: light-dark(oklch(96% 0.015 250), oklch(26% 0.025 256.86));
+	border: 1px solid light-dark(oklch(88% 0.02 250), oklch(34% 0.03 256.86));
 	border-radius: 16px;
 }
 
 .tips-list {
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
+	gap: 0.85rem;
 	padding: 0;
 	margin: 0;
 	list-style: none;
@@ -397,12 +381,17 @@ const generalFaqs = [
 		align-items: flex-start;
 		font-size: 0.86rem;
 		line-height: 1.5;
-		color: light-dark(oklch(38% 0.015 255), oklch(82% 0.01 255));
+		color: light-dark(oklch(36% 0.015 255), oklch(84% 0.01 255));
 
-		& :global(svg) {
-			flex-shrink: 0;
-			margin-top: 3px;
-			color: light-dark(oklch(45% 0.15 145), oklch(75% 0.15 145));
+		& code {
+			padding: 0.12rem 0.35rem;
+			font-family: inherit;
+			font-size: 0.8rem;
+			background-color: light-dark(
+				oklch(92% 0.015 250),
+				oklch(32% 0.03 256.86)
+			);
+			border-radius: 6px;
 		}
 	}
 }

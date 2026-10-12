@@ -18,6 +18,13 @@ export const ROLE_HIERARCHY: Record<Role, number> = {
 	VIEWER: 4,
 };
 
+export const ROLE_LABELS: Record<Role, string> = {
+	SUPERADMIN: "Superadministrador",
+	ADMIN: "Administrador",
+	USER: "Usuario",
+	VIEWER: "Visitante",
+};
+
 // --- Entornos de Ejecución ---
 export const NODE_ENVS = ["development", "production"] as const;
 export type NodeEnv = (typeof NODE_ENVS)[number];
