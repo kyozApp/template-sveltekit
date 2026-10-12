@@ -9,28 +9,28 @@ const INITIAL_USERS = [
 		name: "Super Administrador",
 		username: "superadmin",
 		email: "superadmin@gmail.com",
-		passwordRaw: "superadmin123",
+		passwordRaw: "123456789",
 		role: "SUPERADMIN" as const,
 	},
 	{
 		name: "Administrador",
 		username: "admin",
 		email: "admin@gmail.com",
-		passwordRaw: "admin123",
+		passwordRaw: "123456789",
 		role: "ADMIN" as const,
 	},
 	{
 		name: "User",
 		username: "user",
 		email: "user@gmail.com",
-		passwordRaw: "user1234",
+		passwordRaw: "123456789",
 		role: "USER" as const,
 	},
 	{
 		name: "Auditor Visitante",
 		username: "visitante",
 		email: "visitante@gmail.com",
-		passwordRaw: "visitante123",
+		passwordRaw: "123456789",
 		role: "VIEWER" as const,
 	},
 ];
@@ -38,10 +38,9 @@ const INITIAL_USERS = [
 // ─── Función Principal de Ejecución ─────────────────────────────────────────
 
 const main = async () => {
-	console.info("🧪 Iniciando seed de desarrollo (Catálogos y Pruebas)...\n");
+	console.info("🌱 Iniciando seed de la base de datos...\n");
 
-	// 1. Usuarios Base por Rol (SUPERADMIN, ADMIN, USER, VIEWER)
-	// Se verifica primero la existencia para evitar hashear innecesariamente con Argon2 en ejecuciones repetidas
+	// Crear usuarios
 	for (const u of INITIAL_USERS) {
 		const existingUser = await db.orm.public.User.first({
 			username: u.username,
@@ -54,8 +53,6 @@ const main = async () => {
 				email: u.email,
 				password: await argon2.hash(u.passwordRaw),
 				role: u.role,
-				isActive: true,
-				isDeleted: false,
 			});
 			console.info(
 				`✅ Usuario ${u.role} (${user.username}) creado exitosamente.`,
@@ -67,15 +64,16 @@ const main = async () => {
 		}
 	}
 
-	console.info("\n🧪 Seed finalizado con éxito.");
+	console.info("\n🌱 Seed finalizado con éxito.");
 };
 
 // Ejecución con manejo de ciclo de vida del proceso y cierre de pool
 main()
 	.catch((error) => {
-		console.error("❌ Error ejecutando seed de desarrollo:", error);
+		console.error("❌ Error ejecutando el seed:", error);
 		process.exit(1);
 	})
 	.finally(async () => {
+		// Importante en Prisma 8: cerrar el pool para que el script termine limpiamente
 		await db.close();
 	});
