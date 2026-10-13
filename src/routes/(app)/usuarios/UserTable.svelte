@@ -17,30 +17,21 @@ interface Props {
 let { currentUserRole }: Props = $props();
 
 const canToggleUserStatus = (targetUser: { id: string; role: string }) => {
-	if (
-		targetUser.role === "SUPERADMIN" ||
-		targetUser.id === page.data.user?.id
-	) {
+	if (targetUser.id === page.data.user?.id) {
 		return false;
 	}
-	return currentUserRole === "SUPERADMIN" || currentUserRole === "ADMIN";
+	return currentUserRole === "ADMIN";
 };
 
-const canEditUser = (targetUser: { id: string; role: string }) => {
-	if (targetUser.role === "SUPERADMIN") {
-		return currentUserRole === "SUPERADMIN";
-	}
-	return currentUserRole === "SUPERADMIN" || currentUserRole === "ADMIN";
+const canEditUser = (_targetUser: { id: string; role: string }) => {
+	return currentUserRole === "ADMIN";
 };
 
 const canDeleteUser = (targetUser: { id: string; role: string }) => {
-	if (currentUserRole !== "SUPERADMIN" && currentUserRole !== "ADMIN") {
+	if (currentUserRole !== "ADMIN") {
 		return false;
 	}
-	if (
-		targetUser.role === "SUPERADMIN" ||
-		targetUser.id === page.data.user?.id
-	) {
+	if (targetUser.id === page.data.user?.id) {
 		return false;
 	}
 	return true;
@@ -56,8 +47,8 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 				<th class="table-head col-username">Usuario</th>
 				<th class="table-head col-email">Correo electrónico</th>
 				<th class="table-head col-role">Rol</th>
-				<th class="table-head col-status text-center">Estado</th>
-				<th class="table-head col-actions text-center">Acciones</th>
+				<th class="table-head col-status">Estado</th>
+				<th class="table-head col-actions">Acciones</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -66,10 +57,10 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 
 				{#each list as user, index (user.id)}
 					<tr class="user-row table-row">
-						<td class="col-index table-cell">
+						<td class="table-cell col-index">
 							{index + 1}
 						</td>
-						<td class="col-user table-cell">
+						<td class="table-cell col-user">
 							<div class="user-details">
 								<div class="user-name-wrapper">
 									<span class="user-name" class:inactive={!user.isActive}
@@ -81,16 +72,16 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 								</div>
 							</div>
 						</td>
-						<td class="col-username table-cell">
+						<td class="table-cell col-username">
 							<span class="mono">{user.username}</span>
 						</td>
-						<td class="col-email table-cell">
+						<td class="table-cell col-email">
 							<span class="email">{user.email}</span>
 						</td>
-						<td class="col-role table-cell">
+						<td class="table-cell col-role">
 							<UserRoleCell role={user.role} />
 						</td>
-						<td class="col-status table-cell text-center">
+						<td class="table-cell col-status">
 							{#if canToggleUserStatus(user)}
 								<UserToggleStatusButton
 									userId={user.id}
@@ -102,7 +93,7 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 								</span>
 							{/if}
 						</td>
-						<td class="col-actions table-cell text-center">
+						<td class="table-cell col-actions">
 							<div class="actions-group">
 								{#if canEditUser(user)}
 									<UserUpdateButton userId={user.id} />
@@ -165,6 +156,7 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 	font-size: 0.72rem;
 	font-weight: 750;
 	color: light-dark(oklch(40% 0.05 250), oklch(75% 0.05 250));
+	text-align: start;
 	text-transform: uppercase;
 	letter-spacing: 0.06em;
 	white-space: nowrap;
@@ -176,6 +168,7 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 
 .table-cell {
 	padding: 1.1rem 1.25rem;
+	text-align: start;
 	border-block-end: 1px solid
 		light-dark(oklch(93% 0.005 248), oklch(25% 0.015 260));
 }
@@ -214,6 +207,7 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 
 .col-role {
 	min-inline-size: 160px;
+	text-align: center;
 }
 
 .col-status {
@@ -225,10 +219,6 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 .col-actions {
 	inline-size: 110px;
 	min-inline-size: 110px;
-	text-align: center;
-}
-
-.text-center {
 	text-align: center;
 }
 

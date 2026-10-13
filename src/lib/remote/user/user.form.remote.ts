@@ -19,15 +19,7 @@ export const createUser = form(userCreateSchema.body, async (data) => {
 	// 1. Validar permisos de administrador
 	assertAdminOrSuperAdmin();
 
-	// 2. Blindaje total: nadie puede crear cuentas con rol SUPERADMIN desde la interfaz
-	if ((data.role as string) === "SUPERADMIN") {
-		return {
-			success: false,
-			error: "Selecciona un rol válido de la lista.",
-		};
-	}
-
-	// 3. Validar disponibilidad de nombre de usuario y correo
+	// 2. Validar disponibilidad de nombre de usuario y correo
 	const existingUsername = await db.orm.public.User.first({
 		username: data.username,
 	});
@@ -46,21 +38,21 @@ export const createUser = form(userCreateSchema.body, async (data) => {
 		};
 	}
 
-	// 4. Hashear la contraseña con Argon2
+	// 3. Hashear la contraseña con Argon2
 	const hashedPassword = await argon2.hash(data.password);
 
-	// 5. Insertar nuevo usuario en la base de datos
+	// 4. Insertar nuevo usuario en la base de datos
 	await db.orm.public.User.create({
 		name: data.name,
 		username: data.username,
 		email: data.email,
 		password: hashedPassword,
-		role: data.role as "ADMIN" | "USER" | "VIEWER",
+		role: data.role,
 		isActive: data.isActive,
 		isDeleted: false,
 	});
 
-	// 6. Invalidar caché y refrescar el listado
+	// 5. Invalidar caché y refrescar el listado
 	void getUserList().refresh();
 });
 
@@ -80,30 +72,10 @@ export const updateUser = form(userUpdateSchema.body, async (data) => {
 		};
 	}
 
-	// 3. Reglas de blindaje del SUPERADMIN (break-glass):
-	// A. Si el objetivo es SUPERADMIN, solo el mismo SUPERADMIN puede editarse
-	//    y nunca puede cambiar su rol ni desactivarse
-	if (existing.role === "SUPERADMIN") {
-		if (actor.user.role !== "SUPERADMIN") {
-			return {
-				success: false,
-				error: "El usuario no se encontró o no puede ser modificado.",
-			};
-		}
-		data.role = "SUPERADMIN";
-		data.isActive = true;
-	} else if ((data.role as string) === "SUPERADMIN") {
-		// B. Nadie puede ascender a nadie al rol SUPERADMIN desde la interfaz
-		return {
-			success: false,
-			error: "Selecciona un rol válido de la lista.",
-		};
-	}
-
-	// 4. Reglas de auto-edición:
+	// 3. Reglas de auto-edición:
 	// A. Nadie puede alterar su propio rol
 	if (actor.user.id === data.id) {
-		data.role = existing.role;
+		data.role = actor.user.role;
 	}
 
 	// B. Nadie puede desactivar su propia cuenta en sesión
@@ -114,7 +86,7 @@ export const updateUser = form(userUpdateSchema.body, async (data) => {
 		};
 	}
 
-	// 5. Validar duplicidad de nombre de usuario y correo
+	// 4. Validar duplicidad de nombre de usuario y correo
 	if (data.username && data.username !== existing.username) {
 		const usernameTaken = await db.orm.public.User.first({
 			username: data.username,
@@ -137,28 +109,28 @@ export const updateUser = form(userUpdateSchema.body, async (data) => {
 		}
 	}
 
-	// 6. Hashear la nueva contraseña si fue provista
+	// 5. Hashear la nueva contraseña si fue provista
 	let hashedPassword: string | undefined;
 	if (data.password) {
 		hashedPassword = await argon2.hash(data.password);
 	}
 
-	// 7. Revocar sesiones activas si el usuario es desactivado
+	// 6. Revocar sesiones activas si el usuario es desactivado
 	if (data.isActive === false) {
 		await db.orm.public.Session.where({ userId: data.id }).deleteAll();
 	}
 
-	// 8. Actualizar usuario en la base de datos
+	// 7. Actualizar usuario en la base de datos
 	await db.orm.public.User.where({ id: data.id }).update({
 		name: data.name,
 		username: data.username,
 		email: data.email,
 		...(hashedPassword ? { password: hashedPassword } : {}),
-		role: data.role as "SUPERADMIN" | "ADMIN" | "USER" | "VIEWER",
+		role: data.role,
 		isActive: data.isActive,
 	});
 
-	// 9. Invalidar caché y refrescar datos
+	// 8. Invalidar caché y refrescar datos
 	void getUserList().refresh();
 	void getUserDetails({ id: data.id }).refresh();
 	void getProfileData().refresh();

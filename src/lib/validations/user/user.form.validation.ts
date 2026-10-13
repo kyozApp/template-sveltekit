@@ -49,10 +49,7 @@ export const userCreateSchema = {
 		),
 		role: v.pipe(
 			v.optional(v.string(), ""),
-			v.picklist(
-				["ADMIN", "USER", "VIEWER"],
-				"Selecciona un rol válido de la lista.",
-			),
+			v.picklist(ROLES, "Selecciona un rol válido de la lista."),
 		),
 		isActive: v.optional(v.boolean(), false),
 	}),

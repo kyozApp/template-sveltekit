@@ -15,7 +15,7 @@ import {
  */
 export const getUserList = query(async () => {
 	// 1. Validar permisos de administrador
-	const actor = assertAdminOrSuperAdmin();
+	assertAdminOrSuperAdmin();
 
 	// 2. Consultar listado general de usuarios (excluyendo eliminados)
 	const users = await db.orm.public.User.where({ isDeleted: false })
@@ -34,14 +34,8 @@ export const getUserList = query(async () => {
 		.orderBy((u) => u.createdAt.desc())
 		.all();
 
-	// Si el actor no es SUPERADMIN, ocultar al SUPERADMIN de la lista (cuenta de respaldo)
-	const visibleUsers =
-		actor.user.role === "SUPERADMIN"
-			? users
-			: users.filter((u) => u.role !== "SUPERADMIN");
-
 	// 3. Validar y tipar datos retornados
-	const userList = v.parse(userListSchema.response, visibleUsers);
+	const userList = v.parse(userListSchema.response, users);
 	return userList;
 });
 
@@ -50,7 +44,7 @@ export const getUserList = query(async () => {
  */
 export const getUserDetails = query(userDetailSchema.params, async (data) => {
 	// 1. Validar permisos de administrador
-	const actor = assertAdminOrSuperAdmin();
+	assertAdminOrSuperAdmin();
 
 	// 2. Consultar detalle del usuario en la base de datos
 	const user = await db.orm.public.User.where({ id: data.id })
@@ -70,11 +64,6 @@ export const getUserDetails = query(userDetailSchema.params, async (data) => {
 
 	// 3. Validar existencia del registro
 	if (!user) {
-		error(404, "El usuario no se encontró.");
-	}
-
-	// Ocultar SUPERADMIN a quienes no sean SUPERADMIN
-	if (user.role === "SUPERADMIN" && actor.user.role !== "SUPERADMIN") {
 		error(404, "El usuario no se encontró.");
 	}
 

@@ -17,7 +17,7 @@ import {
 } from "@lucide/svelte";
 import { nanoid } from "nanoid";
 
-import { ROLE_LABELS, type Role } from "#lib/constants.ts";
+import { ROLE_LABELS } from "#lib/constants.ts";
 import { updateUser } from "#lib/remote/user/user.form.remote.ts";
 import { getUserDetails } from "#lib/remote/user/user.query.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
@@ -227,14 +227,13 @@ const submitting = $derived(updateForm.pending > 0);
 						>Rol del Usuario</label
 					>
 
-					{#if details.role === "SUPERADMIN" ||
-						page.data.user?.id === details.id}
+					{#if page.data.user?.id === details.id}
 						<input {...fieldRole.as("hidden", details.role)}>
 						<div class="static-role-display">
 							<span class="input-icon-left">
 								<Shield size={16} />
 							</span>
-							<span class="role-text">{ROLE_LABELS[details.role as Role]}</span>
+							<span class="role-text">{ROLE_LABELS[details.role]}</span>
 							<span class="role-badge">Rol protegido</span>
 						</div>
 					{:else}
@@ -251,7 +250,6 @@ const submitting = $derived(updateForm.pending > 0);
 							>
 								<option value="ADMIN">Administrador</option>
 								<option value="USER">Usuario</option>
-								<option value="VIEWER">Visitante</option>
 							</select>
 						</div>
 						{#if fieldRole.issues()?.length}
@@ -277,8 +275,7 @@ const submitting = $derived(updateForm.pending > 0);
 						</span>
 					</div>
 
-					{#if details.role === "SUPERADMIN" ||
-						page.data.user?.id === details.id}
+					{#if page.data.user?.id === details.id}
 						<input {...fieldIsActive.as("hidden", details.isActive)}>
 					{:else}
 						<label class="switch-control" class:active={isActiveChecked}>

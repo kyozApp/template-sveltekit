@@ -7,7 +7,7 @@ export const load: LayoutServerLoad = async ({ parent }) => {
 	const { user } = await parent();
 
 	// Bloquea el acceso a usuarios sin privilegios administrativos
-	if (user.role !== "SUPERADMIN" && user.role !== "ADMIN") {
+	if (user.role !== "ADMIN") {
 		redirect(302, "/dashboard");
 	}
 };

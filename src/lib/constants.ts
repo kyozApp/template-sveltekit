@@ -8,21 +8,12 @@
  */
 
 // --- Roles de Usuario ---
-export const ROLES = ["SUPERADMIN", "ADMIN", "USER", "VIEWER"] as const;
+export const ROLES = ["ADMIN", "USER"] as const;
 export type Role = (typeof ROLES)[number];
 
-export const ROLE_HIERARCHY: Record<Role, number> = {
-	SUPERADMIN: 1,
-	ADMIN: 2,
-	USER: 3,
-	VIEWER: 4,
-};
-
 export const ROLE_LABELS: Record<Role, string> = {
-	SUPERADMIN: "Superadministrador",
 	ADMIN: "Administrador",
 	USER: "Usuario",
-	VIEWER: "Visitante",
 };
 
 // --- Entornos de Ejecución ---

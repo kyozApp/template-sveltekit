@@ -223,7 +223,6 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 						<option value="" disabled selected>Selecciona un rol</option>
 						<option value="ADMIN">Administrador</option>
 						<option value="USER">Usuario</option>
-						<option value="VIEWER">Visitante</option>
 					</select>
 				</div>
 				{#if fieldRole.issues()?.length}

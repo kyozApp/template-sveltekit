@@ -31,27 +31,19 @@ export const toggleUserStatus = command(
 			error(404, "El usuario no se encontró.");
 		}
 
-		// 4. Blindaje total del SUPERADMIN (cuenta de respaldo / break-glass)
-		if (existing.role === "SUPERADMIN") {
-			error(
-				403,
-				"No tienes autorización para suspender o activar esta cuenta.",
-			);
-		}
-
-		// 5. Determinar nuevo estado e invalidar sesiones si se desactiva
+		// 4. Determinar nuevo estado e invalidar sesiones si se desactiva
 		const newIsActive = !existing.isActive;
 
 		if (!newIsActive) {
 			await db.orm.public.Session.where({ userId: data.id }).deleteAll();
 		}
 
-		// 6. Actualizar estado del usuario en la base de datos
+		// 5. Actualizar estado del usuario en la base de datos
 		await db.orm.public.User.where({ id: data.id }).update({
 			isActive: newIsActive,
 		});
 
-		// 7. Invalidar caché y refrescar datos
+		// 6. Invalidar caché y refrescar datos
 		void getUserList().refresh();
 		void getUserDetails({ id: data.id }).refresh();
 		void getProfileData().refresh();
@@ -62,7 +54,7 @@ export const toggleUserStatus = command(
  * Elimina lógicamente a un usuario del sistema (Soft Delete).
  */
 export const deleteUser = command(userDeleteSchema.body, async (data) => {
-	// 1. Validar permisos de Administrador o superior
+	// 1. Validar permisos de Administrador
 	const actor = assertAdminOrSuperAdmin();
 
 	// 2. Prohibir auto-eliminación
@@ -76,15 +68,10 @@ export const deleteUser = command(userDeleteSchema.body, async (data) => {
 		error(404, "El usuario no se encontró.");
 	}
 
-	// 4. Blindaje total del SUPERADMIN (cuenta de respaldo / break-glass)
-	if (existing.role === "SUPERADMIN") {
-		error(403, "No tienes autorización para dar de baja esta cuenta.");
-	}
-
-	// 5. Revocar todas las sesiones del usuario a eliminar
+	// 4. Revocar todas las sesiones del usuario a eliminar
 	await db.orm.public.Session.where({ userId: data.id }).deleteAll();
 
-	// 6. Aplicar baja lógica (Soft Delete)
+	// 5. Aplicar baja lógica (Soft Delete)
 	await db.orm.public.User.where({ id: data.id }).update({
 		isDeleted: true,
 		deletedAt: new Date().toISOString(),
@@ -93,7 +80,7 @@ export const deleteUser = command(userDeleteSchema.body, async (data) => {
 		username: `${existing.username}.deleted.${existing.id}`,
 	});
 
-	// 7. Invalidar caché y refrescar listados
+	// 6. Invalidar caché y refrescar listados
 	void getUserList().refresh();
 	void getUserDetails({ id: data.id }).refresh();
 	void getProfileData().refresh();

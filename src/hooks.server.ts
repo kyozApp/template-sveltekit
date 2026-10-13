@@ -4,6 +4,7 @@ import {
 	sequence,
 } from "@sveltejs/kit/hooks";
 
+import type { Role } from "#lib/constants.ts";
 import { getTextDirection } from "#lib/paraglide/runtime.js";
 import { paraglideMiddleware } from "#lib/paraglide/server.js";
 import { db } from "#lib/server/db.ts";
@@ -57,7 +58,7 @@ const handleSession: Handle = async ({ event, resolve }) => {
 			name: session.user.name,
 			username: session.user.username,
 			email: session.user.email,
-			role: session.user.role,
+			role: session.user.role as Role,
 		};
 		event.locals.sessionToken = sessionId;
 	} catch (e) {

@@ -71,8 +71,7 @@ let { isSidebarOpen = $bindable() }: Props = $props();
 			{/if}
 		</a>
 
-		{#if page.data.user?.role === "SUPERADMIN" ||
-			page.data.user?.role === "ADMIN"}
+		{#if page.data.user?.role === "ADMIN"}
 			<a
 				href={resolve("usuarios")}
 				class="sidebar-link"

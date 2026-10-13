@@ -14,7 +14,7 @@ let isSubmitting = $state(false);
 let menuContainer = $state<HTMLDivElement | null>(null);
 
 const user = $derived(page.data.user);
-const isAdmin = $derived(user?.role === "SUPERADMIN" || user?.role === "ADMIN");
+const isAdmin = $derived(user?.role === "ADMIN");
 
 const initials = $derived.by(() => {
 	const name = user?.name;
@@ -311,14 +311,14 @@ const handleLogout = async () => {
 	background-color: light-dark(oklch(95% 0.01 250), oklch(26% 0.02 260));
 	border-radius: 999px;
 
-	&[data-role="SUPERADMIN"] {
-		color: light-dark(oklch(45% 0.14 290), oklch(78% 0.12 290));
-		background-color: light-dark(oklch(95% 0.03 290), oklch(28% 0.035 290));
-	}
-
 	&[data-role="ADMIN"] {
 		color: light-dark(oklch(42% 0.14 250), oklch(78% 0.12 250));
 		background-color: light-dark(oklch(94% 0.03 250), oklch(28% 0.035 250));
+	}
+
+	&[data-role="USER"] {
+		color: light-dark(oklch(45% 0.12 180), oklch(72% 0.1 180));
+		background-color: light-dark(oklch(95.6% 0.02 180), oklch(28% 0.025 180));
 	}
 }
 

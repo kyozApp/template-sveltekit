@@ -15,31 +15,17 @@ export const assertAuthenticated = (): App.AuthenticatedLocals => {
 export const assertRole = (allowedRoles: Role[]): App.AuthenticatedLocals => {
 	const locals = assertAuthenticated();
 
-	if (
-		locals.user.role !== "SUPERADMIN" &&
-		!allowedRoles.includes(locals.user.role as Role)
-	) {
+	if (!allowedRoles.includes(locals.user.role)) {
 		error(403, "No tienes permiso para realizar esta acción.");
 	}
 
 	return locals;
 };
 
-export const assertAdminOrSuperAdmin = (): App.AuthenticatedLocals => {
+export const assertAdmin = (): App.AuthenticatedLocals => {
 	return assertRole(["ADMIN"]);
 };
 
-export const assertSuperAdmin = (): App.AuthenticatedLocals => {
-	return assertRole([]);
-};
-
-export const assertCanMutate = (): App.AuthenticatedLocals => {
-	const locals = assertAuthenticated();
-	if (locals.user.role === "VIEWER") {
-		error(
-			403,
-			"Los usuarios con rol Visitante solo tienen permisos de lectura.",
-		);
-	}
-	return locals;
+export const assertAdminOrSuperAdmin = (): App.AuthenticatedLocals => {
+	return assertAdmin();
 };

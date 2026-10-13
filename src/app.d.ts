@@ -1,9 +1,11 @@
+import type { Role } from "#lib/constants.ts";
+
 interface User {
 	id: string;
 	name: string;
 	username: string;
 	email: string;
-	role: string;
+	role: Role;
 }
 
 declare global {
@@ -17,6 +19,10 @@ declare global {
 		interface AuthenticatedLocals extends App.Locals {
 			user: User;
 			sessionToken: string;
+		}
+		// Definimos PageData para páginas y layouts
+		interface PageData {
+			user?: User;
 		}
 		// Definimos la interfaz PageState para Shallow Routing
 		interface PageState {
@@ -33,5 +39,3 @@ declare global {
 		}
 	}
 }
-
-export {};

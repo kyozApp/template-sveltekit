@@ -12,7 +12,7 @@ import UsuariosArticle from "./usuarios/UsuariosArticle.svelte";
 
 const user = $derived(page.data.user);
 const userRole = $derived(user?.role);
-const isAdmin = $derived(userRole === "SUPERADMIN" || userRole === "ADMIN");
+const isAdmin = $derived(userRole === "ADMIN");
 
 let activeArticleId = $state("dashboard");
 

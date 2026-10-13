@@ -11,7 +11,7 @@ interface Props {
 
 let { activeArticleId, userRole, onSelectArticle }: Props = $props();
 
-const isAdmin = $derived(userRole === "SUPERADMIN" || userRole === "ADMIN");
+const isAdmin = $derived(userRole === "ADMIN");
 
 const visibleArticles = $derived(
 	MANUAL_ARTICLES.filter((article) => {

@@ -223,7 +223,7 @@ let activeTab = $state<"general" | "security" | "system">("general");
 							</div>
 							<div class="param-row">
 								<span class="param-label">Nivel de Acceso:</span>
-								<span class="param-value">ADMIN y SUPERADMIN</span>
+								<span class="param-value">ADMIN</span>
 							</div>
 						</div>
 					</div>
