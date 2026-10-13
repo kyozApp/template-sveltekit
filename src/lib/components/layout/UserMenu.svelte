@@ -1,23 +1,27 @@
 <script lang="ts">
 import { isHttpError } from "@sveltejs/kit";
 import { resolve } from "$app/paths";
-import { page } from "$app/state";
 
 import { LoaderCircle, LogOut, Settings, User } from "@lucide/svelte";
 
-import { ROLE_LABELS, type Role } from "#lib/constants.ts";
+import { ROLE_LABELS } from "#lib/constants.ts";
 import { logoutUser } from "#lib/remote/auth/auth.command.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
+
+interface Props {
+	user: App.AuthenticatedLocals["user"];
+}
+
+let { user }: Props = $props();
 
 let isOpen = $state(false);
 let isSubmitting = $state(false);
 let menuContainer = $state<HTMLDivElement | null>(null);
 
-const user = $derived(page.data.user);
-const isAdmin = $derived(user?.role === "ADMIN");
+const isAdmin = $derived(user.role === "ADMIN");
 
 const initials = $derived.by(() => {
-	const name = user?.name;
+	const name = user.name;
 	if (!name) return "U";
 	return name
 		.split(" ")
@@ -100,11 +104,11 @@ const handleLogout = async () => {
 			<div class="user-identity-card">
 				<div class="identity-avatar">{initials}</div>
 				<div class="identity-info">
-					<span class="identity-name">{user?.name}</span>
-					<span class="identity-email">{user?.email}</span>
+					<span class="identity-name">{user.name}</span>
+					<span class="identity-email">{user.email}</span>
 					<div class="identity-role-wrap">
-						<span class="role-badge" data-role={user?.role}>
-							{ROLE_LABELS[user?.role as Role]}
+						<span class="role-badge" data-role={user.role}>
+							{ROLE_LABELS[user.role]}
 						</span>
 					</div>
 				</div>

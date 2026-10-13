@@ -6,9 +6,10 @@ import ThemeToggle from "#lib/components/ui/ThemeToggle.svelte";
 
 interface Props {
 	isSidebarOpen: boolean;
+	user: App.AuthenticatedLocals["user"];
 }
 
-let { isSidebarOpen = $bindable() }: Props = $props();
+let { isSidebarOpen = $bindable(), user }: Props = $props();
 </script>
 
 <header class="app-header">
@@ -27,7 +28,7 @@ let { isSidebarOpen = $bindable() }: Props = $props();
 	<div class="header-right">
 		<ThemeToggle />
 		<div class="divider"></div>
-		<UserMenu />
+		<UserMenu {user} />
 	</div>
 </header>
 

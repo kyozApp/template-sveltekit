@@ -8,7 +8,9 @@ import AppSidebar from "#lib/components/layout/AppSidebar.svelte";
 import { checkUserAuth } from "#lib/remote/auth/auth.query.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
 
-let { children } = $props();
+import type { LayoutProps } from "./$types";
+
+let { data, children }: LayoutProps = $props();
 
 let isSidebarOpen = $state(true);
 
@@ -108,7 +110,7 @@ $effect(() => {
 
 	<!-- ─── CONTENEDOR PRINCIPAL DERECHO ───────────────────────────────── -->
 	<div class="main-container">
-		<AppHeader bind:isSidebarOpen />
+		<AppHeader bind:isSidebarOpen user={data.user} />
 
 		<!-- Área de contenido principal -->
 		<main class="app-content">
@@ -144,7 +146,7 @@ $effect(() => {
 	height: 100dvh;
 }
 
-/* ── Contenido Principal ──────────────────────── */
+/* ── Contenido Principal ───────────────────────── */
 .app-content {
 	display: flex;
 	flex: 1;
