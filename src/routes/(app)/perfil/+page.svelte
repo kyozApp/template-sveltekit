@@ -6,9 +6,9 @@ import { resolve } from "$app/paths";
 
 import { KeyRound, Laptop, User } from "@lucide/svelte";
 
+import { ROLE_LABELS, type Role } from "#lib/constants.ts";
 import { getProfileData } from "#lib/remote/profile/profile.query.remote.ts";
 
-import UserRoleCell from "../usuarios/UserRoleCell.svelte";
 import ProfileInfoForm from "./ProfileInfoForm.svelte";
 import ProfilePasswordForm from "./ProfilePasswordForm.svelte";
 import ProfileSessionsCard from "./ProfileSessionsCard.svelte";
@@ -46,7 +46,9 @@ const onBoundaryError = (err: unknown) => {
 			<div class="user-meta">
 				<div class="name-row">
 					<h1 class="user-full-name">{user.name}</h1>
-					<UserRoleCell role={user.role} />
+					<span class="role-badge" data-role={user.role}>
+						{ROLE_LABELS[user.role as Role]}
+					</span>
 				</div>
 				<p class="user-identifiers">
 					<span class="mono">@{user.username}</span>
@@ -209,6 +211,32 @@ const onBoundaryError = (err: unknown) => {
 	letter-spacing: -0.01em;
 }
 
+.role-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	padding: 0.28rem 0.72rem;
+
+	font-size: 0.68rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+
+	background-color: light-dark(oklch(97.6% 0.004 248), oklch(22.5% 0.018 255));
+	border-radius: 999px;
+
+	&[data-role="ADMIN"] {
+		color: light-dark(oklch(46% 0.135 245), oklch(72% 0.12 245));
+		background-color: light-dark(oklch(95.6% 0.02 245), oklch(28% 0.028 245));
+	}
+
+	&[data-role="USER"] {
+		color: light-dark(oklch(45% 0.12 180), oklch(72% 0.1 180));
+		background-color: light-dark(oklch(95.6% 0.02 180), oklch(28% 0.025 180));
+	}
+}
+
 .user-identifiers {
 	display: flex;
 	flex-wrap: wrap;
@@ -228,7 +256,7 @@ const onBoundaryError = (err: unknown) => {
 	color: light-dark(oklch(75% 0.01 250), oklch(45% 0.01 250));
 }
 
-/* ── Tabs Bar ────────────────────────────────────────────────────────── */
+/* ── Tabs Bar ─────────────────────────────────────────────────────────────── */
 .tabs-bar {
 	display: flex;
 	gap: 0.5rem;

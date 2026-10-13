@@ -3,10 +3,10 @@ import { page } from "$app/state";
 
 import { LoaderCircle } from "@lucide/svelte";
 
+import { ROLE_LABELS } from "#lib/constants.ts";
 import { getUserList } from "#lib/remote/user/user.query.remote.ts";
 
 import UserDeleteButton from "./UserDeleteButton.svelte";
-import UserRoleCell from "./UserRoleCell.svelte";
 import UserToggleStatusButton from "./UserToggleStatusButton.svelte";
 import UserUpdateButton from "./UserUpdateButton.svelte";
 
@@ -79,7 +79,9 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 							<span class="email">{user.email}</span>
 						</td>
 						<td class="table-cell col-role">
-							<UserRoleCell role={user.role} />
+							<span class="role-badge" data-role={user.role}>
+								{ROLE_LABELS[user.role]}
+							</span>
 						</td>
 						<td class="table-cell col-status">
 							{#if canToggleUserStatus(user)}
@@ -277,6 +279,32 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 	font-size: 0.9rem;
 	font-weight: 500;
 	color: light-dark(oklch(45% 0.04 250), oklch(74% 0.035 250));
+}
+
+.role-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	padding: 0.28rem 0.72rem;
+
+	font-size: 0.68rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+
+	background-color: light-dark(oklch(97.6% 0.004 248), oklch(22.5% 0.018 255));
+	border-radius: 999px;
+
+	&[data-role="ADMIN"] {
+		color: light-dark(oklch(46% 0.135 245), oklch(72% 0.12 245));
+		background-color: light-dark(oklch(95.6% 0.02 245), oklch(28% 0.028 245));
+	}
+
+	&[data-role="USER"] {
+		color: light-dark(oklch(45% 0.12 180), oklch(72% 0.1 180));
+		background-color: light-dark(oklch(95.6% 0.02 180), oklch(28% 0.025 180));
+	}
 }
 
 .status-pill {
