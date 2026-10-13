@@ -25,7 +25,3 @@ export const assertRole = (allowedRoles: Role[]): App.AuthenticatedLocals => {
 export const assertAdmin = (): App.AuthenticatedLocals => {
 	return assertRole(["ADMIN"]);
 };
-
-export const assertAdminOrSuperAdmin = (): App.AuthenticatedLocals => {
-	return assertAdmin();
-};

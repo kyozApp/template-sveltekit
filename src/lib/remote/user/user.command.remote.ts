@@ -1,7 +1,7 @@
 import { error } from "@sveltejs/kit";
 import { command } from "$app/server";
 
-import { assertAdminOrSuperAdmin } from "#lib/server/auth.ts";
+import { assertAdmin } from "#lib/server/auth.ts";
 import { db } from "#lib/server/db.ts";
 import {
 	userDeleteSchema,
@@ -18,7 +18,7 @@ export const toggleUserStatus = command(
 	userToggleStatusSchema.body,
 	async (data) => {
 		// 1. Validar permisos de administrador
-		const actor = assertAdminOrSuperAdmin();
+		const actor = assertAdmin();
 
 		// 2. Prohibir auto-desactivación
 		if (actor.user.id === data.id) {
@@ -55,7 +55,7 @@ export const toggleUserStatus = command(
  */
 export const deleteUser = command(userDeleteSchema.body, async (data) => {
 	// 1. Validar permisos de Administrador
-	const actor = assertAdminOrSuperAdmin();
+	const actor = assertAdmin();
 
 	// 2. Prohibir auto-eliminación
 	if (actor.user.id === data.id) {

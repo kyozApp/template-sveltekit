@@ -8,7 +8,7 @@ export const profileUpdateSchema = {
 		name: v.pipe(
 			v.string("El nombre ingresado no es válido."),
 			v.trim(),
-			v.minLength(1, "El nombre completo es obligatorio."),
+			v.nonEmpty("El nombre completo es obligatorio."),
 			v.minLength(3, "El nombre completo debe tener al menos 3 letras."),
 			v.maxLength(
 				255,
@@ -19,7 +19,7 @@ export const profileUpdateSchema = {
 			v.string("El usuario ingresado no es válido."),
 			v.trim(),
 			v.toLowerCase(),
-			v.minLength(1, "El usuario es obligatorio."),
+			v.nonEmpty("El usuario es obligatorio."),
 			v.minLength(3, "El usuario debe tener al menos 3 caracteres."),
 			v.maxLength(
 				255,
@@ -30,7 +30,7 @@ export const profileUpdateSchema = {
 			v.string("El correo electrónico ingresado no es válido."),
 			v.trim(),
 			v.toLowerCase(),
-			v.minLength(1, "El correo electrónico es obligatorio."),
+			v.nonEmpty("El correo electrónico es obligatorio."),
 			v.email(
 				"Ingresa un correo electrónico válido (ejemplo: nombre@correo.com).",
 			),
@@ -52,17 +52,17 @@ export const profilePasswordChangeSchema = {
 		v.object({
 			currentPassword: v.pipe(
 				v.string("La contraseña actual es obligatoria."),
-				v.minLength(1, "Ingresa tu contraseña actual."),
+				v.nonEmpty("Ingresa tu contraseña actual."),
 			),
 			newPassword: v.pipe(
 				v.string("La nueva contraseña ingresada no es válida."),
-				v.minLength(1, "La nueva contraseña es obligatoria."),
+				v.nonEmpty("La nueva contraseña es obligatoria."),
 				v.minLength(8, "La nueva contraseña debe tener al menos 8 caracteres."),
 				v.maxLength(255, "La contraseña no puede superar los 255 caracteres."),
 			),
 			confirmPassword: v.pipe(
 				v.string("La confirmación de contraseña es obligatoria."),
-				v.minLength(1, "Confirma tu nueva contraseña."),
+				v.nonEmpty("Confirma tu nueva contraseña."),
 			),
 		}),
 		v.check(

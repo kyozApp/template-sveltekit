@@ -3,7 +3,7 @@ import { query } from "$app/server";
 
 import * as v from "valibot";
 
-import { assertAdminOrSuperAdmin } from "#lib/server/auth.ts";
+import { assertAdmin } from "#lib/server/auth.ts";
 import { db } from "#lib/server/db.ts";
 import {
 	userDetailSchema,
@@ -15,7 +15,7 @@ import {
  */
 export const getUserList = query(async () => {
 	// 1. Validar permisos de administrador
-	assertAdminOrSuperAdmin();
+	assertAdmin();
 
 	// 2. Consultar listado general de usuarios (excluyendo eliminados)
 	const users = await db.orm.public.User.where({ isDeleted: false })
@@ -26,8 +26,6 @@ export const getUserList = query(async () => {
 			"email",
 			"role",
 			"isActive",
-			"isDeleted",
-			"deletedAt",
 			"createdAt",
 			"updatedAt",
 		)
@@ -44,7 +42,7 @@ export const getUserList = query(async () => {
  */
 export const getUserDetails = query(userDetailSchema.params, async (data) => {
 	// 1. Validar permisos de administrador
-	assertAdminOrSuperAdmin();
+	assertAdmin();
 
 	// 2. Consultar detalle del usuario en la base de datos
 	const user = await db.orm.public.User.where({ id: data.id })
@@ -55,8 +53,6 @@ export const getUserDetails = query(userDetailSchema.params, async (data) => {
 			"email",
 			"role",
 			"isActive",
-			"isDeleted",
-			"deletedAt",
 			"createdAt",
 			"updatedAt",
 		)

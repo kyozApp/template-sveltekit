@@ -10,7 +10,7 @@ export const userCreateSchema = {
 		name: v.pipe(
 			v.string("El nombre ingresado no es válido."),
 			v.trim(),
-			v.minLength(1, "El nombre completo es obligatorio."),
+			v.nonEmpty("El nombre completo es obligatorio."),
 			v.minLength(3, "El nombre completo debe tener al menos 3 letras."),
 			v.maxLength(
 				255,
@@ -21,7 +21,7 @@ export const userCreateSchema = {
 			v.string("El usuario ingresado no es válido."),
 			v.trim(),
 			v.toLowerCase(),
-			v.minLength(1, "El usuario es obligatorio."),
+			v.nonEmpty("El usuario es obligatorio."),
 			v.minLength(3, "El usuario debe tener al menos 3 caracteres."),
 			v.maxLength(
 				255,
@@ -32,7 +32,7 @@ export const userCreateSchema = {
 			v.string("El correo electrónico ingresado no es válido."),
 			v.trim(),
 			v.toLowerCase(),
-			v.minLength(1, "El correo electrónico es obligatorio."),
+			v.nonEmpty("El correo electrónico es obligatorio."),
 			v.email(
 				"Ingresa un correo electrónico válido (ejemplo: nombre@correo.com).",
 			),
@@ -43,7 +43,8 @@ export const userCreateSchema = {
 		),
 		password: v.pipe(
 			v.string("La contraseña ingresada no es válida."),
-			v.minLength(1, "La contraseña es obligatoria."),
+			v.trim(),
+			v.nonEmpty("La contraseña es obligatoria."),
 			v.minLength(8, "La contraseña debe tener al menos 8 letras o números."),
 			v.maxLength(255, "La contraseña no puede superar los 255 caracteres."),
 		),
@@ -71,7 +72,7 @@ export const userUpdateSchema = {
 		name: v.pipe(
 			v.string("El nombre ingresado no es válido."),
 			v.trim(),
-			v.minLength(1, "El nombre completo es obligatorio."),
+			v.nonEmpty("El nombre completo es obligatorio."),
 			v.minLength(3, "El nombre completo debe tener al menos 3 letras."),
 			v.maxLength(
 				255,
@@ -82,7 +83,7 @@ export const userUpdateSchema = {
 			v.string("El usuario ingresado no es válido."),
 			v.trim(),
 			v.toLowerCase(),
-			v.minLength(1, "El usuario es obligatorio."),
+			v.nonEmpty("El usuario es obligatorio."),
 			v.minLength(3, "El usuario debe tener al menos 3 caracteres."),
 			v.maxLength(
 				255,
@@ -93,7 +94,7 @@ export const userUpdateSchema = {
 			v.string("El correo electrónico ingresado no es válido."),
 			v.trim(),
 			v.toLowerCase(),
-			v.minLength(1, "El correo electrónico es obligatorio."),
+			v.nonEmpty("El correo electrónico es obligatorio."),
 			v.email(
 				"Ingresa un correo electrónico válido (ejemplo: nombre@correo.com).",
 			),

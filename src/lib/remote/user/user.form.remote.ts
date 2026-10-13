@@ -2,7 +2,7 @@ import { form } from "$app/server";
 
 import argon2 from "argon2";
 
-import { assertAdminOrSuperAdmin } from "#lib/server/auth.ts";
+import { assertAdmin } from "#lib/server/auth.ts";
 import { db } from "#lib/server/db.ts";
 import {
 	userCreateSchema,
@@ -17,7 +17,7 @@ import { getUserDetails, getUserList } from "./user.query.remote.ts";
  */
 export const createUser = form(userCreateSchema.body, async (data) => {
 	// 1. Validar permisos de administrador
-	assertAdminOrSuperAdmin();
+	assertAdmin();
 
 	// 2. Validar disponibilidad de nombre de usuario y correo
 	const existingUsername = await db.orm.public.User.first({
@@ -49,7 +49,6 @@ export const createUser = form(userCreateSchema.body, async (data) => {
 		password: hashedPassword,
 		role: data.role,
 		isActive: data.isActive,
-		isDeleted: false,
 	});
 
 	// 5. Invalidar caché y refrescar el listado
@@ -61,7 +60,7 @@ export const createUser = form(userCreateSchema.body, async (data) => {
  */
 export const updateUser = form(userUpdateSchema.body, async (data) => {
 	// 1. Validar permisos de administrador
-	const actor = assertAdminOrSuperAdmin();
+	const actor = assertAdmin();
 
 	// 2. Validar existencia del usuario
 	const existing = await db.orm.public.User.where({ id: data.id }).first();
