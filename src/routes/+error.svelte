@@ -9,7 +9,7 @@ import { CircleAlert, House } from "@lucide/svelte";
 <div class="error-page">
 	<div class="error-card" in:fly={{ y: 10, duration: 400 }}>
 		<div class="icon-container">
-			<CircleAlert size="48" />
+			<CircleAlert size={48} />
 		</div>
 
 		<h1 class="error-code">{page.status}</h1>
@@ -31,7 +31,7 @@ import { CircleAlert, House } from "@lucide/svelte";
 		</p>
 
 		<a href={resolve("")} class="btn-home">
-			<House size="18" />
+			<House size={18} />
 			<span>Volver al Inicio</span>
 		</a>
 	</div>

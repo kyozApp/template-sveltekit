@@ -39,9 +39,9 @@ let isSubmitting = $state(false);
 	aria-label="Cerrar sesión"
 >
 	{#if isSubmitting}
-		<LoaderCircle size="15" class="spinner" />
+		<LoaderCircle size={15} class="spinner" />
 	{:else}
-		<LogOut size="15" />
+		<LogOut size={15} />
 	{/if}
 	<span>Salir</span>
 </button>

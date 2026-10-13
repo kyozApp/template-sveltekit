@@ -26,7 +26,7 @@ let { userId }: Props = $props();
 	data-tooltip="Editar usuario"
 	data-tooltip-position="top-end"
 >
-	<Pencil size="16" />
+	<Pencil size={16} />
 </button>
 
 <style>

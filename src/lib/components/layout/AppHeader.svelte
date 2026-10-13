@@ -20,7 +20,7 @@ let { isSidebarOpen = $bindable() }: Props = $props();
 			aria-label={isSidebarOpen ? "Colapsar sidebar" : "Expandir sidebar"}
 			aria-expanded={isSidebarOpen}
 		>
-			<PanelLeft size="20" />
+			<PanelLeft size={20} />
 		</button>
 	</div>
 

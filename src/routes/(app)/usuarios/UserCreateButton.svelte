@@ -17,7 +17,7 @@ import { UserPlus } from "@lucide/svelte";
 		})}
 	class="btn-create-form"
 >
-	<UserPlus size="20" />
+	<UserPlus size={20} />
 	<span>Nuevo Usuario</span>
 </button>
 

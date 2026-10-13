@@ -26,7 +26,7 @@ const user = $derived(page.data.user);
 			</p>
 		</div>
 		<div class="user-badge" data-role={user?.role}>
-			<ShieldCheck size="16" />
+			<ShieldCheck size={16} />
 			<span>Rol: {user?.role ?? "USUARIO"}</span>
 		</div>
 	</header>
@@ -34,7 +34,7 @@ const user = $derived(page.data.user);
 	<div class="stats-grid">
 		<div class="stat-card">
 			<div class="stat-icon-wrap primary">
-				<Users size="22" />
+				<Users size={22} />
 			</div>
 			<div class="stat-content">
 				<span class="stat-label">Gestión de Acceso</span>
@@ -47,7 +47,7 @@ const user = $derived(page.data.user);
 
 		<div class="stat-card">
 			<div class="stat-icon-wrap success">
-				<UserCheck size="22" />
+				<UserCheck size={22} />
 			</div>
 			<div class="stat-content">
 				<span class="stat-label">Sesión Actual</span>
@@ -58,7 +58,7 @@ const user = $derived(page.data.user);
 
 		<div class="stat-card">
 			<div class="stat-icon-wrap info">
-				<Activity size="22" />
+				<Activity size={22} />
 			</div>
 			<div class="stat-content">
 				<span class="stat-label">Estado del Servidor</span>
@@ -69,7 +69,7 @@ const user = $derived(page.data.user);
 
 		<div class="stat-card">
 			<div class="stat-icon-wrap warning">
-				<BookOpen size="22" />
+				<BookOpen size={22} />
 			</div>
 			<div class="stat-content">
 				<span class="stat-label">Documentación</span>

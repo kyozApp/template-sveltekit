@@ -83,7 +83,7 @@ const submitting = $derived(profileForm.pending > 0);
 				<label for="profile-name" class="form-label">Nombre Completo</label>
 				<div class="input-wrapper">
 					<span class="input-icon-left">
-						<User size="16" />
+						<User size={16} />
 					</span>
 					<input
 						{...fieldName.as("text", initialData.name)}
@@ -97,7 +97,7 @@ const submitting = $derived(profileForm.pending > 0);
 				</div>
 				{#if fieldName.issues()?.length}
 					<span class="field-error">
-						<CircleAlert size="14" />
+						<CircleAlert size={14} />
 						<span>{fieldName.issues()?.[0]?.message}</span>
 					</span>
 				{/if}
@@ -109,7 +109,7 @@ const submitting = $derived(profileForm.pending > 0);
 				>
 				<div class="input-wrapper">
 					<span class="input-icon-left">
-						<User size="16" />
+						<User size={16} />
 					</span>
 					<input
 						{...fieldUsername.as("text", initialData.username)}
@@ -123,7 +123,7 @@ const submitting = $derived(profileForm.pending > 0);
 				</div>
 				{#if fieldUsername.issues()?.length}
 					<span class="field-error">
-						<CircleAlert size="14" />
+						<CircleAlert size={14} />
 						<span>{fieldUsername.issues()?.[0]?.message}</span>
 					</span>
 				{/if}
@@ -133,7 +133,7 @@ const submitting = $derived(profileForm.pending > 0);
 				<label for="profile-email" class="form-label">Correo Electrónico</label>
 				<div class="input-wrapper">
 					<span class="input-icon-left">
-						<Mail size="16" />
+						<Mail size={16} />
 					</span>
 					<input
 						{...fieldEmail.as("text", initialData.email)}
@@ -147,7 +147,7 @@ const submitting = $derived(profileForm.pending > 0);
 				</div>
 				{#if fieldEmail.issues()?.length}
 					<span class="field-error">
-						<CircleAlert size="14" />
+						<CircleAlert size={14} />
 						<span>{fieldEmail.issues()?.[0]?.message}</span>
 					</span>
 				{/if}

@@ -71,7 +71,7 @@ const submitting = $derived(loginUser.pending > 0);
 			<label for="username" class="form-label">Usuario</label>
 			<div class="input-wrapper">
 				<span class="input-icon-left">
-					<User size="16" />
+					<User size={16} />
 				</span>
 				<input
 					{...fieldUsername.as("text")}
@@ -85,7 +85,7 @@ const submitting = $derived(loginUser.pending > 0);
 			</div>
 			{#if fieldUsername.issues()?.length}
 				<span class="field-error">
-					<CircleAlert size="14" />
+					<CircleAlert size={14} />
 					<span>{fieldUsername.issues()?.[0]?.message}</span>
 				</span>
 			{/if}
@@ -95,7 +95,7 @@ const submitting = $derived(loginUser.pending > 0);
 			<label for="password" class="form-label">Contraseña</label>
 			<div class="input-wrapper">
 				<span class="input-icon-left">
-					<Lock size="16" />
+					<Lock size={16} />
 				</span>
 				<input
 					{...fieldPassword.as(showPassword ? "text" : "password")}
@@ -116,15 +116,15 @@ const submitting = $derived(loginUser.pending > 0);
 					disabled={submitting}
 				>
 					{#if showPassword}
-						<EyeOff size="16" />
+						<EyeOff size={16} />
 					{:else}
-						<Eye size="16" />
+						<Eye size={16} />
 					{/if}
 				</button>
 			</div>
 			{#if fieldPassword.issues()?.length}
 				<span class="field-error">
-					<CircleAlert size="14" />
+					<CircleAlert size={14} />
 					<span>{fieldPassword.issues()?.[0]?.message}</span>
 				</span>
 			{/if}
@@ -134,10 +134,10 @@ const submitting = $derived(loginUser.pending > 0);
 	<button type="submit" disabled={submitting} class="submit-btn">
 		<span class="btn-inner">
 			{#if submitting}
-				<LoaderCircle size="18" class="spinner" />
+				<LoaderCircle size={18} class="spinner" />
 				<span>Autenticando...</span>
 			{:else}
-				<LogIn size="18" />
+				<LogIn size={18} />
 				<span>Iniciar Sesión</span>
 			{/if}
 		</span>

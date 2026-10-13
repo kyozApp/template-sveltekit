@@ -105,7 +105,7 @@ const submitting = $derived(updateForm.pending > 0);
 						>
 						<div class="input-wrapper">
 							<span class="input-icon-left">
-								<User size="16" />
+								<User size={16} />
 							</span>
 							<input
 								{...fieldName.as("text", details.name)}
@@ -119,7 +119,7 @@ const submitting = $derived(updateForm.pending > 0);
 						</div>
 						{#if fieldName.issues()?.length}
 							<span class="field-error">
-								<CircleAlert size="14" />
+								<CircleAlert size={14} />
 								<span>{fieldName.issues()?.[0]?.message}</span>
 							</span>
 						{/if}
@@ -131,7 +131,7 @@ const submitting = $derived(updateForm.pending > 0);
 						>
 						<div class="input-wrapper">
 							<span class="input-icon-left">
-								<User size="16" />
+								<User size={16} />
 							</span>
 							<input
 								{...fieldUsername.as("text", details.username)}
@@ -145,7 +145,7 @@ const submitting = $derived(updateForm.pending > 0);
 						</div>
 						{#if fieldUsername.issues()?.length}
 							<span class="field-error">
-								<CircleAlert size="14" />
+								<CircleAlert size={14} />
 								<span>{fieldUsername.issues()?.[0]?.message}</span>
 							</span>
 						{/if}
@@ -157,7 +157,7 @@ const submitting = $derived(updateForm.pending > 0);
 						>
 						<div class="input-wrapper">
 							<span class="input-icon-left">
-								<Mail size="16" />
+								<Mail size={16} />
 							</span>
 							<input
 								{...fieldEmail.as("text", details.email)}
@@ -171,7 +171,7 @@ const submitting = $derived(updateForm.pending > 0);
 						</div>
 						{#if fieldEmail.issues()?.length}
 							<span class="field-error">
-								<CircleAlert size="14" />
+								<CircleAlert size={14} />
 								<span>{fieldEmail.issues()?.[0]?.message}</span>
 							</span>
 						{/if}
@@ -183,7 +183,7 @@ const submitting = $derived(updateForm.pending > 0);
 						>
 						<div class="input-wrapper">
 							<span class="input-icon-left">
-								<Lock size="16" />
+								<Lock size={16} />
 							</span>
 							<input
 								{...fieldPassword.as(showPassword ? "text" : "password")}
@@ -204,15 +204,15 @@ const submitting = $derived(updateForm.pending > 0);
 								disabled={submitting}
 							>
 								{#if showPassword}
-									<EyeOff size="16" />
+									<EyeOff size={16} />
 								{:else}
-									<Eye size="16" />
+									<Eye size={16} />
 								{/if}
 							</button>
 						</div>
 						{#if fieldPassword.issues()?.length}
 							<span class="field-error">
-								<CircleAlert size="14" />
+								<CircleAlert size={14} />
 								<span>{fieldPassword.issues()?.[0]?.message}</span>
 							</span>
 						{/if}
@@ -232,7 +232,7 @@ const submitting = $derived(updateForm.pending > 0);
 						<input {...fieldRole.as("hidden", details.role)}>
 						<div class="static-role-display">
 							<span class="input-icon-left">
-								<Shield size="16" />
+								<Shield size={16} />
 							</span>
 							<span class="role-text">{ROLE_LABELS[details.role as Role]}</span>
 							<span class="role-badge">Rol protegido</span>
@@ -240,7 +240,7 @@ const submitting = $derived(updateForm.pending > 0);
 					{:else}
 						<div class="input-wrapper select-wrapper">
 							<span class="input-icon-left">
-								<Shield size="16" />
+								<Shield size={16} />
 							</span>
 							<select
 								{...fieldRole.as("select", details.role)}
@@ -256,7 +256,7 @@ const submitting = $derived(updateForm.pending > 0);
 						</div>
 						{#if fieldRole.issues()?.length}
 							<span class="field-error">
-								<CircleAlert size="14" />
+								<CircleAlert size={14} />
 								<span>{fieldRole.issues()?.[0]?.message}</span>
 							</span>
 						{/if}
@@ -266,7 +266,7 @@ const submitting = $derived(updateForm.pending > 0);
 				<div class="status-section">
 					<div class="status-icon-wrap">
 						<span class="status-icon">
-							<User size="16" />
+							<User size={16} />
 						</span>
 					</div>
 					<div class="status-info">

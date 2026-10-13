@@ -93,7 +93,7 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 					>
 					<div class="input-wrapper">
 						<span class="input-icon-left">
-							<User size="16" />
+							<User size={16} />
 						</span>
 						<input
 							{...fieldName.as("text")}
@@ -107,7 +107,7 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 					</div>
 					{#if fieldName.issues()?.length}
 						<span class="field-error">
-							<CircleAlert size="14" />
+							<CircleAlert size={14} />
 							<span>{fieldName.issues()?.[0]?.message}</span>
 						</span>
 					{/if}
@@ -119,7 +119,7 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 					>
 					<div class="input-wrapper">
 						<span class="input-icon-left">
-							<User size="16" />
+							<User size={16} />
 						</span>
 						<input
 							{...fieldUsername.as("text")}
@@ -133,7 +133,7 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 					</div>
 					{#if fieldUsername.issues()?.length}
 						<span class="field-error">
-							<CircleAlert size="14" />
+							<CircleAlert size={14} />
 							<span>{fieldUsername.issues()?.[0]?.message}</span>
 						</span>
 					{/if}
@@ -145,7 +145,7 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 					>
 					<div class="input-wrapper">
 						<span class="input-icon-left">
-							<Mail size="16" />
+							<Mail size={16} />
 						</span>
 						<input
 							{...fieldEmail.as("text")}
@@ -159,7 +159,7 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 					</div>
 					{#if fieldEmail.issues()?.length}
 						<span class="field-error">
-							<CircleAlert size="14" />
+							<CircleAlert size={14} />
 							<span>{fieldEmail.issues()?.[0]?.message}</span>
 						</span>
 					{/if}
@@ -171,7 +171,7 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 					>
 					<div class="input-wrapper">
 						<span class="input-icon-left">
-							<Lock size="16" />
+							<Lock size={16} />
 						</span>
 						<input
 							{...fieldPassword.as(showPassword ? "text" : "password")}
@@ -192,15 +192,15 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 							disabled={submitting}
 						>
 							{#if showPassword}
-								<EyeOff size="16" />
+								<EyeOff size={16} />
 							{:else}
-								<Eye size="16" />
+								<Eye size={16} />
 							{/if}
 						</button>
 					</div>
 					{#if fieldPassword.issues()?.length}
 						<span class="field-error">
-							<CircleAlert size="14" />
+							<CircleAlert size={14} />
 							<span>{fieldPassword.issues()?.[0]?.message}</span>
 						</span>
 					{/if}
@@ -211,7 +211,7 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 				<label for="user-create-role" class="form-label">Rol del Usuario</label>
 				<div class="input-wrapper select-wrapper">
 					<span class="input-icon-left">
-						<Shield size="16" />
+						<Shield size={16} />
 					</span>
 					<select
 						{...fieldRole.as("select", "")}
@@ -228,7 +228,7 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 				</div>
 				{#if fieldRole.issues()?.length}
 					<span class="field-error">
-						<CircleAlert size="14" />
+						<CircleAlert size={14} />
 						<span>{fieldRole.issues()?.[0]?.message}</span>
 					</span>
 				{/if}
@@ -237,7 +237,7 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 			<div class="status-section">
 				<div class="status-icon-wrap">
 					<span class="status-icon">
-						<User size="16" />
+						<User size={16} />
 					</span>
 				</div>
 				<div class="status-info">
@@ -275,10 +275,10 @@ const isActiveChecked = $derived(fieldIsActive.value() ?? true);
 			<button type="submit" disabled={submitting} class="submit-btn">
 				<span class="btn-inner">
 					{#if submitting}
-						<LoaderCircle size="18" class="spinner" />
+						<LoaderCircle size={18} class="spinner" />
 						<span>Guardando...</span>
 					{:else}
-						<UserPlus size="18" />
+						<UserPlus size={18} />
 						<span>Registrar Usuario</span>
 					{/if}
 				</span>

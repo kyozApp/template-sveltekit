@@ -198,11 +198,11 @@ $effect(() => {
 				<div class="sonner-content">
 					<div class="icon-wrapper">
 						{#if toast.type === "success"}
-							<CircleCheck size="20" />
+							<CircleCheck size={20} />
 						{:else if toast.type === "warning"}
-							<TriangleAlert size="20" />
+							<TriangleAlert size={20} />
 						{:else}
-							<CircleX size="20" />
+							<CircleX size={20} />
 						{/if}
 					</div>
 					<div class="sonner-body">
@@ -223,7 +223,7 @@ $effect(() => {
 						onclick={() => notifications.closeToast(toast.id)}
 						aria-label="Cerrar notificación"
 					>
-						<X size="16" />
+						<X size={16} />
 					</button>
 				</div>
 				<div
@@ -256,11 +256,11 @@ $effect(() => {
 				<div class="alert-header">
 					<div class="icon-wrapper">
 						{#if notifications.alert.type === "success"}
-							<CircleCheck size="36" />
+							<CircleCheck size={36} />
 						{:else if notifications.alert.type === "warning"}
-							<TriangleAlert size="36" />
+							<TriangleAlert size={36} />
 						{:else}
-							<CircleX size="36" />
+							<CircleX size={36} />
 						{/if}
 					</div>
 					<h2 id="alert-title" class="alert-title">
@@ -309,7 +309,7 @@ $effect(() => {
 
 				<div class="alert-header">
 					<div class="icon-wrapper">
-						<TriangleAlert size="36" />
+						<TriangleAlert size={36} />
 					</div>
 					<h2 id="confirm-title" class="alert-title">
 						{notifications.confirmState.title}

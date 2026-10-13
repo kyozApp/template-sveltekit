@@ -89,7 +89,7 @@ const submitting = $derived(passwordForm.pending > 0);
 				>
 				<div class="input-wrapper">
 					<span class="input-icon-left">
-						<Lock size="16" />
+						<Lock size={16} />
 					</span>
 					<input
 						{...fieldCurrent.as(showCurrent ? "text" : "password")}
@@ -110,15 +110,15 @@ const submitting = $derived(passwordForm.pending > 0);
 						disabled={submitting}
 					>
 						{#if showCurrent}
-							<EyeOff size="16" />
+							<EyeOff size={16} />
 						{:else}
-							<Eye size="16" />
+							<Eye size={16} />
 						{/if}
 					</button>
 				</div>
 				{#if fieldCurrent.issues()?.length}
 					<span class="field-error">
-						<CircleAlert size="14" />
+						<CircleAlert size={14} />
 						<span>{fieldCurrent.issues()?.[0]?.message}</span>
 					</span>
 				{/if}
@@ -130,7 +130,7 @@ const submitting = $derived(passwordForm.pending > 0);
 				>
 				<div class="input-wrapper">
 					<span class="input-icon-left">
-						<KeyRound size="16" />
+						<KeyRound size={16} />
 					</span>
 					<input
 						{...fieldNew.as(showNew ? "text" : "password")}
@@ -151,15 +151,15 @@ const submitting = $derived(passwordForm.pending > 0);
 						disabled={submitting}
 					>
 						{#if showNew}
-							<EyeOff size="16" />
+							<EyeOff size={16} />
 						{:else}
-							<Eye size="16" />
+							<Eye size={16} />
 						{/if}
 					</button>
 				</div>
 				{#if fieldNew.issues()?.length}
 					<span class="field-error">
-						<CircleAlert size="14" />
+						<CircleAlert size={14} />
 						<span>{fieldNew.issues()?.[0]?.message}</span>
 					</span>
 				{/if}
@@ -171,7 +171,7 @@ const submitting = $derived(passwordForm.pending > 0);
 				>
 				<div class="input-wrapper">
 					<span class="input-icon-left">
-						<ShieldCheck size="16" />
+						<ShieldCheck size={16} />
 					</span>
 					<input
 						{...fieldConfirm.as(showConfirm ? "text" : "password")}
@@ -192,15 +192,15 @@ const submitting = $derived(passwordForm.pending > 0);
 						disabled={submitting}
 					>
 						{#if showConfirm}
-							<EyeOff size="16" />
+							<EyeOff size={16} />
 						{:else}
-							<Eye size="16" />
+							<Eye size={16} />
 						{/if}
 					</button>
 				</div>
 				{#if fieldConfirm.issues()?.length}
 					<span class="field-error">
-						<CircleAlert size="14" />
+						<CircleAlert size={14} />
 						<span>{fieldConfirm.issues()?.[0]?.message}</span>
 					</span>
 				{/if}

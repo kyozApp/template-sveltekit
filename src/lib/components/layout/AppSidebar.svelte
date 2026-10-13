@@ -45,7 +45,7 @@ let { isSidebarOpen = $bindable() }: Props = $props();
 				onclick={() => (isSidebarOpen = false)}
 				aria-label="Cerrar menú"
 			>
-				<X size="20" />
+				<X size={20} />
 			</button>
 		{/if}
 	</div>
