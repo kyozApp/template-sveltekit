@@ -1,5 +1,5 @@
 <script lang="ts">
-import { fade, fly, scale } from "svelte/transition";
+import { fly, scale } from "svelte/transition";
 
 import { CircleCheck, CircleX, TriangleAlert, X } from "@lucide/svelte";
 
@@ -15,10 +15,12 @@ const positions: ToastPosition[] = [
 	"bottom-center",
 ];
 
-// Referencias de elementos DOM para promoverlos a la Top Layer (Popover API)
+// Referencias de elementos DOM para promover los toasts a la Top Layer (Popover API)
 let toastPopoverEls = $state<Record<string, HTMLElement>>({});
-let alertPopoverEl = $state<HTMLElement>();
-let confirmPopoverEl = $state<HTMLElement>();
+
+// Diálogos modales nativos para Alertas y Confirmaciones (Top Layer nativo con apilamiento seguro)
+let alertDialogEl = $state<HTMLDialogElement>();
+let confirmDialogEl = $state<HTMLDialogElement>();
 
 // Sincroniza los contenedores de toasts con la Popover API de forma reactiva
 $effect(() => {
@@ -35,8 +37,7 @@ $effect(() => {
 					}
 					el.showPopover();
 				} catch {
-					// Ignora excepciones si el navegador ya maneja el estado del
-					// popover o si se está desmontando
+					// Ignora excepciones si el navegador ya maneja el estado del popover
 				}
 			} else {
 				try {
@@ -44,72 +45,57 @@ $effect(() => {
 						el.hidePopover();
 					}
 				} catch {
-					// Ignora excepciones al intentar cerrar el popover si el
-					// navegador ya lo hizo automáticamente
+					// Ignora excepciones al intentar cerrar el popover
 				}
 			}
 		}
 	}
 });
 
-// Sincroniza el modal de Alerta con la Popover API de forma reactiva
+// Sincroniza el modal de Alerta como <dialog> nativo con showModal()
 $effect(() => {
 	if (notifications.alert.show) {
 		try {
-			if (alertPopoverEl?.matches(":popover-open")) {
-				alertPopoverEl.hidePopover();
+			if (alertDialogEl && !alertDialogEl.open) {
+				alertDialogEl.showModal();
 			}
-			alertPopoverEl?.showPopover();
-		} catch {
-			try {
-				alertPopoverEl?.showPopover();
-			} catch {
-				// Ignora excepciones de estado del popover de alerta al forzar
-				// su apertura
-			}
+		} catch (e) {
+			console.error("[ALERT MODAL ERROR]", e);
 		}
 	} else {
 		try {
-			if (alertPopoverEl?.matches(":popover-open")) {
-				alertPopoverEl.hidePopover();
+			if (alertDialogEl?.open) {
+				alertDialogEl.close();
 			}
-		} catch {
-			// Ignora excepciones del navegador al cerrar la alerta
+		} catch (e) {
+			console.error("[ALERT CLOSE ERROR]", e);
 		}
 	}
 });
 
-// Sincroniza el modal de Confirmación con la Popover API de forma reactiva
+// Sincroniza el modal de Confirmación como <dialog> nativo con showModal()
 $effect(() => {
 	if (notifications.confirmState.show) {
 		try {
-			if (confirmPopoverEl?.matches(":popover-open")) {
-				confirmPopoverEl.hidePopover();
+			if (confirmDialogEl && !confirmDialogEl.open) {
+				confirmDialogEl.showModal();
 			}
-			confirmPopoverEl?.showPopover();
-		} catch {
-			try {
-				confirmPopoverEl?.showPopover();
-			} catch {
-				// Ignora excepciones de estado del popover de confirmación al
-				// forzar su apertura
-			}
+		} catch (e) {
+			console.error("[CONFIRM MODAL ERROR]", e);
 		}
 	} else {
 		try {
-			if (confirmPopoverEl?.matches(":popover-open")) {
-				confirmPopoverEl.hidePopover();
+			if (confirmDialogEl?.open) {
+				confirmDialogEl.close();
 			}
-		} catch {
-			// Ignora excepciones del navegador al cerrar la confirmación
+		} catch (e) {
+			console.error("[CONFIRM CLOSE ERROR]", e);
 		}
 	}
 });
 
-// Re-promueve todas las notificaciones activas al frente de la Top Layer
+// Re-promueve los popovers de toasts al frente cuando se abre cualquier diálogo
 const repromoteActivePopovers = () => {
-	// Pequeño retardo de 10ms para permitir que el diálogo modal termine de
-	// registrarse en la Top Layer
 	setTimeout(() => {
 		for (const pos of positions) {
 			const el = toastPopoverEls[pos];
@@ -125,34 +111,10 @@ const repromoteActivePopovers = () => {
 				}
 			}
 		}
-
-		// También re-promover el modal de alerta si está activo
-		if (notifications.alert.show && alertPopoverEl?.matches(":popover-open")) {
-			try {
-				alertPopoverEl.hidePopover();
-				alertPopoverEl.showPopover();
-			} catch {
-				// Ignorar excepciones al re-promover el popover de alerta
-			}
-		}
-
-		// También re-promover el modal de confirmación si está activo
-		if (
-			notifications.confirmState.show &&
-			confirmPopoverEl?.matches(":popover-open")
-		) {
-			try {
-				confirmPopoverEl.hidePopover();
-				confirmPopoverEl.showPopover();
-			} catch {
-				// Ignorar excepciones al re-promover el popover de confirmación
-			}
-		}
 	}, 10);
 };
 
-// Observador global para reposicionar las notificaciones al frente cuando
-// se abre o cierra cualquier <dialog> (modal)
+// Observador global para reposicionar los toasts al frente cuando se abre o cierra cualquier <dialog>
 $effect(() => {
 	if (typeof document === "undefined") return;
 
@@ -235,132 +197,133 @@ $effect(() => {
 	</div>
 {/each}
 
-<!-- Contenedor del Alert (Modal central, no se oculta hasta dar clic) -->
-<div bind:this={alertPopoverEl} popover="manual" class="alert-popover">
+<!-- Diálogo modal de Alerta (Top Layer nativo) -->
+<dialog
+	bind:this={alertDialogEl}
+	class="alert-dialog"
+	oncancel={(e) => {
+		e.preventDefault();
+		notifications.closeAlert();
+	}}
+>
 	{#if notifications.alert.show}
 		<div
-			class="alert-backdrop"
-			transition:fade={{ duration: 250 }}
-			role="presentation"
+			class="alert-modal alert-{notifications.alert.type}"
+			transition:scale={{ start: 0.9, duration: 250 }}
+			role="alertdialog"
+			aria-modal="true"
+			aria-labelledby="alert-title"
+			aria-describedby="alert-desc"
 		>
-			<div
-				class="alert-modal alert-{notifications.alert.type}"
-				transition:scale={{ start: 0.9, duration: 250 }}
-				role="alertdialog"
-				aria-modal="true"
-				aria-labelledby="alert-title"
-				aria-describedby="alert-desc"
-			>
-				<div class="alert-glow"></div>
+			<div class="alert-glow"></div>
 
-				<div class="alert-header">
-					<div class="icon-wrapper">
-						{#if notifications.alert.type === "success"}
-							<CircleCheck size={36} />
-						{:else if notifications.alert.type === "warning"}
-							<TriangleAlert size={36} />
-						{:else}
-							<CircleX size={36} />
-						{/if}
-					</div>
-					<h2 id="alert-title" class="alert-title">
-						{notifications.alert.title}
-					</h2>
+			<div class="alert-header">
+				<div class="icon-wrapper">
+					{#if notifications.alert.type === "success"}
+						<CircleCheck size={36} />
+					{:else if notifications.alert.type === "warning"}
+						<TriangleAlert size={36} />
+					{:else}
+						<CircleX size={36} />
+					{/if}
 				</div>
+				<h2 id="alert-title" class="alert-title">
+					{notifications.alert.title}
+				</h2>
+			</div>
 
-				<div class="alert-body">
-					<p id="alert-desc" class="alert-message">
-						{notifications.alert.message}
-					</p>
-				</div>
+			<div class="alert-body">
+				<p id="alert-desc" class="alert-message">
+					{notifications.alert.message}
+				</p>
+			</div>
 
-				<div class="alert-actions">
-					<button
-						type="button"
-						class="btn-alert-confirm"
-						onclick={() => notifications.closeAlert()}
-					>
-						Entendido
-					</button>
-				</div>
+			<div class="alert-actions">
+				<button
+					type="button"
+					class="btn-alert-confirm"
+					onclick={() => notifications.closeAlert()}
+				>
+					Entendido
+				</button>
 			</div>
 		</div>
 	{/if}
-</div>
+</dialog>
 
-<!-- Contenedor del Confirm Alert
-     (Modal de confirmación asíncrono con Cancelar/Aceptar) -->
-<div bind:this={confirmPopoverEl} popover="manual" class="alert-popover">
+<!-- Diálogo modal de Confirmación (Top Layer nativo con Cancelar/Aceptar) -->
+<dialog
+	bind:this={confirmDialogEl}
+	class="alert-dialog"
+	oncancel={(e) => {
+		e.preventDefault();
+		notifications.resolveConfirm(false);
+	}}
+>
 	{#if notifications.confirmState.show}
 		<div
-			class="alert-backdrop"
-			transition:fade={{ duration: 250 }}
-			role="presentation"
+			class="alert-modal alert-warning"
+			transition:scale={{ start: 0.9, duration: 250 }}
+			role="alertdialog"
+			aria-modal="true"
+			aria-labelledby="confirm-title"
+			aria-describedby="confirm-desc"
 		>
-			<div
-				class="alert-modal alert-warning"
-				transition:scale={{ start: 0.9, duration: 250 }}
-				role="alertdialog"
-				aria-modal="true"
-				aria-labelledby="confirm-title"
-				aria-describedby="confirm-desc"
-			>
-				<div class="alert-glow"></div>
+			<div class="alert-glow"></div>
 
-				<div class="alert-header">
-					<div class="icon-wrapper">
-						<TriangleAlert size={36} />
-					</div>
-					<h2 id="confirm-title" class="alert-title">
-						{notifications.confirmState.title}
-					</h2>
+			<div class="alert-header">
+				<div class="icon-wrapper">
+					<TriangleAlert size={36} />
 				</div>
+				<h2 id="confirm-title" class="alert-title">
+					{notifications.confirmState.title}
+				</h2>
+			</div>
 
-				<div class="alert-body">
-					<p id="confirm-desc" class="alert-message">
-						{notifications.confirmState.message}
-					</p>
-				</div>
+			<div class="alert-body">
+				<p id="confirm-desc" class="alert-message">
+					{notifications.confirmState.message}
+				</p>
+			</div>
 
-				<div class="alert-actions confirm-buttons-layout">
-					<button
-						type="button"
-						class="btn-confirm-cancel"
-						onclick={() => notifications.resolveConfirm(false)}
-					>
-						Cancelar
-					</button>
-					<button
-						type="button"
-						class="btn-confirm-accept"
-						onclick={() => notifications.resolveConfirm(true)}
-					>
-						Aceptar
-					</button>
-				</div>
+			<div class="alert-actions confirm-buttons-layout">
+				<button
+					type="button"
+					class="btn-confirm-cancel"
+					onclick={() => notifications.resolveConfirm(false)}
+				>
+					Cancelar
+				</button>
+				<button
+					type="button"
+					class="btn-confirm-accept"
+					onclick={() => notifications.resolveConfirm(true)}
+				>
+					Aceptar
+				</button>
 			</div>
 		</div>
 	{/if}
-</div>
+</dialog>
 
 <style>
-.alert-popover {
-	&[popover] {
-		inset: 0;
+.alert-dialog {
+	padding: 0;
+	margin: auto;
+	overflow: visible;
+	outline: none;
+	background: transparent;
+	border: none;
 
-		width: 100dvw;
-		height: 100dvh;
-		padding: 0;
-		margin: 0;
-
-		overflow: hidden;
-
-		background: transparent;
-		border: none;
+	&::backdrop {
+		background-color: oklch(18% 0.03 260 / 0.6);
+		backdrop-filter: blur(12px);
 	}
 
-	&:popover-open {
-		display: block;
+	&[open] {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 }
 
@@ -740,21 +703,6 @@ $effect(() => {
 	background-color: oklch(62% 0.25 35);
 }
 
-.alert-backdrop {
-	position: fixed;
-	inset: 0;
-	z-index: var(--z-modal);
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	padding: 1.5rem;
-
-	background-color: oklch(18% 0.03 260 / 0.6);
-	backdrop-filter: blur(12px);
-}
-
 .alert-modal {
 	position: relative;
 	display: flex;
@@ -768,18 +716,16 @@ $effect(() => {
 	overflow: hidden;
 
 	color: light-dark(oklch(20% 0.02 255), oklch(98% 0.01 255));
-	text-align: center;
-
-	background: light-dark(oklch(100% 0 0), oklch(25% 0.03 255));
+	background: light-dark(oklch(100% 0 0 / 0.95), oklch(20% 0.03 255 / 0.95));
 	border-radius: 20px;
-
-	transition:
-		border-color 0.25s ease,
-		box-shadow 0.25s ease;
+	box-shadow:
+		0 25px 50px -12px oklch(0% 0 0 / 0.35),
+		0 0 40px oklch(0% 0 0 / 0.1);
+	backdrop-filter: blur(20px);
 
 	&.alert-success {
 		border: 1px solid
-			light-dark(oklch(72% 0.2 142 / 0.4), oklch(72% 0.2 142 / 0.3));
+			light-dark(oklch(72% 0.2 142 / 0.35), oklch(72% 0.2 142 / 0.3));
 		box-shadow:
 			0 25px 50px -12px oklch(0% 0 0 / 0.25),
 			0 0 35px light-dark(oklch(72% 0.2 142 / 0.08), oklch(72% 0.2 142 / 0.15));
@@ -787,7 +733,7 @@ $effect(() => {
 
 	&.alert-warning {
 		border: 1px solid
-			light-dark(oklch(76% 0.18 78 / 0.4), oklch(76% 0.18 78 / 0.3));
+			light-dark(oklch(76% 0.18 78 / 0.35), oklch(76% 0.18 78 / 0.3));
 		box-shadow:
 			0 25px 50px -12px oklch(0% 0 0 / 0.25),
 			0 0 35px light-dark(oklch(76% 0.18 78 / 0.08), oklch(76% 0.18 78 / 0.15));
@@ -795,7 +741,7 @@ $effect(() => {
 
 	&.alert-error {
 		border: 1px solid
-			light-dark(oklch(62% 0.25 35 / 0.4), oklch(62% 0.25 35 / 0.3));
+			light-dark(oklch(62% 0.25 35 / 0.35), oklch(62% 0.25 35 / 0.3));
 		box-shadow:
 			0 25px 50px -12px oklch(0% 0 0 / 0.25),
 			0 0 35px light-dark(oklch(62% 0.25 35 / 0.08), oklch(62% 0.25 35 / 0.15));
