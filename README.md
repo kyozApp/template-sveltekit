@@ -21,9 +21,11 @@ cd mi-app
 ### 2. Personalizar la plantilla
 
 1. En **`package.json`**, actualiza el campo `"name"` con el nombre de tu proyecto.
-2. En tu editor, presiona `Ctrl + Shift + F` (búsqueda global) y reemplaza estos 2 valores:
+2. En tu editor, presiona `Ctrl + Shift + F` (búsqueda global) y reemplaza estos valores:
    - **`mi-app`**: Nombre de la carpeta de tu proyecto.
    - **`template_sveltekit_db`**: Nombre de tu base de datos en PostgreSQL.
+   - **`template_sveltekit_prod`**: Nombre del proyecto en Podman Compose (`compose.yaml`).
+   - **`template_sveltekit_prod_db`**: Nombre del contenedor de base de datos en producción.
 
 ### 3. Continuar en desarrollo local
 
