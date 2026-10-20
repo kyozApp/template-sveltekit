@@ -33,13 +33,21 @@
 			"tab_size": 2,
 			"hard_tabs": true,
 			"prettier": { "allowed": false },
-			"formatter": { "language_server": { "name": "biome" } }
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
 		},
 		"TypeScript": {
 			"tab_size": 2,
 			"hard_tabs": true,
 			"prettier": { "allowed": false },
-			"formatter": { "language_server": { "name": "biome" } }
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
 		},
 		// "Svelte": {
 		// 	"tab_size": 2,
@@ -49,6 +57,15 @@
 		// 		"source.fixAll.biome": true
 		// 	}
 		// }
+		// "Svelte": {
+		// 	"tab_size": 2,
+		// 	"hard_tabs": true,
+		// 	"prettier": {
+		// 		"allowed": true,
+		// 		"plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"]
+		// 	},
+		// 	"formatter": "prettier"
+		// }
 		"Svelte": {
 			"tab_size": 2,
 			"hard_tabs": true,
@@ -56,7 +73,12 @@
 				"allowed": true,
 				"plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"]
 			},
-			"formatter": "prettier"
+			"formatter": [
+				"prettier",
+				{ "code_action": "source.fixAll.biome" },
+				{ "code_action": "source.organizeImports.biome" },
+				{ "language_server": { "name": "biome" } }
+			]
 		}
 	},
 	"lsp": {
