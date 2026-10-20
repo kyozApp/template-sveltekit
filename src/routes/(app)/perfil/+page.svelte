@@ -48,7 +48,7 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 			class="flex flex-col items-start gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:gap-5 sm:p-7 dark:border-zinc-800 dark:bg-zinc-900"
 		>
 			<div
-				class="flex size-17 shrink-0 items-center justify-center rounded-2xl border-2 border-blue-200 bg-linear-to-br from-blue-100 to-blue-200 text-xl font-extrabold tracking-wide text-blue-700 dark:border-blue-800 dark:from-blue-950/60 dark:to-blue-900/40 dark:text-blue-300"
+				class="flex size-17 shrink-0 items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 text-xl font-extrabold tracking-wide text-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
 			>
 				<span>{initials}</span>
 			</div>
@@ -63,7 +63,7 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 						class={[
 							"inline-flex items-center justify-center rounded-full px-2.5 py-1 text-xs font-bold tracking-wider uppercase",
 							user.role === "ADMIN"
-								? "bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300"
+								? "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200"
 								: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300",
 						]}
 					>
@@ -73,7 +73,7 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 				<p
 					class="flex flex-wrap items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400"
 				>
-					<span class="font-mono font-semibold text-blue-600 dark:text-blue-400"
+					<span class="font-mono font-semibold text-zinc-800 dark:text-zinc-200"
 						>@{user.username}</span
 					>
 					<span class="text-zinc-300 dark:text-zinc-600">•</span>
@@ -91,7 +91,7 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 				class={[
 					"inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-150",
 					activeTab === "info"
-						? "bg-white text-blue-600 shadow-sm dark:bg-zinc-800 dark:text-blue-400"
+						? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
 						: "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100",
 				]}
 				onclick={() => handleSelectTab("info")}
@@ -104,7 +104,7 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 				class={[
 					"inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-150",
 					activeTab === "security"
-						? "bg-white text-blue-600 shadow-sm dark:bg-zinc-800 dark:text-blue-400"
+						? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
 						: "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100",
 				]}
 				onclick={() => handleSelectTab("security")}
@@ -117,7 +117,7 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 				class={[
 					"inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-150",
 					activeTab === "sessions"
-						? "bg-white text-blue-600 shadow-sm dark:bg-zinc-800 dark:text-blue-400"
+						? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
 						: "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100",
 				]}
 				onclick={() => handleSelectTab("sessions")}
@@ -155,7 +155,7 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 				class="flex min-h-80 flex-col items-center justify-center gap-2.5 p-8"
 			>
 				<div
-					class="flex size-14 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-blue-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-blue-400"
+					class="flex size-14 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300"
 				>
 					<LoaderCircle size={24} class="animate-spin" />
 				</div>

@@ -35,7 +35,7 @@ const handleOpenCreateModal = () => {
 	>
 		<div class="flex min-w-60 flex-1 flex-col gap-1.5">
 			<span
-				class="inline-flex items-center gap-1.5 self-start text-sm font-bold tracking-wider text-blue-600 uppercase dark:text-blue-400"
+				class="inline-flex items-center gap-1.5 self-start text-sm font-bold tracking-wider text-zinc-700 uppercase dark:text-zinc-300"
 			>
 				<Shield size={14} />
 				Gestión de Accesos
@@ -54,7 +54,7 @@ const handleOpenCreateModal = () => {
 			<button
 				type="button"
 				onclick={handleOpenCreateModal}
-				class="inline-flex w-full min-w-44 cursor-pointer items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-zinc-100 px-5 py-3 text-sm font-bold tracking-wide text-zinc-700 transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 md:w-auto dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-blue-700 dark:hover:bg-blue-950/40 dark:hover:text-blue-300"
+				class="inline-flex w-full min-w-44 cursor-pointer items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-zinc-100 px-5 py-3 text-sm font-bold tracking-wide text-zinc-700 transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-200 hover:text-zinc-900 md:w-auto dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
 			>
 				<UserPlus size={18} />
 				<span>Nuevo Usuario</span>

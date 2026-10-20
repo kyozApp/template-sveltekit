@@ -318,13 +318,6 @@ const handleFormInput = () => {
 								<option value="ADMIN">Administrador</option>
 								<option value="USER">Usuario</option>
 							</select>
-							<div
-								class="pointer-events-none absolute right-4 flex items-center text-zinc-400"
-							>
-								<span
-									class="size-2 rotate-45 border-r-2 border-b-2 border-zinc-500 dark:border-zinc-400"
-								></span>
-							</div>
 						</div>
 						{#if fieldRole.issues()?.length}
 							<span
@@ -420,7 +413,7 @@ const handleFormInput = () => {
 				</button>
 				<button
 					type="submit"
-					class="flex min-w-44 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border border-blue-600 bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:not-disabled:border-blue-700 hover:not-disabled:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70 sm:flex-initial dark:border-blue-500 dark:bg-blue-500 dark:hover:not-disabled:border-blue-600 dark:hover:not-disabled:bg-blue-600"
+					class="flex min-w-44 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-800 px-6 py-3 text-sm font-bold text-zinc-100 transition-all duration-200 hover:not-disabled:border-zinc-700 hover:not-disabled:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-70 sm:flex-initial dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:not-disabled:border-zinc-600 dark:hover:not-disabled:bg-zinc-700"
 					disabled={submitting}
 				>
 					{#if submitting}
@@ -441,7 +434,7 @@ const handleFormInput = () => {
 		>
 			<LoaderCircle
 				size={32}
-				class="animate-spin text-blue-600 dark:text-blue-400"
+				class="animate-spin text-zinc-600 dark:text-zinc-400"
 			/>
 			<span class="text-sm font-medium">Cargando datos del usuario...</span>
 		</div>

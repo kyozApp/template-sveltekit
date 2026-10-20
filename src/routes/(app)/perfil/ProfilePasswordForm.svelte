@@ -266,7 +266,7 @@ const handleFormInput = () => {
 		<div class="flex justify-end pt-1">
 			<button
 				type="submit"
-				class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-blue-600 bg-blue-600 px-5 py-2.5 text-xs font-bold text-white transition-all duration-200 hover:not-disabled:border-blue-700 hover:not-disabled:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60 dark:border-blue-500 dark:bg-blue-600 dark:hover:not-disabled:border-blue-600 dark:hover:not-disabled:bg-blue-500"
+				class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-800 px-5 py-2.5 text-xs font-bold text-zinc-100 transition-all duration-200 hover:not-disabled:border-zinc-700 hover:not-disabled:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:not-disabled:border-zinc-600 dark:hover:not-disabled:bg-zinc-700"
 				disabled={submitting}
 				aria-label="Actualizar contraseña"
 			>

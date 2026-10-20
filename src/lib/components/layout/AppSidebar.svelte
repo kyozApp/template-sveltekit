@@ -49,7 +49,7 @@ const handleCloseSidebar = () => {
 			in:fly={{ y: 4, duration: 300 }}
 		>
 			<span
-				class="flex items-center justify-center text-blue-600 dark:text-blue-400"
+				class="flex items-center justify-center text-zinc-900 dark:text-zinc-100"
 			>
 				<Layers size={24} />
 			</span>
@@ -90,7 +90,7 @@ const handleCloseSidebar = () => {
 				"group relative flex items-center gap-3.5 rounded-xl text-sm font-semibold no-underline transition-colors duration-150",
 				isSidebarOpen ? "px-4 py-3" : "justify-center py-3 md:px-0",
 				page.url.pathname.startsWith("/dashboard")
-					? "bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400"
+					? "bg-zinc-100 font-bold text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
 					: "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
 			]}
 			data-tooltip={!isSidebarOpen ? "Dashboard" : undefined}
@@ -112,7 +112,7 @@ const handleCloseSidebar = () => {
 					"group relative flex items-center gap-3.5 rounded-xl text-sm font-semibold no-underline transition-colors duration-150",
 					isSidebarOpen ? "px-4 py-3" : "justify-center py-3 md:px-0",
 					page.url.pathname.startsWith("/usuarios")
-						? "bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400"
+						? "bg-zinc-100 font-bold text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
 						: "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
 				]}
 				data-tooltip={!isSidebarOpen ? "Usuarios" : undefined}
@@ -134,7 +134,7 @@ const handleCloseSidebar = () => {
 				"group relative flex items-center gap-3.5 rounded-xl text-sm font-semibold no-underline transition-colors duration-150",
 				isSidebarOpen ? "px-4 py-3" : "justify-center py-3 md:px-0",
 				page.url.pathname.startsWith("/manual")
-					? "bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400"
+					? "bg-zinc-100 font-bold text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
 					: "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
 			]}
 			data-tooltip={!isSidebarOpen ? "Centro de Ayuda" : undefined}

@@ -61,7 +61,7 @@ const faqs = [
 		>
 			<div class="flex items-center gap-3">
 				<span
-					class="flex size-10 shrink-0 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-900/60 dark:bg-blue-950/40 dark:text-blue-400"
+					class="flex size-10 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
 				>
 					<Sun size={20} />
 				</span>
@@ -126,7 +126,7 @@ const faqs = [
 		>
 			<div class="flex items-center gap-3">
 				<span
-					class="flex size-10 shrink-0 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white shadow-xs dark:bg-blue-500"
+					class="flex size-10 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-xs font-bold text-zinc-800 shadow-xs dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
 				>
 					US
 				</span>
@@ -261,7 +261,7 @@ const faqs = [
 		>
 			<div class="flex items-center gap-3">
 				<span
-					class="flex size-10 shrink-0 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-900/60 dark:bg-blue-950/40 dark:text-blue-400"
+					class="flex size-10 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
 				>
 					<PanelLeft size={20} />
 				</span>
@@ -324,10 +324,10 @@ const faqs = [
 		<div class="flex flex-col gap-3">
 			{#each faqs as { q, a }}
 				<details
-					class="group overflow-hidden rounded-2xl border border-zinc-200 bg-white transition-colors duration-150 open:border-blue-300 dark:border-zinc-800 dark:bg-zinc-900 dark:open:border-blue-700"
+					class="group overflow-hidden rounded-2xl border border-zinc-200 bg-white transition-colors duration-150 open:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900 dark:open:border-zinc-600"
 				>
 					<summary
-						class="flex cursor-pointer list-none items-center justify-between p-4 text-sm font-bold text-zinc-900 transition-colors duration-150 outline-none select-none hover:text-blue-600 sm:p-5 dark:text-zinc-100 dark:hover:text-blue-400 [&::-webkit-details-marker]:hidden"
+						class="flex cursor-pointer list-none items-center justify-between p-4 text-sm font-bold text-zinc-900 transition-colors duration-150 outline-none select-none hover:text-zinc-600 sm:p-5 dark:text-zinc-100 dark:hover:text-zinc-300 [&::-webkit-details-marker]:hidden"
 					>
 						<span>{q}</span>
 						<span

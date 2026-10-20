@@ -107,17 +107,17 @@ $effect(() => {
 >
 	{#if navigating.to}
 		<div
-			class="fixed top-0 left-0 z-50 h-0.5 w-full bg-blue-500/20 dark:bg-blue-400/20"
+			class="fixed top-0 left-0 z-50 h-0.5 w-full bg-zinc-300 dark:bg-zinc-700"
 		>
 			<div
-				class="h-full w-full origin-left animate-pulse bg-blue-600 dark:bg-blue-400"
+				class="h-full w-full origin-left animate-pulse bg-zinc-900 dark:bg-zinc-100"
 			></div>
 		</div>
 	{/if}
 
 	<AppSidebar bind:isSidebarOpen user={data.user} />
 
-	<!-- ─── CONTENEDOR PRINCIPAL DERECHO ────────────────────────────── -->
+	<!-- ─── CONTENEDOR PRINCIPAL DERECHO ────────────────────────── -->
 	<div class="flex h-dvh min-w-0 flex-1 flex-col">
 		<AppHeader bind:isSidebarOpen user={data.user} />
 

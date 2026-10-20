@@ -88,8 +88,8 @@ $effect(() => {
 		class={[
 			"group inline-flex cursor-pointer items-center justify-center rounded-full border-2 border-transparent p-0.5 transition-all duration-150",
 			isOpen
-				? "border-blue-400 dark:border-blue-600"
-				: "hover:border-blue-400 dark:hover:border-blue-600",
+				? "border-zinc-400 dark:border-zinc-600"
+				: "hover:border-zinc-400 dark:hover:border-zinc-600",
 		]}
 		onclick={handleToggleMenu}
 		aria-haspopup="menu"
@@ -98,7 +98,7 @@ $effect(() => {
 	>
 		<span
 			class={[
-				"flex size-9 items-center justify-center rounded-full border border-blue-200 bg-blue-100 text-xs font-bold text-blue-700 transition-all duration-150 dark:border-blue-900 dark:bg-blue-950/60 dark:text-blue-300",
+				"flex size-9 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-xs font-bold text-zinc-800 transition-all duration-150 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200",
 				isOpen
 					? "scale-105 shadow-md"
 					: "group-hover:scale-105 group-hover:shadow-md",
@@ -119,7 +119,7 @@ $effect(() => {
 			<!-- Tarjeta de Identidad -->
 			<div class="flex items-center gap-3 p-4">
 				<div
-					class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-sm font-extrabold text-blue-700 dark:bg-blue-950/60 dark:text-blue-300"
+					class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-zinc-100 text-sm font-extrabold text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200"
 				>
 					{initials}
 				</div>
@@ -137,7 +137,7 @@ $effect(() => {
 							class={[
 								"inline-flex rounded-full px-2 py-0.5 text-xs font-bold tracking-wider uppercase",
 								user.role === "ADMIN"
-									? "bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300"
+									? "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200"
 									: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300",
 							]}
 						>
@@ -184,18 +184,17 @@ $effect(() => {
 			<div class="p-1.5">
 				<button
 					type="button"
-					class="flex w-full cursor-pointer items-center gap-2.5 rounded-lg border-none bg-transparent px-3 py-2 text-xs font-semibold text-red-600 transition-colors duration-150 hover:bg-red-50 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-60 dark:text-red-400 dark:hover:bg-red-950/30 dark:hover:text-red-300"
-					role="menuitem"
+					class="flex w-full cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-red-600 transition-colors duration-150 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 dark:text-red-400 dark:hover:bg-red-950/30"
 					onclick={handleLogout}
 					disabled={isSubmitting}
-					aria-label="Cerrar sesión"
+					role="menuitem"
 				>
 					{#if isSubmitting}
-						<LoaderCircle size={15} class="animate-spin" />
+						<LoaderCircle size={16} class="animate-spin" />
 						<span>Cerrando sesión...</span>
 					{:else}
-						<LogOut size={15} />
-						<span>Cerrar Sesión</span>
+						<LogOut size={16} />
+						<span>Cerrar sesión</span>
 					{/if}
 				</button>
 			</div>

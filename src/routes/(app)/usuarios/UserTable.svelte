@@ -198,7 +198,7 @@ const handleToggleStatus = async (userToToggle: {
 								</span>
 								{#if user.id === currentUser.id}
 									<span
-										class="inline-flex items-center rounded-md border border-blue-200 bg-blue-50 px-1.5 py-0.5 text-xs font-bold text-blue-700 dark:border-blue-900 dark:bg-blue-950/60 dark:text-blue-300"
+										class="inline-flex items-center rounded-md border border-zinc-200 bg-zinc-100 px-1.5 py-0.5 text-xs font-bold text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
 									>
 										Tú
 									</span>
@@ -211,7 +211,7 @@ const handleToggleStatus = async (userToToggle: {
 							{user.username}
 						</td>
 						<td
-							class="px-5 py-4 text-sm font-medium text-blue-600 dark:text-blue-400"
+							class="px-5 py-4 text-sm font-medium text-zinc-700 dark:text-zinc-300"
 						>
 							{user.email}
 						</td>
@@ -220,7 +220,7 @@ const handleToggleStatus = async (userToToggle: {
 								class={[
 									"inline-flex items-center justify-center rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wider uppercase",
 									user.role === "ADMIN"
-										? "bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300"
+										? "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200"
 										: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300",
 								]}
 							>
@@ -271,7 +271,7 @@ const handleToggleStatus = async (userToToggle: {
 								{#if canEditUser(user)}
 									<button
 										type="button"
-										class="inline-flex size-9 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 p-0 text-zinc-600 transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-55 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-blue-700 dark:hover:bg-blue-950/40 dark:hover:text-blue-300"
+										class="inline-flex size-9 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 p-0 text-zinc-600 transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-200 hover:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-55 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
 										onclick={() => handleOpenUpdateModal(user.id)}
 										aria-label="Editar usuario"
 										data-tooltip="Editar usuario"
@@ -283,27 +283,22 @@ const handleToggleStatus = async (userToToggle: {
 								{#if canDeleteUser(user)}
 									<button
 										type="button"
-										class="inline-flex size-8 cursor-pointer items-center justify-center rounded-lg border border-transparent bg-transparent p-0 text-red-600 transition-all duration-200 hover:not-disabled:border-red-200 hover:not-disabled:bg-red-50 hover:not-disabled:text-red-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-red-400 dark:hover:not-disabled:border-red-900 dark:hover:not-disabled:bg-red-950/40 dark:hover:not-disabled:text-red-300"
+										class="inline-flex size-9 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 p-0 text-zinc-600 transition-all duration-200 hover:border-red-300 hover:bg-red-50 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-55 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-red-900 dark:hover:bg-red-950/40 dark:hover:text-red-400"
 										onclick={() => handleDeleteUser(user)}
-										disabled={deletingUserId === user.id}
+										aria-label="Eliminar usuario"
 										data-tooltip="Eliminar usuario"
 										data-tooltip-position="top-end"
-										aria-label={`Eliminar usuario ${user.name}`}
+										disabled={deletingUserId === user.id}
 									>
 										{#if deletingUserId === user.id}
-											<LoaderCircle size={16} class="animate-spin" />
+											<LoaderCircle
+												size={16}
+												class="animate-spin text-red-600 dark:text-red-400"
+											/>
 										{:else}
 											<Trash size={16} />
 										{/if}
 									</button>
-								{/if}
-								{#if !canEditUser(user) && !canDeleteUser(user)}
-									<span
-										class="inline-flex size-9 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-sm font-bold text-zinc-400 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-500"
-										aria-hidden="true"
-									>
-										—
-									</span>
 								{/if}
 							</div>
 						</td>
@@ -318,7 +313,7 @@ const handleToggleStatus = async (userToToggle: {
 							>
 								<LoaderCircle
 									size={20}
-									class="animate-spin text-blue-600 dark:text-blue-400"
+									class="animate-spin text-zinc-600 dark:text-zinc-400"
 								/>
 								<span>Cargando usuarios...</span>
 							</div>

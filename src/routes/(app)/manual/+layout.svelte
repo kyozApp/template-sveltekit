@@ -25,7 +25,7 @@ const isAdmin = $derived(user.role === "ADMIN");
 				class="flex items-center gap-3 border-b border-zinc-200 pb-4 dark:border-zinc-800"
 			>
 				<div
-					class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-900/60 dark:bg-blue-950/40 dark:text-blue-400"
+					class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
 				>
 					<BookOpen size={18} />
 				</div>
@@ -44,20 +44,20 @@ const isAdmin = $derived(user.role === "ADMIN");
 						class={[
 							"relative flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm font-semibold no-underline transition-all duration-150",
 							page.url.pathname === "/manual/plantilla"
-								? "bg-blue-50 text-blue-700 shadow-xs dark:bg-blue-950/40 dark:text-blue-300"
+								? "bg-zinc-100 font-bold text-zinc-900 shadow-xs dark:bg-zinc-800 dark:text-zinc-100"
 								: "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
 						]}
 					>
 						{#if page.url.pathname === "/manual/plantilla"}
 							<span
-								class="absolute inset-y-2 left-0 w-1 rounded-r-full bg-blue-600 dark:bg-blue-400"
+								class="absolute inset-y-2 left-0 w-1 rounded-r-full bg-zinc-900 dark:bg-zinc-100"
 							></span>
 						{/if}
 						<span
 							class={[
 								"flex shrink-0 items-center justify-center transition-colors duration-150",
 								page.url.pathname === "/manual/plantilla"
-									? "text-blue-600 dark:text-blue-400"
+									? "text-zinc-900 dark:text-zinc-100"
 									: "text-zinc-400 dark:text-zinc-500",
 							]}
 						>
@@ -68,29 +68,29 @@ const isAdmin = $derived(user.role === "ADMIN");
 
 					{#if page.url.pathname === "/manual/plantilla"}
 						<div
-							class="ml-5 flex flex-col gap-0.5 border-l-2 border-blue-100 py-1 pl-3 dark:border-blue-950/60"
+							class="ml-5 flex flex-col gap-0.5 border-l-2 border-zinc-200 py-1 pl-3 dark:border-zinc-800"
 						>
 							<a
 								href="#vision-general"
-								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 							>
 								Visión General
 							</a>
 							<a
 								href="#arquitectura"
-								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 							>
 								Arquitectura y Stack
 							</a>
 							<a
 								href="#estructura"
-								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 							>
 								Estructura del Proyecto
 							</a>
 							<a
 								href="#faqs"
-								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 							>
 								Preguntas Frecuentes
 							</a>
@@ -105,20 +105,20 @@ const isAdmin = $derived(user.role === "ADMIN");
 						class={[
 							"relative flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm font-semibold no-underline transition-all duration-150",
 							page.url.pathname === "/manual/interfaz"
-								? "bg-blue-50 text-blue-700 shadow-xs dark:bg-blue-950/40 dark:text-blue-300"
+								? "bg-zinc-100 font-bold text-zinc-900 shadow-xs dark:bg-zinc-800 dark:text-zinc-100"
 								: "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
 						]}
 					>
 						{#if page.url.pathname === "/manual/interfaz"}
 							<span
-								class="absolute inset-y-2 left-0 w-1 rounded-r-full bg-blue-600 dark:bg-blue-400"
+								class="absolute inset-y-2 left-0 w-1 rounded-r-full bg-zinc-900 dark:bg-zinc-100"
 							></span>
 						{/if}
 						<span
 							class={[
 								"flex shrink-0 items-center justify-center transition-colors duration-150",
 								page.url.pathname === "/manual/interfaz"
-									? "text-blue-600 dark:text-blue-400"
+									? "text-zinc-900 dark:text-zinc-100"
 									: "text-zinc-400 dark:text-zinc-500",
 							]}
 						>
@@ -129,35 +129,35 @@ const isAdmin = $derived(user.role === "ADMIN");
 
 					{#if page.url.pathname === "/manual/interfaz"}
 						<div
-							class="ml-5 flex flex-col gap-0.5 border-l-2 border-blue-100 py-1 pl-3 dark:border-blue-950/60"
+							class="ml-5 flex flex-col gap-0.5 border-l-2 border-zinc-200 py-1 pl-3 dark:border-zinc-800"
 						>
 							<a
 								href="#modo-color"
-								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 							>
 								Modo Claro y Oscuro
 							</a>
 							<a
 								href="#menu-perfil"
-								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 							>
 								Menú de Perfil
 							</a>
 							<a
 								href="#cierre-sesion"
-								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 							>
 								Cierre de Sesión
 							</a>
 							<a
 								href="#barra-lateral"
-								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 							>
 								Barra Lateral
 							</a>
 							<a
 								href="#faqs"
-								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 							>
 								Preguntas Frecuentes
 							</a>
@@ -173,20 +173,20 @@ const isAdmin = $derived(user.role === "ADMIN");
 							class={[
 								"relative flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm font-semibold no-underline transition-all duration-150",
 								page.url.pathname === "/manual/usuarios"
-									? "bg-blue-50 text-blue-700 shadow-xs dark:bg-blue-950/40 dark:text-blue-300"
+									? "bg-zinc-100 font-bold text-zinc-900 shadow-xs dark:bg-zinc-800 dark:text-zinc-100"
 									: "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
 							]}
 						>
 							{#if page.url.pathname === "/manual/usuarios"}
 								<span
-									class="absolute inset-y-2 left-0 w-1 rounded-r-full bg-blue-600 dark:bg-blue-400"
+									class="absolute inset-y-2 left-0 w-1 rounded-r-full bg-zinc-900 dark:bg-zinc-100"
 								></span>
 							{/if}
 							<span
 								class={[
 									"flex shrink-0 items-center justify-center transition-colors duration-150",
 									page.url.pathname === "/manual/usuarios"
-										? "text-blue-600 dark:text-blue-400"
+										? "text-zinc-900 dark:text-zinc-100"
 										: "text-zinc-400 dark:text-zinc-500",
 								]}
 							>
@@ -197,29 +197,29 @@ const isAdmin = $derived(user.role === "ADMIN");
 
 						{#if page.url.pathname === "/manual/usuarios"}
 							<div
-								class="ml-5 flex flex-col gap-0.5 border-l-2 border-blue-100 py-1 pl-3 dark:border-blue-950/60"
+								class="ml-5 flex flex-col gap-0.5 border-l-2 border-zinc-200 py-1 pl-3 dark:border-zinc-800"
 							>
 								<a
 									href="#listar-estados"
-									class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+									class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 								>
 									Listar Usuarios
 								</a>
 								<a
 									href="#crear-usuario"
-									class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+									class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 								>
 									Crear Usuarios
 								</a>
 								<a
 									href="#editar-usuario"
-									class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+									class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 								>
 									Editar Usuarios
 								</a>
 								<a
 									href="#faqs"
-									class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+									class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 								>
 									Preguntas Frecuentes
 								</a>

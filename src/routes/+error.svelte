@@ -43,7 +43,7 @@ import { CircleAlert, House } from "@lucide/svelte";
 
 		<a
 			href={resolve("")}
-			class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-blue-600 bg-blue-600 px-6 py-3 text-sm font-bold text-white transition-all duration-200 hover:border-blue-700 hover:bg-blue-700 dark:border-blue-500 dark:bg-blue-600 dark:hover:border-blue-600 dark:hover:bg-blue-500"
+			class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-800 px-6 py-3 text-sm font-bold text-zinc-100 transition-all duration-200 hover:border-zinc-700 hover:bg-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-zinc-600 dark:hover:bg-zinc-700"
 		>
 			<House size={18} />
 			<span>Volver al Inicio</span>

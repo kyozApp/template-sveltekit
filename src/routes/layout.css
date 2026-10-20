@@ -7,17 +7,8 @@
 
 @theme {
 	--font-sans: "Inter Variable", sans-serif;
-	--z-raised: 1;
-	--z-field-control: 2;
-	--z-sticky: 30;
-	--z-sidebar: 35;
-	--z-sidebar-floating: 40;
-	--z-dropdown: 1000;
-	--z-toast: 2000;
-	--z-modal: 2500;
-	--z-tooltip: 2800;
-	--z-imperative: 9999;
 }
+
 :root {
 	color-scheme: light;
 }
@@ -55,21 +46,21 @@ input[type="number"] {
 	position: absolute;
 	inset-block-end: calc(100% + 7px);
 	inset-inline-start: 50%;
-	z-index: var(--z-tooltip, 2800);
+	z-index: 50;
 	visibility: hidden;
-	padding-block: 0.32rem;
+	padding-block: 0.35rem;
 	padding-inline: 0.65rem;
-	font-size: 0.72rem;
-	font-weight: 550;
+	font-size: 0.75rem;
+	font-weight: 500;
 	line-height: 1;
-	color: light-dark(oklch(20% 0.02 255), oklch(98% 0.01 255));
+	color: light-dark(var(--color-zinc-900), var(--color-zinc-100));
 	white-space: nowrap;
 	pointer-events: none;
 	content: attr(data-tooltip);
-	background-color: light-dark(oklch(100% 0 0), oklch(18% 0.03 255));
-	border: 1px solid light-dark(oklch(85% 0.01 255), oklch(34% 0.02 255));
-	border-radius: 6px;
-	box-shadow: 0 4px 12px light-dark(oklch(0% 0 0 / 0.08), oklch(0% 0 0 / 0.3));
+	background-color: light-dark(var(--color-white), var(--color-zinc-900));
+	border: 1px solid light-dark(var(--color-zinc-200), var(--color-zinc-700));
+	border-radius: 0.375rem;
+	box-shadow: 0 4px 12px light-dark(rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.35));
 	opacity: 0;
 	transform: translateX(-50%) translateY(4px);
 	transition:
@@ -83,12 +74,12 @@ input[type="number"] {
 	position: absolute;
 	inset-block-end: calc(100% + 3px);
 	inset-inline-start: 50%;
-	z-index: var(--z-tooltip, 2800);
+	z-index: 50;
 	visibility: hidden;
 	pointer-events: none;
 	content: "";
 	border-block-start: 4px solid
-		light-dark(oklch(85% 0.01 255), oklch(34% 0.02 255));
+		light-dark(var(--color-zinc-200), var(--color-zinc-700));
 	border-inline: 4px solid transparent;
 	opacity: 0;
 	transform: translateX(-50%) translateY(4px);
@@ -124,7 +115,7 @@ input[type="number"] {
 	border-block-end: 4px solid transparent;
 	border-inline-start: none;
 	border-inline-end: 4px solid
-		light-dark(oklch(85% 0.01 255), oklch(34% 0.02 255));
+		light-dark(var(--color-zinc-200), var(--color-zinc-700));
 	transform: translateY(-50%) translateX(-4px);
 }
 
@@ -172,8 +163,6 @@ input[type="number"] {
    Ideal para botones en la última columna / celdas de acciones de tablas.
    Crece hacia la izquierda y evita desbordamiento / scroll horizontal.
    ============================================================ */
-:is(.col-actions, .col-actions-val, .action-cell)
-[data-tooltip]:not([data-tooltip-position]),
 [data-tooltip][data-tooltip-position="top-end"] {
 	&::after {
 		inset-block-end: calc(100% + 7px);
@@ -218,7 +207,7 @@ input[type="number"] {
 	border-block-start: 4px solid transparent;
 	border-block-end: 4px solid transparent;
 	border-inline-start: 4px solid
-		light-dark(oklch(85% 0.01 255), oklch(34% 0.02 255));
+		light-dark(var(--color-zinc-200), var(--color-zinc-700));
 	border-inline-end: none;
 	transform: translateY(-50%) translateX(4px);
 }

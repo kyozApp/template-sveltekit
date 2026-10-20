@@ -43,7 +43,7 @@ const user = $derived(data.user);
 			class={[
 				"inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold tracking-wide uppercase",
 				user.role === "ADMIN"
-					? "bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300"
+					? "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200"
 					: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300",
 			]}
 		>
@@ -58,7 +58,7 @@ const user = $derived(data.user);
 			class="flex items-start gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition-all duration-200 hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700"
 		>
 			<div
-				class="flex size-12 shrink-0 items-center justify-center rounded-xl border border-blue-200 bg-blue-100 text-blue-700 dark:border-blue-900 dark:bg-blue-950/60 dark:text-blue-300"
+				class="flex size-12 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
 			>
 				<Users size={22} />
 			</div>
@@ -73,7 +73,7 @@ const user = $derived(data.user);
 				</span>
 				<a
 					href={resolve("usuarios")}
-					class="mt-1 text-xs font-semibold text-blue-600 hover:underline dark:text-blue-400"
+					class="mt-1 text-xs font-semibold text-zinc-700 hover:text-zinc-900 hover:underline dark:text-zinc-300 dark:hover:text-zinc-100"
 				>
 					Administrar cuentas →
 				</a>
@@ -150,7 +150,7 @@ const user = $derived(data.user);
 				</span>
 				<a
 					href={resolve("manual")}
-					class="mt-1 text-xs font-semibold text-blue-600 hover:underline dark:text-blue-400"
+					class="mt-1 text-xs font-semibold text-zinc-700 hover:text-zinc-900 hover:underline dark:text-zinc-300 dark:hover:text-zinc-100"
 				>
 					Consultar guía →
 				</a>

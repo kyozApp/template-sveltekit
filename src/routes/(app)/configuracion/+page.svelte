@@ -34,7 +34,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 		class="flex items-center gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:gap-5 sm:p-7 dark:border-zinc-800 dark:bg-zinc-900"
 	>
 		<div
-			class="flex size-14 shrink-0 items-center justify-center rounded-2xl border border-blue-200 bg-blue-100 text-blue-700 dark:border-blue-900 dark:bg-blue-950/60 dark:text-blue-300"
+			class="flex size-14 shrink-0 items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
 		>
 			<Settings size={28} />
 		</div>
@@ -60,7 +60,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 			class={[
 				"inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-150",
 				activeTab === "general"
-					? "bg-white text-blue-600 shadow-sm dark:bg-zinc-800 dark:text-blue-400"
+					? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
 					: "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100",
 			]}
 			onclick={() => handleSelectTab("general")}
@@ -73,7 +73,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 			class={[
 				"inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-150",
 				activeTab === "security"
-					? "bg-white text-blue-600 shadow-sm dark:bg-zinc-800 dark:text-blue-400"
+					? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
 					: "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100",
 			]}
 			onclick={() => handleSelectTab("security")}
@@ -86,7 +86,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 			class={[
 				"inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-150",
 				activeTab === "system"
-					? "bg-white text-blue-600 shadow-sm dark:bg-zinc-800 dark:text-blue-400"
+					? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
 					: "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100",
 			]}
 			onclick={() => handleSelectTab("system")}
