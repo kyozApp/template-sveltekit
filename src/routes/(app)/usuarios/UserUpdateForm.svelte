@@ -1,7 +1,6 @@
 <script lang="ts">
 import { isHttpError } from "@sveltejs/kit";
 import { refreshAll } from "$app/navigation";
-import { page } from "$app/state";
 
 import {
 	CircleAlert,
@@ -25,10 +24,11 @@ import { userUpdateSchema } from "#lib/validations/user/user.form.validation.ts"
 
 interface Props {
 	userId: string;
+	currentUserId: string;
 	onClose: () => void;
 }
 
-let { userId, onClose }: Props = $props();
+let { userId, currentUserId, onClose }: Props = $props();
 
 const sessionId = nanoid();
 
@@ -47,15 +47,27 @@ const {
 let showPassword = $state(false);
 
 const submitting = $derived(updateForm.pending > 0);
+
+// Alterna la visibilidad de la contraseña entre texto sin formato y oculto
+const handleTogglePassword = () => {
+	showPassword = !showPassword;
+};
+
+// Valida los campos del formulario en tiempo real mientras el usuario escribe
+const handleFormInput = () => {
+	updateForm.validate();
+};
 </script>
 
-<div class="form-wrapper">
-	<svelte:boundary>
-		{@const details = await getUserDetails({ id: userId })}
-		{@const isActiveChecked = fieldIsActive.value() ?? details.isActive}
+<svelte:boundary>
+	{@const details = await getUserDetails({ id: userId })}
+	{@const isActiveChecked = fieldIsActive.value() ?? details.isActive}
 
+	<div
+		class="min-h-0 flex-1 overflow-auto overscroll-contain bg-zinc-50 px-5 py-5 sm:px-8 sm:py-6 dark:bg-zinc-950"
+	>
 		<form
-			class="user-form"
+			class="flex flex-col gap-5"
 			{...updateForm.preflight(userUpdateSchema.body)}
 			{...updateForm.enhance(async (f) => {
 				try {
@@ -78,7 +90,7 @@ const submitting = $derived(updateForm.pending > 0);
 
 					console.error("[USER UPDATE][PROCESSING ERROR]", { ok });
 					notifications.showToastError(
-						"Ocurrió un problema inesperado al procesar la actualización del usuario. Por favor, comuníquese con sistemas.",
+						"Ocurrió un problema inesperado al actualizar el usuario. Por favor, comuníquese con sistemas.",
 					);
 				} catch (e) {
 					if (isHttpError(e)) {
@@ -94,114 +106,150 @@ const submitting = $derived(updateForm.pending > 0);
 					}
 				}
 			})}
-			oninput={() => updateForm.validate()}
+			oninput={handleFormInput}
 			novalidate
 		>
-			<div class="form-fields">
-				<div class="form-grid">
-					<div class="form-group">
-						<label for="user-update-name" class="form-label"
-							>Nombre Completo</label
+			<div class="flex flex-col gap-4">
+				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+					<div class="flex flex-col gap-2">
+						<label
+							for="user-update-name"
+							class="text-xs font-bold tracking-wider text-zinc-700 uppercase dark:text-zinc-300"
 						>
-						<div class="input-wrapper">
-							<span class="input-icon-left">
+							Nombre Completo
+						</label>
+						<div class="relative flex w-full items-center">
+							<span
+								class="pointer-events-none absolute left-4 z-10 flex size-4 items-center justify-center text-zinc-500 transition-colors duration-200 dark:text-zinc-400"
+							>
 								<User size={16} />
 							</span>
 							<input
 								{...fieldName.as("text", details.name)}
 								id="user-update-name"
-								class="form-input"
-								placeholder=""
-								autocomplete="name"
+								class={[
+									"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
+									fieldName.issues()?.length &&
+										"border-red-500 dark:border-red-400",
+								]}
+								placeholder="Nombre del usuario"
 								disabled={submitting}
-								class:has-error={fieldName.issues()?.length}
 							>
 						</div>
 						{#if fieldName.issues()?.length}
-							<span class="field-error">
+							<span
+								class="mt-1 inline-flex items-center gap-1.5 p-0 text-xs leading-tight font-medium text-red-600 dark:text-red-400"
+							>
 								<CircleAlert size={14} />
 								<span>{fieldName.issues()?.[0]?.message}</span>
 							</span>
 						{/if}
 					</div>
 
-					<div class="form-group">
-						<label for="user-update-username" class="form-label"
-							>Nombre de Usuario</label
+					<div class="flex flex-col gap-2">
+						<label
+							for="user-update-username"
+							class="text-xs font-bold tracking-wider text-zinc-700 uppercase dark:text-zinc-300"
 						>
-						<div class="input-wrapper">
-							<span class="input-icon-left">
+							Nombre de Usuario
+						</label>
+						<div class="relative flex w-full items-center">
+							<span
+								class="pointer-events-none absolute left-4 z-10 flex size-4 items-center justify-center text-zinc-500 transition-colors duration-200 dark:text-zinc-400"
+							>
 								<User size={16} />
 							</span>
 							<input
 								{...fieldUsername.as("text", details.username)}
 								id="user-update-username"
-								class="form-input"
-								placeholder=""
-								autocomplete="username"
+								class={[
+									"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
+									fieldUsername.issues()?.length &&
+										"border-red-500 dark:border-red-400",
+								]}
+								placeholder="ej. jperez"
 								disabled={submitting}
-								class:has-error={fieldUsername.issues()?.length}
 							>
 						</div>
 						{#if fieldUsername.issues()?.length}
-							<span class="field-error">
+							<span
+								class="mt-1 inline-flex items-center gap-1.5 p-0 text-xs leading-tight font-medium text-red-600 dark:text-red-400"
+							>
 								<CircleAlert size={14} />
 								<span>{fieldUsername.issues()?.[0]?.message}</span>
 							</span>
 						{/if}
 					</div>
+				</div>
 
-					<div class="form-group">
-						<label for="user-update-email" class="form-label"
-							>Correo Electrónico</label
+				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+					<div class="flex flex-col gap-2">
+						<label
+							for="user-update-email"
+							class="text-xs font-bold tracking-wider text-zinc-700 uppercase dark:text-zinc-300"
 						>
-						<div class="input-wrapper">
-							<span class="input-icon-left">
+							Correo Electrónico
+						</label>
+						<div class="relative flex w-full items-center">
+							<span
+								class="pointer-events-none absolute left-4 z-10 flex size-4 items-center justify-center text-zinc-500 transition-colors duration-200 dark:text-zinc-400"
+							>
 								<Mail size={16} />
 							</span>
 							<input
-								{...fieldEmail.as("text", details.email)}
+								{...fieldEmail.as("email", details.email)}
 								id="user-update-email"
-								class="form-input"
-								placeholder=""
-								autocomplete="email"
+								class={[
+									"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
+									fieldEmail.issues()?.length &&
+										"border-red-500 dark:border-red-400",
+								]}
+								placeholder="ejemplo@empresa.com"
 								disabled={submitting}
-								class:has-error={fieldEmail.issues()?.length}
 							>
 						</div>
 						{#if fieldEmail.issues()?.length}
-							<span class="field-error">
+							<span
+								class="mt-1 inline-flex items-center gap-1.5 p-0 text-xs leading-tight font-medium text-red-600 dark:text-red-400"
+							>
 								<CircleAlert size={14} />
 								<span>{fieldEmail.issues()?.[0]?.message}</span>
 							</span>
 						{/if}
 					</div>
 
-					<div class="form-group">
-						<label for="user-update-password" class="form-label"
-							>Nueva Contraseña</label
+					<div class="flex flex-col gap-2">
+						<label
+							for="user-update-password"
+							class="text-xs font-bold tracking-wider text-zinc-700 uppercase dark:text-zinc-300"
 						>
-						<div class="input-wrapper">
-							<span class="input-icon-left">
+							Nueva Contraseña (Opcional)
+						</label>
+						<div class="relative flex w-full items-center">
+							<span
+								class="pointer-events-none absolute left-4 z-10 flex size-4 items-center justify-center text-zinc-500 transition-colors duration-200 dark:text-zinc-400"
+							>
 								<Lock size={16} />
 							</span>
 							<input
 								{...fieldPassword.as(showPassword ? "text" : "password")}
 								id="user-update-password"
-								class="form-input"
-								placeholder=""
-								autocomplete="new-password"
+								class={[
+									"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-12 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
+									fieldPassword.issues()?.length &&
+										"border-red-500 dark:border-red-400",
+								]}
+								placeholder="Dejar en blanco para mantener actual"
 								disabled={submitting}
-								class:has-error={fieldPassword.issues()?.length}
 							>
 							<button
 								type="button"
-								class="input-icon-right"
-								onclick={() => (showPassword = !showPassword)}
+								class="absolute right-3.5 flex cursor-pointer items-center justify-center border-none bg-transparent p-0 text-zinc-400 transition-colors duration-150 hover:text-zinc-600 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:text-zinc-300"
+								onclick={handleTogglePassword}
+								disabled={submitting}
 								aria-label={showPassword
 									? "Ocultar contraseña"
 									: "Mostrar contraseña"}
-								disabled={submitting}
 							>
 								{#if showPassword}
 									<EyeOff size={16} />
@@ -211,49 +259,77 @@ const submitting = $derived(updateForm.pending > 0);
 							</button>
 						</div>
 						{#if fieldPassword.issues()?.length}
-							<span class="field-error">
+							<span
+								class="mt-1 inline-flex items-center gap-1.5 p-0 text-xs leading-tight font-medium text-red-600 dark:text-red-400"
+							>
 								<CircleAlert size={14} />
 								<span>{fieldPassword.issues()?.[0]?.message}</span>
 							</span>
 						{/if}
-						<span class="form-hint"
-							>Opcional: Déjalo en blanco para conservar la actual.</span
-						>
 					</div>
 				</div>
 
-				<div class="form-group">
-					<label for="user-update-role" class="form-label"
-						>Rol del Usuario</label
+				<div class="flex flex-col gap-2">
+					<label
+						for="user-update-role"
+						class="text-xs font-bold tracking-wider text-zinc-700 uppercase dark:text-zinc-300"
 					>
+						Rol del Usuario
+					</label>
 
-					{#if page.data.user?.id === details.id}
+					{#if currentUserId === details.id}
 						<input {...fieldRole.as("hidden", details.role)}>
-						<div class="static-role-display">
-							<span class="input-icon-left">
+						<div
+							class="relative flex min-h-12 w-full items-center justify-between rounded-xl border border-zinc-200 bg-white py-3 pr-4 pl-11 dark:border-zinc-800 dark:bg-zinc-900"
+						>
+							<span
+								class="pointer-events-none absolute left-4 z-10 flex size-4 items-center justify-center text-zinc-500 transition-colors duration-200 dark:text-zinc-400"
+							>
 								<Shield size={16} />
 							</span>
-							<span class="role-text">{ROLE_LABELS[details.role]}</span>
-							<span class="role-badge">Rol protegido</span>
+							<span
+								class="flex-1 text-sm font-medium text-zinc-900 dark:text-zinc-100"
+							>
+								{ROLE_LABELS[details.role]}
+							</span>
+							<span
+								class="inline-flex rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-bold tracking-wider text-zinc-600 uppercase dark:bg-zinc-800 dark:text-zinc-300"
+							>
+								Rol protegido
+							</span>
 						</div>
 					{:else}
-						<div class="input-wrapper select-wrapper">
-							<span class="input-icon-left">
+						<div class="relative flex w-full items-center">
+							<span
+								class="pointer-events-none absolute left-4 z-10 flex size-4 items-center justify-center text-zinc-500 transition-colors duration-200 dark:text-zinc-400"
+							>
 								<Shield size={16} />
 							</span>
 							<select
 								{...fieldRole.as("select", details.role)}
 								id="user-update-role"
-								class="form-input form-select"
+								class={[
+									"min-h-12 w-full cursor-pointer appearance-none rounded-xl border border-zinc-200 bg-white py-3 pr-10 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
+									fieldRole.issues()?.length &&
+										"border-red-500 dark:border-red-400",
+								]}
 								disabled={submitting}
-								class:has-error={fieldRole.issues()?.length}
 							>
 								<option value="ADMIN">Administrador</option>
 								<option value="USER">Usuario</option>
 							</select>
+							<div
+								class="pointer-events-none absolute right-4 flex items-center text-zinc-400"
+							>
+								<span
+									class="size-2 rotate-45 border-r-2 border-b-2 border-zinc-500 dark:border-zinc-400"
+								></span>
+							</div>
 						</div>
 						{#if fieldRole.issues()?.length}
-							<span class="field-error">
+							<span
+								class="mt-1 inline-flex items-center gap-1.5 p-0 text-xs leading-tight font-medium text-red-600 dark:text-red-400"
+							>
 								<CircleAlert size={14} />
 								<span>{fieldRole.issues()?.[0]?.message}</span>
 							</span>
@@ -261,744 +337,131 @@ const submitting = $derived(updateForm.pending > 0);
 					{/if}
 				</div>
 
-				<div class="status-section">
-					<div class="status-icon-wrap">
-						<span class="status-icon">
+				<div
+					class="flex items-center justify-between gap-4 rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/60"
+				>
+					<div class="flex items-center gap-3">
+						<div
+							class="flex size-10 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-600 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
+						>
 							<User size={16} />
-						</span>
+						</div>
+						<div class="flex flex-col gap-0.5">
+							<span
+								class="text-sm font-semibold text-zinc-900 dark:text-zinc-100"
+							>
+								Estado de la cuenta
+							</span>
+							<div>
+								<span
+									class={[
+										"inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wider uppercase transition-colors duration-200",
+										isActiveChecked
+											? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
+											: "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400",
+									]}
+								>
+									{isActiveChecked ? "Cuenta activa" : "Cuenta inactiva"}
+								</span>
+							</div>
+						</div>
 					</div>
-					<div class="status-info">
-						<span class="status-label">Estado de la cuenta</span>
 
-						<span class="status-pill" class:pill-active={isActiveChecked}>
-							{isActiveChecked ? "Cuenta activa" : "Cuenta inactiva"}
-						</span>
-					</div>
-
-					{#if page.data.user?.id === details.id}
+					{#if currentUserId === details.id}
 						<input {...fieldIsActive.as("hidden", details.isActive)}>
 					{:else}
-						<label class="switch-control" class:active={isActiveChecked}>
+						<label
+							class={[
+								"relative inline-flex h-7.5 w-13.5 shrink-0 cursor-pointer items-center rounded-full border border-zinc-300 p-0.5 transition-colors duration-250 ease-in-out has-disabled:cursor-not-allowed has-disabled:opacity-50 dark:border-zinc-700",
+								isActiveChecked
+									? "bg-emerald-600 dark:bg-emerald-500"
+									: "bg-zinc-200 dark:bg-zinc-800",
+							]}
+						>
 							<input
 								{...fieldIsActive.as("checkbox", details.isActive)}
 								class="sr-only"
 								disabled={submitting}
 							>
-							<span class="switch-track"></span>
-							<span class="switch-thumb"></span>
+							<span
+								class={[
+									"size-6 rounded-full bg-white shadow-md transition-transform duration-250 ease-in-out dark:bg-zinc-100",
+									isActiveChecked ? "translate-x-6" : "translate-x-0.5",
+								]}
+							></span>
 							<span class="sr-only">Estado de la cuenta</span>
 						</label>
 					{/if}
 				</div>
 
-				{#if page.data.user?.id === details.id}
-					<div class="field-warning-box">
-						<TriangleAlert size={16} class="warning-icon" />
-						<span
-							>Por seguridad, no puedes modificar tu propio rol ni desactivar tu
-							sesión actual.</span
-						>
+				{#if currentUserId === details.id}
+					<div
+						class="flex items-center gap-2.5 rounded-xl border border-amber-300/30 bg-amber-500/10 p-3 text-xs leading-relaxed font-medium text-amber-700 dark:text-amber-300"
+					>
+						<TriangleAlert size={16} class="shrink-0" />
+						<span>
+							Por seguridad, no puedes modificar tu propio rol ni desactivar tu
+							sesión actual.
+						</span>
 					</div>
 				{/if}
 			</div>
 
 			<input {...fieldId.as("hidden", userId)}>
 
-			<div class="form-actions">
+			<div class="flex flex-wrap items-center justify-end gap-3 pt-2">
 				<button
 					type="button"
-					class="cancel-btn"
+					class="flex min-w-40 flex-1 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-white px-5 py-3 text-sm font-bold text-zinc-700 transition-all duration-200 hover:not-disabled:bg-zinc-100 hover:not-disabled:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-70 sm:flex-initial dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:not-disabled:bg-zinc-800 dark:hover:not-disabled:text-zinc-100"
 					onclick={onClose}
 					disabled={submitting}
 				>
-					<span class="btn-inner">
-						<span>Cancelar</span>
-					</span>
+					Cancelar
 				</button>
-
-				<button type="submit" disabled={submitting} class="submit-btn">
-					<span class="btn-inner">
-						{#if submitting}
-							<LoaderCircle size={18} class="spinner" />
-							<span>Guardando...</span>
-						{:else}
-							<Pencil size={18} />
-							<span>Actualizar Usuario</span>
-						{/if}
-					</span>
+				<button
+					type="submit"
+					class="flex min-w-44 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border border-blue-600 bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:not-disabled:border-blue-700 hover:not-disabled:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70 sm:flex-initial dark:border-blue-500 dark:bg-blue-500 dark:hover:not-disabled:border-blue-600 dark:hover:not-disabled:bg-blue-600"
+					disabled={submitting}
+				>
+					{#if submitting}
+						<LoaderCircle size={18} class="animate-spin" />
+						<span>Actualizando...</span>
+					{:else}
+						<Pencil size={18} />
+						<span>Guardar Cambios</span>
+					{/if}
 				</button>
 			</div>
 		</form>
-
-		{#snippet pending()}
-			<div class="details-loading-state">
-				<div class="loading-icon-wrap">
-					<LoaderCircle size={24} class="spinner" />
-				</div>
-				<p class="loading-title">Cargando datos del usuario...</p>
-				<p class="loading-sub">Por favor espera un momento.</p>
-			</div>
-		{/snippet}
-
-		{#snippet failed()}
-			<div class="details-error-state">
-				<div class="error-icon-wrap">
-					<CircleAlert size={24} />
-				</div>
-				<p class="error-title">Error al cargar datos</p>
-				<p class="error-sub">No se pudieron obtener los datos del usuario.</p>
-			</div>
-		{/snippet}
-	</svelte:boundary>
-</div>
-
-<style>
-.form-wrapper {
-	flex: 1;
-
-	min-block-size: 0;
-	padding-block: 1.4rem 1.75rem;
-	padding-inline: 2rem;
-	overflow: auto;
-	overscroll-behavior: contain;
-
-	background-color: light-dark(oklch(98.8% 0.003 248), oklch(17% 0.015 260));
-
-	@media (width < 640px) {
-		padding-block: 1.2rem 1.4rem;
-		padding-inline: 1.25rem;
-	}
-}
-
-.user-form {
-	display: flex;
-	flex-direction: column;
-	gap: 1.4rem;
-}
-
-.sr-only {
-	position: absolute;
-
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-
-	overflow: hidden;
-	border: 0;
-
-	clip-path: rect(0 0 0 0);
-}
-
-.form-fields {
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-}
-
-.form-grid {
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 0.95rem;
-
-	@media (width >= 720px) {
-		grid-template-columns: 1fr 1fr;
-	}
-}
-
-.form-group {
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-}
-
-.form-label {
-	font-size: 0.74rem;
-	font-weight: 750;
-	color: light-dark(oklch(35% 0.012 255), oklch(75% 0.02 255));
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-}
-
-.form-hint {
-	font-size: 0.74rem;
-	font-weight: 500;
-	color: light-dark(oklch(52% 0.01 255), oklch(70% 0.015 255));
-}
-
-.input-wrapper {
-	position: relative;
-
-	display: flex;
-	align-items: center;
-
-	width: 100%;
-}
-
-.select-wrapper {
-	&::after {
-		position: absolute;
-		right: 1rem;
-		z-index: var(--z-raised);
-
-		width: 8px;
-		height: 8px;
-		margin-top: -5px;
-		pointer-events: none;
-		content: "";
-		border-right: 1.5px solid
-			light-dark(oklch(38% 0.01 255), oklch(75% 0.02 255));
-		border-bottom: 1.5px solid
-			light-dark(oklch(38% 0.01 255), oklch(75% 0.02 255));
-		transform: rotate(45deg);
-
-		transition: border-color 0.2s ease;
-	}
-
-	&:focus-within::after {
-		border-right-color: light-dark(oklch(42% 0.14 250), oklch(74% 0.12 250));
-		border-bottom-color: light-dark(oklch(42% 0.14 250), oklch(74% 0.12 250));
-	}
-}
-
-.form-input {
-	width: 100%;
-	min-block-size: 50px;
-	padding: 0.92rem 2.85rem;
-	border: 1px solid light-dark(oklch(89% 0.006 248), oklch(27% 0.015 260));
-	border-radius: 13px;
-
-	font-size: 0.94rem;
-	font-weight: 500;
-	color: light-dark(oklch(23% 0.012 255), oklch(95% 0.004 255));
-
-	appearance: none;
-	background-color: light-dark(oklch(100% 0 0), oklch(27.5% 0.032 256.86));
-
-	transition:
-		border-color 0.2s ease,
-		background-color 0.22s ease;
-
-	-webkit-tap-highlight-color: transparent;
-
-	&::placeholder {
-		font-size: 0.84rem;
-		font-weight: 430;
-		color: light-dark(oklch(61% 0.008 255), oklch(67% 0.012 255));
-	}
-
-	&.form-select {
-		padding-right: 3rem;
-		cursor: pointer;
-	}
-
-	&:disabled {
-		cursor: not-allowed;
-		opacity: 0.62;
-	}
-
-	&:focus {
-		outline: none;
-
-		background-color: light-dark(
-			oklch(99.2% 0.002 248),
-			oklch(30% 0.038 256.86)
-		);
-		border-color: light-dark(oklch(42% 0.14 250), oklch(74% 0.12 250));
-		box-shadow: 0 0 0 3px
-			light-dark(oklch(42% 0.14 250 / 0.12), oklch(74% 0.12 250 / 0.18));
-	}
-
-	&.has-error {
-		border-color: light-dark(oklch(72% 0.12 25), oklch(58% 0.1 25));
-	}
-}
-
-.input-icon-left {
-	position: absolute;
-	left: 1rem;
-	z-index: var(--z-raised);
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	width: 1.1rem;
-	height: 1.1rem;
-
-	color: light-dark(oklch(42% 0.01 255), oklch(75% 0.02 255));
-	pointer-events: none;
-
-	transition: color 0.22s ease;
-}
-
-.input-icon-right {
-	position: absolute;
-	right: 0.8rem;
-	z-index: var(--z-field-control);
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	width: 34px;
-	height: 34px;
-	padding: 0;
-
-	color: light-dark(oklch(42% 0.01 255), oklch(75% 0.02 255));
-	cursor: pointer;
-
-	background-color: light-dark(
-		oklch(97.5% 0.004 248),
-		oklch(31.5% 0.04 256.86)
-	);
-	border: 1px solid transparent;
-	border-radius: 10px;
-
-	transition:
-		border-color 0.18s ease,
-		color 0.18s ease,
-		background-color 0.18s ease;
-
-	&:hover {
-		color: light-dark(oklch(23% 0.012 255), oklch(82% 0.024 255));
-
-		background-color: light-dark(
-			oklch(98.2% 0.003 248),
-			oklch(30% 0.038 256.86)
-		);
-		border-color: light-dark(oklch(84% 0.008 248), oklch(38% 0.026 256.86));
-	}
-
-	&:disabled {
-		cursor: not-allowed;
-		opacity: 0.5;
-	}
-}
-
-.static-role-display {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-
-	width: 100%;
-	min-block-size: 50px;
-	padding: 0.92rem 1rem 0.92rem 2.85rem;
-
-	background-color: light-dark(oklch(100% 0 0), oklch(27.5% 0.032 256.86));
-	border: 1px solid light-dark(oklch(89% 0.006 248), oklch(27% 0.015 260));
-	border-radius: 13px;
-
-	@media (width < 560px) {
-		flex-wrap: wrap;
-		padding-inline-end: 0.9rem;
-	}
-}
-
-.role-text {
-	flex: 1;
-
-	font-size: 0.94rem;
-	font-weight: 500;
-	color: light-dark(oklch(23% 0.012 255), oklch(95% 0.004 255));
-}
-
-.role-badge {
-	display: inline-flex;
-	align-items: center;
-
-	padding: 0.28rem 0.72rem;
-
-	font-size: 0.68rem;
-	font-weight: 700;
-	color: light-dark(oklch(36% 0.01 255), oklch(75% 0.02 255));
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
-
-	background-color: light-dark(
-		oklch(97.6% 0.004 248),
-		oklch(31.5% 0.04 256.86)
-	);
-	border-radius: 999px;
-}
-
-.field-error {
-	display: inline-flex;
-	gap: 0.3rem;
-	align-items: center;
-	padding: 0;
-
-	margin-top: 0.04rem;
-
-	font-size: 0.72rem;
-	font-weight: 500;
-	line-height: 1.3;
-	color: light-dark(oklch(52% 0.12 25), oklch(66% 0.08 25));
-	border-radius: 0;
-}
-
-.status-section {
-	display: flex;
-	gap: 0.9rem;
-	align-items: center;
-	justify-content: space-between;
-
-	padding: 1rem 1rem 1rem 0.95rem;
-
-	background-color: light-dark(
-		oklch(99.1% 0.002 248),
-		oklch(24.94% 0.0304 256.86)
-	);
-	border: 1px solid light-dark(oklch(89% 0.006 248), oklch(27% 0.015 260));
-	border-radius: 16px;
-
-	@media (width < 560px) {
-		align-items: flex-start;
-	}
-}
-
-.status-icon-wrap {
-	display: flex;
-	flex-shrink: 0;
-	align-items: center;
-	justify-content: center;
-
-	width: 40px;
-	height: 40px;
-
-	background-color: light-dark(
-		oklch(95.534% 0.01042 248.177),
-		oklch(27.5% 0.032 256.86)
-	);
-	border: 1px solid light-dark(oklch(89% 0.006 248), oklch(27% 0.015 260));
-	border-radius: 12px;
-}
-
-.status-icon {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	color: light-dark(oklch(40% 0.0096 252.81), oklch(75% 0.02 255));
-}
-
-.status-info {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	gap: 0.22rem;
-}
-
-.status-label {
-	font-size: 0.92rem;
-	font-weight: 680;
-	color: light-dark(oklch(23% 0.012 255), oklch(95% 0.004 255));
-}
-
-.status-pill {
-	display: inline-flex;
-	align-items: center;
-	align-self: flex-start;
-	padding: 0.28rem 0.72rem;
-
-	margin-top: 0.3rem;
-
-	font-size: 0.68rem;
-	font-weight: 700;
-	color: light-dark(oklch(36% 0.01 255), oklch(75% 0.02 255));
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
-
-	background-color: light-dark(
-		oklch(97.6% 0.004 248),
-		oklch(31.5% 0.04 256.86)
-	);
-	border-radius: 999px;
-
-	transition:
-		color 0.25s ease,
-		background-color 0.25s ease;
-
-	&.pill-active {
-		color: light-dark(oklch(49% 0.095 155), oklch(69% 0.08 155));
-		background-color: light-dark(oklch(96.8% 0.018 155), oklch(28% 0.028 155));
-	}
-}
-
-.switch-control {
-	cursor: pointer;
-
-	position: relative;
-	display: inline-block;
-
-	flex-shrink: 0;
-
-	width: 54px;
-	height: 30px;
-	padding: 0;
-	border: none;
-	border-radius: 9999px;
-
-	background: transparent;
-
-	-webkit-tap-highlight-color: transparent;
-
-	&:has(input:disabled),
-	&:disabled {
-		cursor: not-allowed;
-		opacity: 0.55;
-	}
-}
-
-.switch-track {
-	position: absolute;
-	inset: 0;
-
-	background-color: light-dark(oklch(88% 0.008 245), oklch(27% 0.015 260));
-
-	border-radius: 9999px;
-	box-shadow: 0 0 0 1px light-dark(oklch(83% 0.01 245), oklch(38% 0.024 256.86))
-		inset;
-
-	transition:
-		background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-		box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.switch-thumb {
-	position: absolute;
-	top: 3px;
-	left: 3px;
-
-	width: 24px;
-	height: 24px;
-
-	background-color: light-dark(oklch(99% 0.002 245), oklch(78% 0.008 255));
-	border-radius: 50%;
-	box-shadow: 0 0 0 1px light-dark(oklch(82% 0.01 245), oklch(60% 0.012 255))
-		inset;
-
-	transition:
-		background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-		box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-		transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-		width 0.12s ease;
-}
-
-.switch-control.active .switch-track {
-	background-color: light-dark(oklch(60% 0.075 150), oklch(63% 0.072 155));
-	box-shadow: 0 0 0 1px light-dark(oklch(60% 0.075 150), oklch(63% 0.072 155))
-		inset;
-}
-
-.switch-control.active .switch-thumb {
-	background-color: light-dark(oklch(99% 0.002 245), oklch(23.5% 0.018 255));
-	box-shadow: none;
-	transform: translateX(24px);
-}
-
-.switch-control:active:not(:disabled) .switch-thumb {
-	width: 28px;
-}
-
-.switch-control.active:active:not(:disabled) .switch-thumb {
-	transform: translateX(20px);
-}
-
-.field-warning-box {
-	display: flex;
-	gap: 0.65rem;
-	align-items: center;
-
-	padding: 0.85rem 1.15rem;
-
-	font-size: 0.84rem;
-	font-weight: 500;
-	line-height: 1.45;
-	color: light-dark(oklch(45% 0.12 78), oklch(84% 0.18 78));
-
-	background-color: light-dark(
-		oklch(76% 0.18 78 / 0.08),
-		oklch(76% 0.18 78 / 0.12)
-	);
-	border: 1px solid
-		light-dark(oklch(76% 0.18 78 / 0.25), oklch(76% 0.18 78 / 0.3));
-	border-radius: 12px;
-}
-
-:global(.warning-icon) {
-	flex-shrink: 0;
-}
-
-.form-actions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.8rem;
-	align-items: center;
-	justify-content: flex-end;
-
-	@media (width < 560px) {
-		justify-content: stretch;
-	}
-}
-
-.cancel-btn,
-.submit-btn {
-	cursor: pointer;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	min-inline-size: 170px;
-	padding: 0;
-	border-radius: 13px;
-
-	font-size: 0.94rem;
-	font-weight: 700;
-	letter-spacing: 0.005em;
-
-	transition:
-		background-color 0.2s ease,
-		border-color 0.2s ease,
-		color 0.2s ease;
-
-	-webkit-tap-highlight-color: transparent;
-
-	&:disabled {
-		cursor: not-allowed;
-		opacity: 0.72;
-	}
-
-	@media (width < 560px) {
-		flex: 1 1 100%;
-		min-inline-size: 0;
-	}
-}
-
-.cancel-btn {
-	color: light-dark(oklch(26% 0.012 255), oklch(92% 0.004 255));
-
-	background-color: light-dark(oklch(100% 0 0), oklch(22% 0.018 255));
-	border: 1px solid light-dark(oklch(89% 0.006 248), oklch(27% 0.015 260));
-
-	&:hover:not(:disabled) {
-		background-color: light-dark(oklch(96% 0.004 248), oklch(26% 0.02 255));
-		border-color: light-dark(oklch(82% 0.008 248), oklch(34% 0.02 255));
-	}
-}
-
-.submit-btn {
-	color: light-dark(oklch(40% 0.0096 252.81), oklch(75% 0.02 255));
-
-	background-color: light-dark(
-		oklch(95.534% 0.01042 248.177),
-		oklch(31.5% 0.04 256.86)
-	);
-	border: 1px solid light-dark(oklch(84% 0.018 236), oklch(27% 0.015 260));
-
-	&:hover:not(:disabled) {
-		color: light-dark(oklch(38% 0.12 250), oklch(80% 0.12 250));
-		background-color: light-dark(oklch(95% 0.025 250), oklch(26% 0.035 250));
-		border-color: light-dark(oklch(85% 0.045 250), oklch(36% 0.045 250));
-	}
-}
-
-.submit-btn :global(.spinner) {
-	animation: spin-1s-submit-btn 1s linear infinite;
-}
-
-.btn-inner {
-	position: relative;
-	z-index: var(--z-raised);
-
-	display: inline-flex;
-	gap: 0.5rem;
-	align-items: center;
-	justify-content: center;
-
-	inline-size: 100%;
-	padding: 0.9rem 1.15rem;
-}
-
-@keyframes spin-1s-submit-btn {
-	0% {
-		transform: rotate(0deg);
-	}
-
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-.details-loading-state,
-.details-error-state {
-	display: flex;
-	flex-direction: column;
-	gap: 0.65rem;
-	align-items: center;
-	justify-content: center;
-
-	min-block-size: 320px;
-	padding: 2rem;
-}
-
-.loading-icon-wrap,
-.error-icon-wrap {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	width: 56px;
-	height: 56px;
-
-	background-color: light-dark(oklch(100% 0 0), oklch(27.5% 0.032 256.86));
-	border: 1px solid light-dark(oklch(89% 0.006 248), oklch(27% 0.015 260));
-	border-radius: 16px;
-}
-
-.loading-icon-wrap {
-	color: light-dark(oklch(42% 0.14 250), oklch(74% 0.12 250));
-}
-
-.error-icon-wrap {
-	color: light-dark(oklch(52% 0.12 25), oklch(66% 0.08 25));
-}
-
-.loading-icon-wrap :global(.spinner) {
-	animation: spin-1s-loading-icon-wrap 1s linear infinite;
-}
-
-@keyframes spin-1s-loading-icon-wrap {
-	0% {
-		transform: rotate(0deg);
-	}
-
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-.loading-title,
-.error-title {
-	margin: 0;
-
-	font-size: 1rem;
-	font-weight: 680;
-	color: light-dark(oklch(23% 0.012 255), oklch(95% 0.004 255));
-	text-align: center;
-}
-
-.loading-sub,
-.error-sub {
-	max-width: 32ch;
-	margin: 0;
-
-	font-size: 0.84rem;
-	font-weight: 500;
-	line-height: 1.45;
-	color: light-dark(oklch(49% 0.008 255), oklch(70% 0.008 255));
-	text-align: center;
-}
-</style>
+	</div>
+
+	{#snippet pending()}
+		<div
+			class="flex flex-col items-center justify-center gap-3 p-12 text-zinc-500 dark:text-zinc-400"
+		>
+			<LoaderCircle
+				size={32}
+				class="animate-spin text-blue-600 dark:text-blue-400"
+			/>
+			<span class="text-sm font-medium">Cargando datos del usuario...</span>
+		</div>
+	{/snippet}
+
+	{#snippet failed()}
+		<div
+			class="flex flex-col items-center justify-center gap-3 p-8 text-center text-red-600 dark:text-red-400"
+		>
+			<CircleAlert size={32} />
+			<p class="text-sm font-medium">
+				No se pudieron cargar los datos del usuario.
+			</p>
+			<button
+				type="button"
+				class="mt-2 rounded-xl border border-zinc-200 bg-white px-4 py-2 text-xs font-bold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300"
+				onclick={onClose}
+			>
+				Cerrar
+			</button>
+		</div>
+	{/snippet}
+</svelte:boundary>

@@ -1,8 +1,11 @@
 import { error } from "@sveltejs/kit";
 import { query } from "$app/server";
 
+import * as v from "valibot";
+
 import { assertAuthenticated } from "#lib/server/auth.ts";
 import { db } from "#lib/server/db.ts";
+import { profileDataSchema } from "#lib/validations/profile/profile.query.validation.ts";
 
 /**
  * Consulta la información del perfil del usuario en sesión y sus sesiones activas.
@@ -48,8 +51,10 @@ export const getProfileData = query(async () => {
 			isCurrent: s.id === actor.sessionToken,
 		}));
 
-	return {
+	// 4. Validar y tipar datos retornados
+	const profileData = v.parse(profileDataSchema.response, {
 		user,
 		sessions,
-	};
+	});
+	return profileData;
 });

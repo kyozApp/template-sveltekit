@@ -1,9 +1,8 @@
 <script lang="ts">
 import { untrack } from "svelte";
-import { page } from "$app/state";
+import { navigating, page } from "$app/state";
 
 import AppHeader from "#lib/components/layout/AppHeader.svelte";
-import AppProgressBar from "#lib/components/layout/AppProgressBar.svelte";
 import AppSidebar from "#lib/components/layout/AppSidebar.svelte";
 import { checkUserAuth } from "#lib/remote/auth/auth.query.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
@@ -103,62 +102,30 @@ $effect(() => {
 });
 </script>
 
-<div class="app-layout">
-	<AppProgressBar />
+<div
+	class="flex min-h-dvh w-full overflow-x-hidden bg-zinc-50 text-zinc-800 dark:bg-zinc-950 dark:text-zinc-100"
+>
+	{#if navigating.to}
+		<div
+			class="fixed top-0 left-0 z-50 h-0.5 w-full bg-blue-500/20 dark:bg-blue-400/20"
+		>
+			<div
+				class="h-full w-full origin-left animate-pulse bg-blue-600 dark:bg-blue-400"
+			></div>
+		</div>
+	{/if}
 
-	<AppSidebar bind:isSidebarOpen />
+	<AppSidebar bind:isSidebarOpen user={data.user} />
 
-	<!-- ─── CONTENEDOR PRINCIPAL DERECHO ───────────────────────────────── -->
-	<div class="main-container">
+	<!-- ─── CONTENEDOR PRINCIPAL DERECHO ────────────────────────────── -->
+	<div class="flex h-dvh min-w-0 flex-1 flex-col">
 		<AppHeader bind:isSidebarOpen user={data.user} />
 
 		<!-- Área de contenido principal -->
-		<main class="app-content">
+		<main
+			class="flex flex-1 flex-col overflow-y-auto scroll-smooth bg-zinc-50 p-6 md:p-9 dark:bg-zinc-950"
+		>
 			{@render children()}
 		</main>
 	</div>
 </div>
-
-<style>
-/* ── Layout principal ──────────────────────────── */
-.app-layout {
-	display: flex;
-
-	width: 100%;
-	min-height: 100dvh;
-	overflow-x: hidden;
-
-	color: light-dark(
-		oklch(20.239% 0.01855 255.762 / 0.829),
-		oklch(98% 0.01 255)
-	);
-
-	background-color: light-dark(oklch(98% 0.01 255), oklch(18% 0.03 255));
-}
-
-/* ── Contenedor Derecho ────────────────────────── */
-.main-container {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-
-	min-width: 0;
-	height: 100dvh;
-}
-
-/* ── Contenido Principal ───────────────────────── */
-.app-content {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-
-	padding: 2.25rem;
-	overflow-y: auto;
-
-	background-color: light-dark(oklch(98% 0.01 255), oklch(18% 0.03 255));
-
-	@media (width <= 768px) {
-		padding: 1.5rem;
-	}
-}
-</style>

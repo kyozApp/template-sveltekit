@@ -7,42 +7,66 @@ import { BookOpen, Layers, LayoutDashboard, UserCog, X } from "@lucide/svelte";
 
 interface Props {
 	isSidebarOpen: boolean;
+	user: App.AuthenticatedLocals["user"];
 }
 
-let { isSidebarOpen = $bindable() }: Props = $props();
+let { isSidebarOpen = $bindable(), user }: Props = $props();
+
+// Cierra el menú lateral en dispositivos móviles
+const handleCloseSidebar = () => {
+	isSidebarOpen = false;
+};
 </script>
 
 {#if isSidebarOpen}
 	<button
 		type="button"
-		class="sidebar-overlay"
-		onclick={() => (isSidebarOpen = false)}
+		class="fixed inset-0 z-35 cursor-pointer border-none bg-black/40 backdrop-blur-xs transition-opacity duration-200 md:hidden dark:bg-black/60"
+		onclick={handleCloseSidebar}
 		tabindex="-1"
 		aria-hidden="true"
 	></button>
 {/if}
 
-<aside class="sidebar" class:collapsed={!isSidebarOpen}>
-	<div class="sidebar-brand-container">
+<aside
+	class={[
+		"fixed top-0 left-0 z-40 flex h-dvh shrink-0 flex-col border-r border-zinc-200 bg-white transition-all duration-250 ease-in-out md:sticky md:z-35 dark:border-zinc-800 dark:bg-zinc-900",
+		isSidebarOpen
+			? "w-65 translate-x-0"
+			: "-translate-x-full md:w-20 md:translate-x-0",
+	]}
+>
+	<div
+		class={[
+			"flex h-17.5 shrink-0 items-center border-b border-zinc-200 px-6 dark:border-zinc-800",
+			isSidebarOpen ? "justify-between" : "justify-center md:px-0",
+		]}
+	>
 		<a
 			href={resolve("dashboard")}
-			class="brand"
+			class="flex items-center gap-3 no-underline"
 			aria-label="Ir al panel principal"
 			in:fly={{ y: 4, duration: 300 }}
 		>
-			<span class="brand-icon">
+			<span
+				class="flex items-center justify-center text-blue-600 dark:text-blue-400"
+			>
 				<Layers size={24} />
 			</span>
 			{#if isSidebarOpen}
-				<span class="brand-name">ADMIN PANEL</span>
+				<span
+					class="bg-linear-to-br from-zinc-900 to-zinc-500 bg-clip-text text-base font-extrabold tracking-wider whitespace-nowrap text-transparent dark:from-zinc-100 dark:to-zinc-400"
+				>
+					ADMIN PANEL
+				</span>
 			{/if}
 		</a>
 
 		{#if isSidebarOpen}
 			<button
 				type="button"
-				class="mobile-close-btn"
-				onclick={() => (isSidebarOpen = false)}
+				class="flex size-9 cursor-pointer items-center justify-center rounded-lg border-none bg-transparent text-zinc-500 transition-colors duration-150 hover:bg-zinc-100 md:hidden dark:text-zinc-400 dark:hover:bg-zinc-800"
+				onclick={handleCloseSidebar}
 				aria-label="Cerrar menú"
 			>
 				<X size={20} />
@@ -51,245 +75,78 @@ let { isSidebarOpen = $bindable() }: Props = $props();
 	</div>
 
 	{#if isSidebarOpen}
-		<div class="menu-category" in:fly={{ y: 4, duration: 300 }}>
+		<div
+			class="px-6 pt-6 pb-2 text-xs font-bold tracking-widest text-zinc-400 uppercase dark:text-zinc-500"
+			in:fly={{ y: 4, duration: 300 }}
+		>
 			MENÚ PRINCIPAL
 		</div>
 	{/if}
 
-	<nav class="sidebar-nav">
+	<nav class="flex flex-col gap-1.5 p-3">
 		<a
 			href={resolve("dashboard")}
-			class="sidebar-link"
-			class:active={page.url.pathname.startsWith("/dashboard")}
+			class={[
+				"group relative flex items-center gap-3.5 rounded-xl text-sm font-semibold no-underline transition-colors duration-150",
+				isSidebarOpen ? "px-4 py-3" : "justify-center py-3 md:px-0",
+				page.url.pathname.startsWith("/dashboard")
+					? "bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400"
+					: "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
+			]}
 			data-tooltip={!isSidebarOpen ? "Dashboard" : undefined}
 			data-tooltip-position="right"
 			aria-label="Dashboard"
 		>
-			<span class="sidebar-icon"><LayoutDashboard size={18} /></span>
+			<span class="flex shrink-0 items-center justify-center">
+				<LayoutDashboard size={18} />
+			</span>
 			{#if isSidebarOpen}
-				<span class="sidebar-label">Dashboard</span>
+				<span class="whitespace-nowrap">Dashboard</span>
 			{/if}
 		</a>
 
-		{#if page.data.user?.role === "ADMIN"}
+		{#if user.role === "ADMIN"}
 			<a
 				href={resolve("usuarios")}
-				class="sidebar-link"
-				class:active={page.url.pathname.startsWith("/usuarios")}
+				class={[
+					"group relative flex items-center gap-3.5 rounded-xl text-sm font-semibold no-underline transition-colors duration-150",
+					isSidebarOpen ? "px-4 py-3" : "justify-center py-3 md:px-0",
+					page.url.pathname.startsWith("/usuarios")
+						? "bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400"
+						: "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
+				]}
 				data-tooltip={!isSidebarOpen ? "Usuarios" : undefined}
 				data-tooltip-position="right"
 				aria-label="Usuarios"
 			>
-				<span class="sidebar-icon"><UserCog size={18} /></span>
+				<span class="flex shrink-0 items-center justify-center">
+					<UserCog size={18} />
+				</span>
 				{#if isSidebarOpen}
-					<span class="sidebar-label">Usuarios</span>
+					<span class="whitespace-nowrap">Usuarios</span>
 				{/if}
 			</a>
 		{/if}
 
 		<a
 			href={resolve("manual")}
-			class="sidebar-link"
-			class:active={page.url.pathname.startsWith("/manual")}
-			data-tooltip={!isSidebarOpen ? "Manual" : undefined}
+			class={[
+				"group relative flex items-center gap-3.5 rounded-xl text-sm font-semibold no-underline transition-colors duration-150",
+				isSidebarOpen ? "px-4 py-3" : "justify-center py-3 md:px-0",
+				page.url.pathname.startsWith("/manual")
+					? "bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400"
+					: "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
+			]}
+			data-tooltip={!isSidebarOpen ? "Centro de Ayuda" : undefined}
 			data-tooltip-position="right"
-			aria-label="Manual de Usuario"
+			aria-label="Centro de Ayuda"
 		>
-			<span class="sidebar-icon"><BookOpen size={18} /></span>
+			<span class="flex shrink-0 items-center justify-center">
+				<BookOpen size={18} />
+			</span>
 			{#if isSidebarOpen}
-				<span class="sidebar-label">Manual</span>
+				<span class="whitespace-nowrap">Centro de Ayuda</span>
 			{/if}
 		</a>
 	</nav>
 </aside>
-
-<style>
-.sidebar-overlay {
-	position: fixed;
-	inset: 0;
-	z-index: var(--z-sidebar);
-	cursor: pointer;
-
-	background-color: light-dark(oklch(0% 0 0 / 0.4), oklch(0% 0 0 / 0.6));
-
-	border: none;
-	backdrop-filter: blur(4px);
-
-	transition: opacity 0.2s ease;
-
-	@media (width > 768px) {
-		display: none;
-	}
-}
-
-.sidebar-brand-container {
-	display: flex;
-	flex-shrink: 0;
-	align-items: center;
-	justify-content: space-between;
-
-	block-size: 70px;
-	padding: 0 1.5rem;
-
-	border-block-end: 1px solid
-		light-dark(oklch(90% 0.02 255), oklch(27% 0.015 260));
-}
-
-.brand {
-	display: flex;
-	gap: 0.75rem;
-	align-items: center;
-	text-decoration: none;
-}
-
-.brand-icon {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: light-dark(oklch(42% 0.14 250), oklch(74% 0.12 250));
-}
-
-.brand-name {
-	font-size: 1.1rem;
-	font-weight: 800;
-	-webkit-text-fill-color: transparent;
-	letter-spacing: 0.05em;
-	white-space: nowrap;
-
-	background: linear-gradient(
-		135deg,
-		light-dark(oklch(20% 0.02 255), oklch(91% 0.008 260)) 30%,
-		light-dark(oklch(60% 0.02 255), oklch(75% 0.02 255)) 100%
-	);
-	background-clip: text;
-}
-
-.mobile-close-btn {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	inline-size: 36px;
-	block-size: 36px;
-	color: light-dark(oklch(50% 0.02 255), oklch(70% 0.02 255));
-	cursor: pointer;
-
-	background: none;
-	border: none;
-	border-radius: 8px;
-
-	transition: background-color 0.15s ease;
-
-	&:hover {
-		background-color: light-dark(oklch(92% 0.01 250), oklch(27% 0.015 260));
-	}
-
-	@media (width > 768px) {
-		display: none;
-	}
-}
-
-.sidebar {
-	position: sticky;
-	top: 0;
-	z-index: var(--z-sidebar);
-
-	display: flex;
-	flex-shrink: 0;
-	flex-direction: column;
-
-	inline-size: 260px;
-	block-size: 100dvh;
-
-	background-color: light-dark(oklch(100% 0 0), oklch(21% 0.018 260));
-	border-inline-end: 1px solid
-		light-dark(oklch(90% 0.02 255), oklch(27% 0.015 260));
-
-	transition: inline-size 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-
-	&.collapsed {
-		inline-size: 80px;
-
-		.sidebar-brand-container {
-			justify-content: center;
-			padding: 0;
-		}
-
-		.sidebar-link {
-			justify-content: center;
-			padding: 0.75rem 0;
-		}
-	}
-
-	@media (width <= 768px) {
-		position: fixed;
-		left: 0;
-		z-index: var(--z-sidebar-floating);
-		transform: translateX(0);
-		transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-
-		&.collapsed {
-			inline-size: 260px;
-			transform: translateX(-100%);
-		}
-	}
-}
-
-.menu-category {
-	padding: 1.5rem 1.5rem 0.5rem;
-
-	font-size: 0.7rem;
-	font-weight: 700;
-	color: light-dark(oklch(60% 0.02 255), oklch(65% 0.02 255));
-	letter-spacing: 0.08em;
-}
-
-.sidebar-nav {
-	display: flex;
-	flex-direction: column;
-	gap: 0.4rem;
-	padding: 0.75rem;
-}
-
-.sidebar-link {
-	position: relative;
-
-	display: flex;
-	gap: 0.85rem;
-	align-items: center;
-
-	padding: 0.75rem 1rem;
-
-	font-size: 0.9rem;
-	font-weight: 600;
-	color: light-dark(oklch(50% 0.02 255), oklch(75% 0.02 255));
-	text-decoration: none;
-
-	border-radius: 12px;
-
-	transition:
-		background-color 0.15s ease,
-		color 0.15s ease;
-
-	&:hover {
-		color: light-dark(oklch(20% 0.02 255), oklch(95% 0.01 255));
-		background-color: light-dark(oklch(95% 0.01 250), oklch(26% 0.02 260));
-	}
-
-	&.active {
-		color: light-dark(oklch(40% 0.14 250), oklch(85% 0.12 250));
-		background-color: light-dark(oklch(94% 0.03 250), oklch(27% 0.035 260));
-	}
-}
-
-.sidebar-icon {
-	display: flex;
-	flex-shrink: 0;
-	align-items: center;
-	justify-content: center;
-}
-
-.sidebar-label {
-	white-space: nowrap;
-}
-</style>

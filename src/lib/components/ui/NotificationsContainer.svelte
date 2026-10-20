@@ -30,8 +30,6 @@ $effect(() => {
 			const hasToasts = notifications.toasts.some((t) => t.position === pos);
 			if (hasToasts) {
 				try {
-					// Si ya está abierto, hide y show lo fuerza a reposicionarse al
-					// frente de la Top Layer
 					if (el.matches(":popover-open")) {
 						el.hidePopover();
 					}
@@ -139,6 +137,21 @@ $effect(() => {
 		observer.disconnect();
 	};
 });
+
+// Cierra el diálogo de alerta
+const handleCloseAlert = () => {
+	notifications.closeAlert();
+};
+
+// Resuelve el diálogo de confirmación con la opción elegida
+const handleConfirmDecision = (confirmed: boolean) => {
+	notifications.resolveConfirm(confirmed);
+};
+
+// Cierra una notificación toast específica
+const handleCloseToast = (id: string) => {
+	notifications.closeToast(id);
+};
 </script>
 
 <!-- Contenedores de Sonner (Toasts agrupados por posición en pantalla) -->
@@ -147,18 +160,57 @@ $effect(() => {
 	<div
 		bind:this={toastPopoverEls[pos]}
 		popover="manual"
-		class="sonner-container pos-{pos}"
+		class={[
+			"z-toast pointer-events-none fixed inset-auto m-0 flex w-full max-w-[calc(100%-2rem)] flex-col gap-3 overflow-visible border-0 bg-transparent p-0 sm:max-w-95",
+			pos === "top-left" && "top-4 left-4 sm:top-8 sm:left-8",
+			pos === "top-right" && "top-4 right-4 sm:top-8 sm:right-8",
+			pos === "top-center" &&
+				"top-4 left-1/2 -translate-x-1/2 items-center sm:top-8",
+			pos === "bottom-left" &&
+				"bottom-4 left-4 flex-col-reverse sm:bottom-8 sm:left-8",
+			pos === "bottom-right" &&
+				"right-4 bottom-4 flex-col-reverse sm:right-8 sm:bottom-8",
+			pos === "bottom-center" &&
+				"bottom-4 left-1/2 -translate-x-1/2 flex-col-reverse items-center sm:bottom-8",
+		]}
 	>
 		{#each posToasts as toast (toast.id)}
 			<div
-				class="sonner-toast sonner-{toast.type}"
-				transition:fly={{ y: pos.startsWith("top") ? -50 : 50, duration: 350 }}
+				class={[
+					"pointer-events-auto relative flex w-full flex-col overflow-hidden rounded-2xl border bg-white/95 p-0 text-zinc-900 shadow-lg backdrop-blur-xl transition-all duration-200 dark:bg-zinc-900/95 dark:text-zinc-50",
+					toast.type === "success" &&
+						"border-emerald-200 shadow-emerald-500/5 dark:border-emerald-900/60",
+					toast.type === "warning" &&
+						"border-amber-200 shadow-amber-500/5 dark:border-amber-900/60",
+					toast.type === "error" &&
+						"border-red-200 shadow-red-500/5 dark:border-red-900/60",
+				]}
+				transition:fly={{ y: pos.startsWith("top") ? -40 : 40, duration: 350 }}
 				role="status"
 				aria-live="polite"
 			>
-				<div class="sonner-glow"></div>
-				<div class="sonner-content">
-					<div class="icon-wrapper">
+				<!-- Barra superior de acento con gradiente -->
+				<div
+					class={[
+						"h-1 w-full shrink-0",
+						toast.type === "success" && "bg-emerald-500 dark:bg-emerald-400",
+						toast.type === "warning" && "bg-amber-500 dark:bg-amber-400",
+						toast.type === "error" && "bg-red-500 dark:bg-red-400",
+					]}
+				></div>
+
+				<div class="flex items-start gap-3.5 p-4">
+					<div
+						class={[
+							"flex size-9 shrink-0 items-center justify-center rounded-xl",
+							toast.type === "success" &&
+								"bg-emerald-100 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400",
+							toast.type === "warning" &&
+								"bg-amber-100 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400",
+							toast.type === "error" &&
+								"bg-red-100 text-red-600 dark:bg-red-950/60 dark:text-red-400",
+						]}
+					>
 						{#if toast.type === "success"}
 							<CircleCheck size={20} />
 						{:else if toast.type === "warning"}
@@ -167,8 +219,9 @@ $effect(() => {
 							<CircleX size={20} />
 						{/if}
 					</div>
-					<div class="sonner-body">
-						<p class="sonner-title">
+
+					<div class="flex min-w-0 flex-1 flex-col gap-0.5 pt-0.5">
+						<p class="text-sm font-bold text-zinc-900 dark:text-zinc-50">
 							{#if toast.type === "success"}
 								¡Éxito!
 							{:else if toast.type === "warning"}
@@ -177,21 +230,20 @@ $effect(() => {
 								¡Error!
 							{/if}
 						</p>
-						<p class="sonner-message">{toast.message}</p>
+						<p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+							{toast.message}
+						</p>
 					</div>
+
 					<button
 						type="button"
-						class="sonner-close-btn"
-						onclick={() => notifications.closeToast(toast.id)}
+						class="flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:text-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
+						onclick={() => handleCloseToast(toast.id)}
 						aria-label="Cerrar notificación"
 					>
 						<X size={16} />
 					</button>
 				</div>
-				<div
-					class="sonner-progress"
-					style="animation-duration: {toast.duration}ms;"
-				></div>
 			</div>
 		{/each}
 	</div>
@@ -200,25 +252,52 @@ $effect(() => {
 <!-- Diálogo modal de Alerta (Top Layer nativo) -->
 <dialog
 	bind:this={alertDialogEl}
-	class="alert-dialog"
+	class="m-auto border-0 bg-transparent p-0 outline-none backdrop:bg-zinc-950/60 backdrop:backdrop-blur-sm open:flex open:items-center open:justify-center"
 	oncancel={(e) => {
 		e.preventDefault();
-		notifications.closeAlert();
+		handleCloseAlert();
 	}}
 >
 	{#if notifications.alert.show}
 		<div
-			class="alert-modal alert-{notifications.alert.type}"
+			class={[
+				"relative flex w-full max-w-md flex-col items-center overflow-hidden rounded-3xl border bg-white p-8 text-center shadow-2xl backdrop-blur-2xl dark:bg-zinc-900",
+				notifications.alert.type === "success" &&
+					"border-emerald-200 dark:border-emerald-900/60",
+				notifications.alert.type === "warning" &&
+					"border-amber-200 dark:border-amber-900/60",
+				notifications.alert.type === "error" &&
+					"border-red-200 dark:border-red-900/60",
+			]}
 			transition:scale={{ start: 0.9, duration: 250 }}
 			role="alertdialog"
 			aria-modal="true"
 			aria-labelledby="alert-title"
 			aria-describedby="alert-desc"
 		>
-			<div class="alert-glow"></div>
+			<div
+				class={[
+					"absolute inset-x-0 top-0 h-1.5",
+					notifications.alert.type === "success" &&
+						"bg-emerald-500 dark:bg-emerald-400",
+					notifications.alert.type === "warning" &&
+						"bg-amber-500 dark:bg-amber-400",
+					notifications.alert.type === "error" && "bg-red-500 dark:bg-red-400",
+				]}
+			></div>
 
-			<div class="alert-header">
-				<div class="icon-wrapper">
+			<div class="flex w-full flex-col items-center gap-3">
+				<div
+					class={[
+						"flex size-16 items-center justify-center rounded-2xl",
+						notifications.alert.type === "success" &&
+							"bg-emerald-100 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400",
+						notifications.alert.type === "warning" &&
+							"bg-amber-100 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400",
+						notifications.alert.type === "error" &&
+							"bg-red-100 text-red-600 dark:bg-red-950/60 dark:text-red-400",
+					]}
+				>
 					{#if notifications.alert.type === "success"}
 						<CircleCheck size={36} />
 					{:else if notifications.alert.type === "warning"}
@@ -227,22 +306,36 @@ $effect(() => {
 						<CircleX size={36} />
 					{/if}
 				</div>
-				<h2 id="alert-title" class="alert-title">
+				<h2
+					id="alert-title"
+					class="text-xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50"
+				>
 					{notifications.alert.title}
 				</h2>
 			</div>
 
-			<div class="alert-body">
-				<p id="alert-desc" class="alert-message">
+			<div class="mt-3 w-full">
+				<p
+					id="alert-desc"
+					class="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400"
+				>
 					{notifications.alert.message}
 				</p>
 			</div>
 
-			<div class="alert-actions">
+			<div class="mt-7 flex w-full justify-center">
 				<button
 					type="button"
-					class="btn-alert-confirm"
-					onclick={() => notifications.closeAlert()}
+					class={[
+						"inline-flex w-full cursor-pointer items-center justify-center rounded-xl px-6 py-3 text-sm font-bold text-white transition-all duration-200",
+						notifications.alert.type === "success" &&
+							"border border-emerald-600 bg-emerald-600 hover:bg-emerald-700 dark:border-emerald-500 dark:bg-emerald-600 dark:hover:bg-emerald-500",
+						notifications.alert.type === "warning" &&
+							"border border-amber-600 bg-amber-600 hover:bg-amber-700 dark:border-amber-500 dark:bg-amber-600 dark:hover:bg-amber-500",
+						notifications.alert.type === "error" &&
+							"border border-red-600 bg-red-600 hover:bg-red-700 dark:border-red-500 dark:bg-red-600 dark:hover:bg-red-500",
+					]}
+					onclick={handleCloseAlert}
 				>
 					Entendido
 				</button>
@@ -254,50 +347,60 @@ $effect(() => {
 <!-- Diálogo modal de Confirmación (Top Layer nativo con Cancelar/Aceptar) -->
 <dialog
 	bind:this={confirmDialogEl}
-	class="alert-dialog"
+	class="m-auto border-0 bg-transparent p-0 outline-none backdrop:bg-zinc-950/60 backdrop:backdrop-blur-sm open:flex open:items-center open:justify-center"
 	oncancel={(e) => {
 		e.preventDefault();
-		notifications.resolveConfirm(false);
+		handleConfirmDecision(false);
 	}}
 >
 	{#if notifications.confirmState.show}
 		<div
-			class="alert-modal alert-warning"
+			class="relative flex w-full max-w-md flex-col items-center overflow-hidden rounded-3xl border border-amber-200 bg-white p-8 text-center shadow-2xl backdrop-blur-2xl dark:border-amber-900/60 dark:bg-zinc-900"
 			transition:scale={{ start: 0.9, duration: 250 }}
 			role="alertdialog"
 			aria-modal="true"
 			aria-labelledby="confirm-title"
 			aria-describedby="confirm-desc"
 		>
-			<div class="alert-glow"></div>
+			<div
+				class="absolute inset-x-0 top-0 h-1.5 bg-amber-500 dark:bg-amber-400"
+			></div>
 
-			<div class="alert-header">
-				<div class="icon-wrapper">
+			<div class="flex w-full flex-col items-center gap-3">
+				<div
+					class="flex size-16 items-center justify-center rounded-2xl bg-amber-100 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400"
+				>
 					<TriangleAlert size={36} />
 				</div>
-				<h2 id="confirm-title" class="alert-title">
+				<h2
+					id="confirm-title"
+					class="text-xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50"
+				>
 					{notifications.confirmState.title}
 				</h2>
 			</div>
 
-			<div class="alert-body">
-				<p id="confirm-desc" class="alert-message">
+			<div class="mt-3 w-full">
+				<p
+					id="confirm-desc"
+					class="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400"
+				>
 					{notifications.confirmState.message}
 				</p>
 			</div>
 
-			<div class="alert-actions confirm-buttons-layout">
+			<div class="mt-7 flex w-full gap-3">
 				<button
 					type="button"
-					class="btn-confirm-cancel"
-					onclick={() => notifications.resolveConfirm(false)}
+					class="inline-flex w-1/2 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-white px-5 py-3 text-sm font-bold text-zinc-700 transition-all duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
+					onclick={() => handleConfirmDecision(false)}
 				>
 					Cancelar
 				</button>
 				<button
 					type="button"
-					class="btn-confirm-accept"
-					onclick={() => notifications.resolveConfirm(true)}
+					class="inline-flex w-1/2 cursor-pointer items-center justify-center rounded-xl border border-amber-600 bg-amber-600 px-5 py-3 text-sm font-bold text-white transition-all duration-200 hover:border-amber-700 hover:bg-amber-700 dark:border-amber-500 dark:bg-amber-600 dark:hover:border-amber-600 dark:hover:bg-amber-500"
+					onclick={() => handleConfirmDecision(true)}
 				>
 					Aceptar
 				</button>
@@ -305,774 +408,3 @@ $effect(() => {
 		</div>
 	{/if}
 </dialog>
-
-<style>
-.alert-dialog {
-	padding: 0;
-	margin: auto;
-	overflow: visible;
-	outline: none;
-	background: transparent;
-	border: none;
-
-	&::backdrop {
-		background-color: oklch(18% 0.03 260 / 0.6);
-		backdrop-filter: blur(12px);
-	}
-
-	&[open] {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-}
-
-.sonner-container {
-	position: fixed;
-	z-index: var(--z-toast);
-
-	display: flex;
-	flex-direction: column;
-	gap: 0.75rem;
-
-	width: 100%;
-	max-width: 380px;
-	pointer-events: none;
-
-	transition: all 0.3s ease;
-
-	&[popover] {
-		inset: auto;
-
-		width: 100%;
-		height: auto;
-		padding: 0;
-		margin: 0;
-
-		overflow: visible;
-
-		background: transparent;
-		border: none;
-	}
-
-	&:popover-open {
-		display: flex;
-	}
-
-	&.pos-top-left {
-		top: 2rem;
-		left: 2rem;
-	}
-
-	&.pos-top-right {
-		top: 2rem;
-		right: 2rem;
-	}
-
-	&.pos-top-center {
-		top: 2rem;
-		left: 50%;
-
-		align-items: center;
-		transform: translateX(-50%);
-	}
-
-	&.pos-bottom-left {
-		bottom: 2rem;
-		left: 2rem;
-
-		flex-direction: column-reverse;
-	}
-
-	&.pos-bottom-right {
-		right: 2rem;
-		bottom: 2rem;
-
-		flex-direction: column-reverse;
-	}
-
-	&.pos-bottom-center {
-		bottom: 2rem;
-		left: 50%;
-
-		flex-direction: column-reverse;
-		align-items: center;
-		transform: translateX(-50%);
-	}
-
-	@media (width <= 640px) {
-		right: 1rem;
-		left: 1rem;
-
-		max-width: calc(100% - 2rem);
-		transform: none;
-
-		&.pos-top-left,
-		&.pos-top-right,
-		&.pos-top-center {
-			top: 1rem;
-			bottom: auto;
-		}
-
-		&.pos-bottom-left,
-		&.pos-bottom-right,
-		&.pos-bottom-center {
-			top: auto;
-			bottom: 1rem;
-		}
-	}
-}
-
-.sonner-toast {
-	display: flex;
-	flex-direction: column;
-
-	width: 100%;
-
-	overflow: hidden;
-
-	color: light-dark(oklch(20% 0.02 255), oklch(98% 0.01 255));
-	pointer-events: auto;
-
-	background: light-dark(oklch(100% 0 0 / 0.85), oklch(25% 0.03 255 / 0.85));
-	border-radius: 14px;
-	backdrop-filter: blur(16px);
-
-	transition:
-		border-color 0.25s ease,
-		box-shadow 0.25s ease;
-
-	&.sonner-success {
-		border: 1px solid
-			light-dark(oklch(72% 0.2 142 / 0.3), oklch(72% 0.2 142 / 0.2));
-		box-shadow:
-			0 10px 25px -5px oklch(0% 0 0 / 0.1),
-			0 8px 10px -6px oklch(0% 0 0 / 0.1),
-			0 0 20px light-dark(oklch(72% 0.2 142 / 0.05), oklch(72% 0.2 142 / 0.1));
-	}
-
-	&.sonner-warning {
-		border: 1px solid
-			light-dark(oklch(76% 0.18 78 / 0.3), oklch(76% 0.18 78 / 0.2));
-		box-shadow:
-			0 10px 25px -5px oklch(0% 0 0 / 0.1),
-			0 8px 10px -6px oklch(0% 0 0 / 0.1),
-			0 0 20px light-dark(oklch(76% 0.18 78 / 0.05), oklch(76% 0.18 78 / 0.1));
-	}
-
-	&.sonner-error {
-		border: 1px solid
-			light-dark(oklch(62% 0.25 35 / 0.3), oklch(62% 0.25 35 / 0.2));
-		box-shadow:
-			0 10px 25px -5px oklch(0% 0 0 / 0.1),
-			0 8px 10px -6px oklch(0% 0 0 / 0.1),
-			0 0 20px light-dark(oklch(62% 0.25 35 / 0.05), oklch(62% 0.25 35 / 0.1));
-	}
-}
-
-.sonner-glow {
-	position: absolute;
-	top: 0;
-	right: 0;
-	left: 0;
-
-	height: 3px;
-}
-
-.sonner-success .sonner-glow {
-	background: linear-gradient(
-		90deg,
-		oklch(72% 0.2 142),
-		oklch(83% 0.18 140),
-		oklch(72% 0.2 142)
-	);
-	background-size: 200% 100%;
-
-	animation: gradient-shift-3s-sonner-success-glow 3s linear infinite;
-}
-
-@keyframes gradient-shift-3s-sonner-success-glow {
-	0% {
-		background-position: 0% 50%;
-	}
-
-	50% {
-		background-position: 100% 50%;
-	}
-
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
-.sonner-warning .sonner-glow {
-	background: linear-gradient(
-		90deg,
-		oklch(76% 0.18 78),
-		oklch(84% 0.18 78),
-		oklch(76% 0.18 78)
-	);
-	background-size: 200% 100%;
-
-	animation: gradient-shift-3s-sonner-warning-glow 3s linear infinite;
-}
-
-@keyframes gradient-shift-3s-sonner-warning-glow {
-	0% {
-		background-position: 0% 50%;
-	}
-
-	50% {
-		background-position: 100% 50%;
-	}
-
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
-.sonner-error .sonner-glow {
-	background: linear-gradient(
-		90deg,
-		oklch(62% 0.25 35),
-		oklch(70% 0.22 35),
-		oklch(62% 0.25 35)
-	);
-	background-size: 200% 100%;
-
-	animation: gradient-shift-3s-sonner-error-glow 3s linear infinite;
-}
-
-@keyframes gradient-shift-3s-sonner-error-glow {
-	0% {
-		background-position: 0% 50%;
-	}
-
-	50% {
-		background-position: 100% 50%;
-	}
-
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
-.sonner-content {
-	position: relative;
-
-	display: flex;
-	gap: 0.875rem;
-	align-items: flex-start;
-
-	padding: 1.25rem;
-}
-
-.sonner-toast .icon-wrapper {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	padding: 0.45rem;
-	border-radius: 10px;
-
-	box-shadow: 0 0 10px oklch(0% 0 0 / 0.05);
-}
-
-.sonner-success .icon-wrapper {
-	color: oklch(72% 0.2 142);
-
-	background-color: light-dark(
-		oklch(72% 0.2 142 / 0.1),
-		oklch(72% 0.2 142 / 0.15)
-	);
-	border: 1px solid
-		light-dark(oklch(72% 0.2 142 / 0.2), oklch(72% 0.2 142 / 0.3));
-}
-
-.sonner-warning .icon-wrapper {
-	color: oklch(76% 0.18 78);
-
-	background-color: light-dark(
-		oklch(76% 0.18 78 / 0.1),
-		oklch(76% 0.18 78 / 0.15)
-	);
-	border: 1px solid
-		light-dark(oklch(76% 0.18 78 / 0.2), oklch(76% 0.18 78 / 0.3));
-}
-
-.sonner-error .icon-wrapper {
-	color: oklch(62% 0.25 35);
-
-	background-color: light-dark(
-		oklch(62% 0.25 35 / 0.1),
-		oklch(62% 0.25 35 / 0.15)
-	);
-	border: 1px solid
-		light-dark(oklch(62% 0.25 35 / 0.2), oklch(62% 0.25 35 / 0.3));
-}
-
-.sonner-body {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	gap: 0.2rem;
-
-	padding-top: 0.15rem;
-}
-
-.sonner-title {
-	margin: 0;
-
-	font-size: 0.95rem;
-	font-weight: 700;
-}
-
-.sonner-success .sonner-title {
-	color: light-dark(oklch(40% 0.15 140), oklch(83% 0.18 140));
-}
-
-.sonner-warning .sonner-title {
-	color: light-dark(oklch(45% 0.12 78), oklch(84% 0.18 78));
-}
-
-.sonner-error .sonner-title {
-	color: light-dark(oklch(35% 0.15 28), oklch(70% 0.22 35));
-}
-
-.sonner-message {
-	margin: 0;
-
-	font-size: 0.875rem;
-	line-height: 1.4;
-	color: light-dark(oklch(60% 0.02 255), oklch(75% 0.02 255));
-}
-
-.sonner-close-btn {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0.25rem;
-
-	margin-top: 0.15rem;
-
-	color: light-dark(oklch(60% 0.02 255), oklch(75% 0.02 255));
-	cursor: pointer;
-
-	background: none;
-	border: none;
-	border-radius: 6px;
-
-	transition: all 0.2s ease;
-
-	&:hover {
-		color: light-dark(oklch(20% 0.02 255), oklch(98% 0.01 255));
-		background-color: light-dark(oklch(0% 0 0 / 0.05), oklch(100% 0 0 / 0.05));
-	}
-}
-
-.sonner-progress {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-
-	width: 100%;
-	height: 3px;
-
-	animation: width-out-3p5s-sonner-progress 3.5s linear forwards;
-}
-
-@keyframes width-out-3p5s-sonner-progress {
-	0% {
-		width: 100%;
-	}
-
-	100% {
-		width: 0%;
-	}
-}
-
-.sonner-success .sonner-progress {
-	background-color: oklch(72% 0.2 142);
-}
-
-.sonner-warning .sonner-progress {
-	background-color: oklch(76% 0.18 78);
-}
-
-.sonner-error .sonner-progress {
-	background-color: oklch(62% 0.25 35);
-}
-
-.alert-modal {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-	width: 100%;
-	max-width: 480px;
-	padding: 2.25rem 2rem 2rem;
-
-	overflow: hidden;
-
-	color: light-dark(oklch(20% 0.02 255), oklch(98% 0.01 255));
-	background: light-dark(oklch(100% 0 0 / 0.95), oklch(20% 0.03 255 / 0.95));
-	border-radius: 20px;
-	box-shadow:
-		0 25px 50px -12px oklch(0% 0 0 / 0.35),
-		0 0 40px oklch(0% 0 0 / 0.1);
-	backdrop-filter: blur(20px);
-
-	&.alert-success {
-		border: 1px solid
-			light-dark(oklch(72% 0.2 142 / 0.35), oklch(72% 0.2 142 / 0.3));
-		box-shadow:
-			0 25px 50px -12px oklch(0% 0 0 / 0.25),
-			0 0 35px light-dark(oklch(72% 0.2 142 / 0.08), oklch(72% 0.2 142 / 0.15));
-	}
-
-	&.alert-warning {
-		border: 1px solid
-			light-dark(oklch(76% 0.18 78 / 0.35), oklch(76% 0.18 78 / 0.3));
-		box-shadow:
-			0 25px 50px -12px oklch(0% 0 0 / 0.25),
-			0 0 35px light-dark(oklch(76% 0.18 78 / 0.08), oklch(76% 0.18 78 / 0.15));
-	}
-
-	&.alert-error {
-		border: 1px solid
-			light-dark(oklch(62% 0.25 35 / 0.35), oklch(62% 0.25 35 / 0.3));
-		box-shadow:
-			0 25px 50px -12px oklch(0% 0 0 / 0.25),
-			0 0 35px light-dark(oklch(62% 0.25 35 / 0.08), oklch(62% 0.25 35 / 0.15));
-	}
-}
-
-.alert-glow {
-	position: absolute;
-	top: 0;
-	right: 0;
-	left: 0;
-
-	height: 4px;
-}
-
-.alert-success .alert-glow {
-	background: linear-gradient(
-		90deg,
-		oklch(72% 0.2 142),
-		oklch(83% 0.18 140),
-		oklch(72% 0.2 142)
-	);
-	background-size: 200% 100%;
-
-	animation: gradient-shift-3s-alert-success-glow 3s linear infinite;
-}
-
-@keyframes gradient-shift-3s-alert-success-glow {
-	0% {
-		background-position: 0% 50%;
-	}
-
-	50% {
-		background-position: 100% 50%;
-	}
-
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
-.alert-warning .alert-glow {
-	background: linear-gradient(
-		90deg,
-		oklch(76% 0.18 78),
-		oklch(84% 0.18 78),
-		oklch(76% 0.18 78)
-	);
-	background-size: 200% 100%;
-
-	animation: gradient-shift-3s-alert-warning-glow 3s linear infinite;
-}
-
-@keyframes gradient-shift-3s-alert-warning-glow {
-	0% {
-		background-position: 0% 50%;
-	}
-
-	50% {
-		background-position: 100% 50%;
-	}
-
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
-.alert-error .alert-glow {
-	background: linear-gradient(
-		90deg,
-		oklch(62% 0.25 35),
-		oklch(70% 0.22 35),
-		oklch(62% 0.25 35)
-	);
-	background-size: 200% 100%;
-
-	animation: gradient-shift-3s-alert-error-glow 3s linear infinite;
-}
-
-@keyframes gradient-shift-3s-alert-error-glow {
-	0% {
-		background-position: 0% 50%;
-	}
-
-	50% {
-		background-position: 100% 50%;
-	}
-
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
-.alert-modal .icon-wrapper {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 1rem;
-
-	margin-bottom: 1.25rem;
-	border-radius: 50%;
-
-	animation: pulse-2p5s-alert-modal-icon-wrapper 2.5s
-		cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse-2p5s-alert-modal-icon-wrapper {
-	0%,
-	100% {
-		transform: scale(1);
-		opacity: 1;
-	}
-
-	50% {
-		transform: scale(1.03);
-		opacity: 0.85;
-	}
-}
-
-.alert-success .icon-wrapper {
-	color: light-dark(oklch(40% 0.15 140), oklch(83% 0.18 140));
-
-	background-color: light-dark(
-		oklch(72% 0.2 142 / 0.08),
-		oklch(72% 0.2 142 / 0.12)
-	);
-	border: 1px solid
-		light-dark(oklch(72% 0.2 142 / 0.2), oklch(72% 0.2 142 / 0.25));
-	box-shadow:
-		0 0 20px oklch(72% 0.2 142 / 0.1),
-		inset 0 0 10px oklch(72% 0.2 142 / 0.05);
-}
-
-.alert-warning .icon-wrapper {
-	color: light-dark(oklch(45% 0.12 78), oklch(84% 0.18 78));
-
-	background-color: light-dark(
-		oklch(76% 0.18 78 / 0.08),
-		oklch(76% 0.18 78 / 0.12)
-	);
-	border: 1px solid
-		light-dark(oklch(76% 0.18 78 / 0.2), oklch(76% 0.18 78 / 0.25));
-	box-shadow:
-		0 0 20px oklch(76% 0.18 78 / 0.1),
-		inset 0 0 10px oklch(76% 0.18 78 / 0.05);
-}
-
-.alert-error .icon-wrapper {
-	color: light-dark(oklch(35% 0.15 28), oklch(70% 0.22 35));
-
-	background-color: light-dark(
-		oklch(62% 0.25 35 / 0.08),
-		oklch(62% 0.25 35 / 0.12)
-	);
-	border: 1px solid
-		light-dark(oklch(62% 0.25 35 / 0.2), oklch(62% 0.25 35 / 0.25));
-	box-shadow:
-		0 0 20px oklch(62% 0.25 35 / 0.1),
-		inset 0 0 10px oklch(62% 0.25 35 / 0.05);
-}
-
-.alert-header {
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-	align-items: center;
-
-	width: 100%;
-}
-
-.alert-title {
-	margin: 0;
-
-	font-size: 1.4rem;
-	font-weight: 800;
-	letter-spacing: -0.025em;
-}
-
-.alert-success .alert-title {
-	color: light-dark(oklch(40% 0.15 140), oklch(83% 0.18 140));
-}
-
-.alert-warning .alert-title {
-	color: light-dark(oklch(45% 0.12 78), oklch(84% 0.18 78));
-}
-
-.alert-error .alert-title {
-	color: light-dark(oklch(35% 0.15 28), oklch(70% 0.22 35));
-}
-
-.alert-body {
-	width: 100%;
-	margin-top: 1rem;
-}
-
-.alert-message {
-	margin: 0;
-
-	font-size: 0.95rem;
-	font-weight: 500;
-	line-height: 1.55;
-	color: light-dark(oklch(60% 0.02 255), oklch(75% 0.02 255));
-}
-
-.alert-actions {
-	display: flex;
-	justify-content: center;
-
-	width: 100%;
-	margin-top: 2rem;
-
-	&.confirm-buttons-layout {
-		gap: 1rem;
-	}
-}
-
-.btn-alert-confirm {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-
-	width: 100%;
-	padding: 0.875rem 2rem;
-
-	font-size: 0.95rem;
-	font-weight: 700;
-	color: oklch(100% 0 0);
-	cursor: pointer;
-	border: none;
-	border-radius: 12px;
-
-	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.alert-success .btn-alert-confirm {
-	background-color: oklch(72% 0.2 142);
-	box-shadow: 0 4px 12px oklch(72% 0.2 142 / 0.2);
-
-	&:hover {
-		background-color: oklch(40% 0.15 140);
-		box-shadow: 0 6px 16px oklch(72% 0.2 142 / 0.3);
-		transform: translateY(-1.5px);
-	}
-
-	&:active {
-		transform: translateY(0);
-	}
-}
-
-.alert-warning .btn-alert-confirm {
-	background-color: oklch(76% 0.18 78);
-	box-shadow: 0 4px 12px oklch(76% 0.18 78 / 0.2);
-
-	&:hover {
-		background-color: oklch(45% 0.12 78);
-		box-shadow: 0 6px 16px oklch(76% 0.18 78 / 0.3);
-		transform: translateY(-1.5px);
-	}
-
-	&:active {
-		transform: translateY(0);
-	}
-}
-
-.alert-error .btn-alert-confirm {
-	background-color: oklch(62% 0.25 35);
-	box-shadow: 0 4px 12px oklch(62% 0.25 35);
-
-	&:hover {
-		background-color: oklch(55% 0.24 28);
-		box-shadow: 0 6px 16px oklch(62% 0.25 35 / 0.3);
-		transform: translateY(-1.5px);
-	}
-
-	&:active {
-		transform: translateY(0);
-	}
-}
-
-.btn-confirm-cancel {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-
-	width: 50%;
-	padding: 0.875rem 2rem;
-
-	font-size: 0.95rem;
-	font-weight: 700;
-	color: light-dark(oklch(20% 0.02 255), oklch(98% 0.01 255));
-	cursor: pointer;
-
-	background-color: light-dark(oklch(100% 0 0), oklch(25% 0.03 255));
-	border: 1px solid light-dark(oklch(90% 0.02 255), oklch(35% 0.03 255));
-	border-radius: 12px;
-
-	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
-	&:hover {
-		background-color: light-dark(oklch(95% 0.01 250), oklch(35% 0.02 255));
-	}
-}
-
-.btn-confirm-accept {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-
-	width: 50%;
-	padding: 0.875rem 2rem;
-
-	font-size: 0.95rem;
-	font-weight: 700;
-	color: oklch(100% 0 0);
-	cursor: pointer;
-
-	background-color: oklch(76% 0.18 78);
-	border: none;
-	border-radius: 12px;
-	box-shadow: 0 4px 12px oklch(76% 0.18 78 / 0.2);
-
-	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
-	&:hover {
-		background-color: oklch(45% 0.12 78);
-		box-shadow: 0 6px 16px oklch(76% 0.18 78 / 0.3);
-		transform: translateY(-1.5px);
-	}
-
-	&:active {
-		transform: translateY(0);
-	}
-}
-</style>

@@ -23,24 +23,28 @@ let { isOpen, onRequestClose, width = "medium", children }: Props = $props();
 // y showModal() los apila correctamente en el top layer del navegador.
 let dialogEl = $state<HTMLDialogElement | null>(null);
 
-const resolvedMaxInlineSize = $derived(
+const widthClass = $derived(
 	width === "small"
-		? "550px"
+		? "max-w-xl"
 		: width === "medium"
-			? "650px"
+			? "max-w-2xl"
 			: width === "large"
-				? "1500px"
+				? "max-w-7xl"
 				: width,
 );
 
-// ÚNICA interacción con el DOM: sincronizar el <dialog> al prop isOpen del
-// padre.
+// Intercepta el evento de cancelación nativo (ESC) y delega el cierre al controlador del padre
+const handleCancel = (e: Event) => {
+	e.preventDefault();
+	onRequestClose?.();
+};
+
+// ÚNICA interacción con el DOM: sincronizar el <dialog> al prop isOpen del padre.
 // No hay setOpen, no hay onClose, no hay reopen, no hay sync al revés.
 // El $effect solo LEE isOpen y actualiza el DOM consecuentemente.
-// Segun la doc oficial, el cleanup de $effect corre antes de cada re-ejecucion,
-// por eso no guardamos flags de destruccion aqui.
-// Guards: evita InvalidStateError al llamar showModal/close cuando ya esta en
-// ese estado.
+// Según la doc oficial, el cleanup de $effect corre antes de cada re-ejecución,
+// por eso no guardamos flags de destrucción aquí.
+// Guards: evita InvalidStateError al llamar showModal/close cuando ya está en ese estado.
 $effect(() => {
 	if (!dialogEl) return;
 
@@ -54,48 +58,12 @@ $effect(() => {
 
 <dialog
 	bind:this={dialogEl}
-	oncancel={(e) => {
-		// Segun la doc oficial de <dialog>, ESC dispara "cancel" antes del
-		// cierre nativo.
-		// Interceptamos ese cierre y lo delegamos al mismo flujo controlado
-		// del padre.
-		e.preventDefault();
-		onRequestClose?.();
-	}}
+	oncancel={handleCancel}
 	aria-modal="true"
-	class="modal-dialog"
-	style:--modal-max-inline-size={resolvedMaxInlineSize}
+	class={[
+		"m-auto max-h-[90dvh] w-11/12 overflow-hidden overscroll-contain rounded-2xl border border-zinc-200 bg-white p-0 shadow-2xl transition-all duration-300 outline-none backdrop:bg-zinc-950/60 backdrop:backdrop-blur-xs open:flex open:flex-col dark:border-zinc-800 dark:bg-zinc-900",
+		widthClass,
+	]}
 >
 	{@render children()}
 </dialog>
-
-<style>
-.modal-dialog {
-	inline-size: min(90vi, var(--modal-max-inline-size));
-	max-inline-size: 100%;
-	max-block-size: 90dvh;
-	padding: 0;
-	margin: auto;
-	overflow: hidden;
-	overscroll-behavior: contain;
-
-	background-color: light-dark(oklch(100% 0 0), oklch(25% 0.03 255));
-	border: 1px solid light-dark(oklch(90% 0.02 255), oklch(35% 0.03 255));
-	border-radius: 12px;
-	box-shadow: 0 25px 50px -12px oklch(0% 0 0 / 0.25);
-
-	transition: inline-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-	&::backdrop {
-		background-color: light-dark(oklch(0% 0 0 / 0.4), oklch(0% 0 0 / 0.6));
-		backdrop-filter: blur(4px);
-
-		transition: backdrop-filter 0.3s ease;
-	}
-
-	&[open] {
-		display: flex;
-		flex-direction: column;
-	}
-}
-</style>

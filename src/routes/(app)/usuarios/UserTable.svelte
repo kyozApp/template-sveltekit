@@ -1,110 +1,309 @@
 <script lang="ts">
+import { isHttpError } from "@sveltejs/kit";
+import { goto } from "$app/navigation";
 import { page } from "$app/state";
 
-import { LoaderCircle } from "@lucide/svelte";
+import { LoaderCircle, Pencil, Trash } from "@lucide/svelte";
 
 import { ROLE_LABELS } from "#lib/constants.ts";
+import {
+	deleteUser,
+	toggleUserStatus,
+} from "#lib/remote/user/user.command.remote.ts";
 import { getUserList } from "#lib/remote/user/user.query.remote.ts";
-
-import UserDeleteButton from "./UserDeleteButton.svelte";
-import UserToggleStatusButton from "./UserToggleStatusButton.svelte";
-import UserUpdateButton from "./UserUpdateButton.svelte";
+import { notifications } from "#lib/services/notifications.svelte.ts";
 
 interface Props {
-	currentUserRole: string;
+	currentUser: App.AuthenticatedLocals["user"];
 }
 
-let { currentUserRole }: Props = $props();
+let { currentUser }: Props = $props();
 
+let deletingUserId = $state<string | null>(null);
+let togglingUserId = $state<string | null>(null);
+
+// Determina si el usuario en sesión tiene permisos para alternar el estado del usuario objetivo
 const canToggleUserStatus = (targetUser: { id: string; role: string }) => {
-	if (targetUser.id === page.data.user?.id) {
+	if (targetUser.id === currentUser.id) {
 		return false;
 	}
-	return currentUserRole === "ADMIN";
+	return currentUser.role === "ADMIN";
 };
 
+// Determina si el usuario en sesión tiene permisos para editar al usuario objetivo
 const canEditUser = (_targetUser: { id: string; role: string }) => {
-	return currentUserRole === "ADMIN";
+	return currentUser.role === "ADMIN";
 };
 
+// Determina si el usuario en sesión tiene permisos para eliminar al usuario objetivo
 const canDeleteUser = (targetUser: { id: string; role: string }) => {
-	if (currentUserRole !== "ADMIN") {
+	if (currentUser.role !== "ADMIN") {
 		return false;
 	}
-	if (targetUser.id === page.data.user?.id) {
+	if (targetUser.id === currentUser.id) {
 		return false;
 	}
 	return true;
 };
+
+// Abre el modal para editar el usuario seleccionado mediante navegación superficial
+const handleOpenUpdateModal = (userId: string) => {
+	goto("", {
+		shallow: true,
+		state: {
+			...page.state,
+			showUserUpdate: { isOpen: true, data: { userId } },
+		},
+	});
+};
+
+// Solicita confirmación y ejecuta la eliminación del usuario en el sistema
+const handleDeleteUser = async (userToDelete: { id: string; name: string }) => {
+	if (deletingUserId) return;
+
+	const confirmed = await notifications.showConfirmAlert(
+		"Eliminar Usuario",
+		`¿Estás seguro de que deseas dar de baja a "${userToDelete.name}"? El usuario será eliminado del sistema y sus sesiones serán canceladas.`,
+	);
+
+	if (!confirmed) return;
+
+	deletingUserId = userToDelete.id;
+	try {
+		await deleteUser({ id: userToDelete.id });
+		notifications.showToastSuccess(
+			`Usuario "${userToDelete.name}" eliminado con éxito.`,
+		);
+	} catch (e) {
+		if (isHttpError(e)) {
+			console.error("[USER DELETE][HTTP ERROR]", e);
+			notifications.showToastError(
+				"No se pudo eliminar al usuario. Por favor, comuníquese con sistemas.",
+			);
+		} else {
+			console.error("[USER DELETE][CONNECTION ERROR]", e);
+			notifications.showToastError(
+				"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
+			);
+		}
+	} finally {
+		deletingUserId = null;
+	}
+};
+
+// Alterna el estado activo o inactivo del usuario en el sistema
+const handleToggleStatus = async (userToToggle: {
+	id: string;
+	isActive: boolean;
+}) => {
+	if (togglingUserId) return;
+	togglingUserId = userToToggle.id;
+
+	try {
+		await toggleUserStatus({
+			id: userToToggle.id,
+			isActive: !userToToggle.isActive,
+		});
+
+		notifications.showToastSuccess(
+			`Usuario ${!userToToggle.isActive ? "activado" : "desactivado"} con éxito.`,
+		);
+	} catch (e) {
+		if (isHttpError(e)) {
+			console.error("[USER TOGGLE STATUS][HTTP ERROR]", e);
+			notifications.showToastError(
+				"No pudimos cambiar el estado del usuario en este momento. Por favor, comuníquese con sistemas.",
+			);
+		} else {
+			console.error("[USER TOGGLE STATUS][CONNECTION ERROR]", e);
+			notifications.showToastError(
+				"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
+			);
+		}
+	} finally {
+		togglingUserId = null;
+	}
+};
 </script>
 
-<div class="table-responsive">
-	<table class="data-table">
+<div
+	class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+>
+	<table class="w-full border-collapse text-left">
 		<thead>
-			<tr class="table-row">
-				<th class="table-head col-index">Item</th>
-				<th class="table-head col-user">Nombre</th>
-				<th class="table-head col-username">Usuario</th>
-				<th class="table-head col-email">Correo electrónico</th>
-				<th class="table-head col-role">Rol</th>
-				<th class="table-head col-status">Estado</th>
-				<th class="table-head col-actions">Acciones</th>
+			<tr
+				class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/80"
+			>
+				<th
+					class="w-16 min-w-16 px-5 py-4 text-xs font-bold tracking-wider whitespace-nowrap text-zinc-500 uppercase dark:text-zinc-400"
+				>
+					Item
+				</th>
+				<th
+					class="min-w-50 px-5 py-4 text-xs font-bold tracking-wider whitespace-nowrap text-zinc-500 uppercase dark:text-zinc-400"
+				>
+					Nombre
+				</th>
+				<th
+					class="min-w-44 px-5 py-4 text-xs font-bold tracking-wider whitespace-nowrap text-zinc-500 uppercase dark:text-zinc-400"
+				>
+					Usuario
+				</th>
+				<th
+					class="min-w-64 px-5 py-4 text-xs font-bold tracking-wider whitespace-nowrap text-zinc-500 uppercase dark:text-zinc-400"
+				>
+					Correo electrónico
+				</th>
+				<th
+					class="min-w-40 px-5 py-4 text-center text-xs font-bold tracking-wider whitespace-nowrap text-zinc-500 uppercase dark:text-zinc-400"
+				>
+					Rol
+				</th>
+				<th
+					class="w-28 min-w-28 px-5 py-4 text-center text-xs font-bold tracking-wider whitespace-nowrap text-zinc-500 uppercase dark:text-zinc-400"
+				>
+					Estado
+				</th>
+				<th
+					class="w-28 min-w-28 px-5 py-4 text-center text-xs font-bold tracking-wider whitespace-nowrap text-zinc-500 uppercase dark:text-zinc-400"
+				>
+					Acciones
+				</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
 			<svelte:boundary>
 				{@const list = await getUserList()}
 
 				{#each list as user, index (user.id)}
-					<tr class="user-row table-row">
-						<td class="table-cell col-index">
+					<tr
+						class="transition-colors duration-150 hover:bg-zinc-50/80 dark:hover:bg-zinc-800/40"
+					>
+						<td
+							class="px-5 py-4 text-sm font-medium text-zinc-500 dark:text-zinc-400"
+						>
 							{index + 1}
 						</td>
-						<td class="table-cell col-user">
-							<div class="user-details">
-								<div class="user-name-wrapper">
-									<span class="user-name" class:inactive={!user.isActive}
-										>{user.name}</span
+						<td class="px-5 py-4">
+							<div class="inline-flex items-center gap-2">
+								<span
+									class={[
+										"text-sm font-semibold",
+										user.isActive
+											? "text-zinc-900 dark:text-zinc-100"
+											: "text-zinc-400 dark:text-zinc-500",
+									]}
+								>
+									{user.name}
+								</span>
+								{#if user.id === currentUser.id}
+									<span
+										class="inline-flex items-center rounded-md border border-blue-200 bg-blue-50 px-1.5 py-0.5 text-xs font-bold text-blue-700 dark:border-blue-900 dark:bg-blue-950/60 dark:text-blue-300"
 									>
-									{#if user.id === page.data.user?.id}
-										<span class="you-badge">Tú</span>
-									{/if}
-								</div>
+										Tú
+									</span>
+								{/if}
 							</div>
 						</td>
-						<td class="table-cell col-username">
-							<span class="mono">{user.username}</span>
+						<td
+							class="px-5 py-4 font-mono text-xs text-zinc-600 dark:text-zinc-300"
+						>
+							{user.username}
 						</td>
-						<td class="table-cell col-email">
-							<span class="email">{user.email}</span>
+						<td
+							class="px-5 py-4 text-sm font-medium text-blue-600 dark:text-blue-400"
+						>
+							{user.email}
 						</td>
-						<td class="table-cell col-role">
-							<span class="role-badge" data-role={user.role}>
+						<td class="px-5 py-4 text-center">
+							<span
+								class={[
+									"inline-flex items-center justify-center rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wider uppercase",
+									user.role === "ADMIN"
+										? "bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300"
+										: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300",
+								]}
+							>
 								{ROLE_LABELS[user.role]}
 							</span>
 						</td>
-						<td class="table-cell col-status">
+						<td class="px-5 py-4 text-center">
 							{#if canToggleUserStatus(user)}
-								<UserToggleStatusButton
-									userId={user.id}
-									isActive={user.isActive}
-								/>
+								<button
+									type="button"
+									onclick={() => handleToggleStatus(user)}
+									role="switch"
+									aria-checked={user.isActive}
+									aria-label="Alternar estado del usuario"
+									disabled={togglingUserId === user.id}
+									class={[
+										"relative inline-flex h-7.5 w-13.5 shrink-0 cursor-pointer items-center rounded-full border border-zinc-300 p-0.5 transition-colors duration-250 ease-in-out disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-700",
+										user.isActive
+											? "bg-emerald-600 dark:bg-emerald-500"
+											: "bg-zinc-200 dark:bg-zinc-800",
+									]}
+								>
+									<span
+										class={[
+											"size-6 rounded-full bg-white shadow-md transition-transform duration-250 ease-in-out dark:bg-zinc-100",
+											user.isActive ? "translate-x-6" : "translate-x-0.5",
+										]}
+									></span>
+									<span class="sr-only">
+										Estado del usuario: {user.isActive ? "Activo" : "Inactivo"}
+									</span>
+								</button>
 							{:else}
-								<span class="status-pill" data-active={user.isActive}>
+								<span
+									class={[
+										"inline-flex items-center justify-center rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wider uppercase",
+										user.isActive
+											? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
+											: "bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300",
+									]}
+								>
 									{user.isActive ? "Activo" : "Inactivo"}
 								</span>
 							{/if}
 						</td>
-						<td class="table-cell col-actions">
-							<div class="actions-group">
+						<td class="px-5 py-4 text-center">
+							<div class="inline-flex items-center justify-center gap-2">
 								{#if canEditUser(user)}
-									<UserUpdateButton userId={user.id} />
+									<button
+										type="button"
+										class="inline-flex size-9 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 p-0 text-zinc-600 transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-55 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-blue-700 dark:hover:bg-blue-950/40 dark:hover:text-blue-300"
+										onclick={() => handleOpenUpdateModal(user.id)}
+										aria-label="Editar usuario"
+										data-tooltip="Editar usuario"
+										data-tooltip-position="top-end"
+									>
+										<Pencil size={16} />
+									</button>
 								{/if}
 								{#if canDeleteUser(user)}
-									<UserDeleteButton userId={user.id} userName={user.name} />
+									<button
+										type="button"
+										class="inline-flex size-8 cursor-pointer items-center justify-center rounded-lg border border-transparent bg-transparent p-0 text-red-600 transition-all duration-200 hover:not-disabled:border-red-200 hover:not-disabled:bg-red-50 hover:not-disabled:text-red-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-red-400 dark:hover:not-disabled:border-red-900 dark:hover:not-disabled:bg-red-950/40 dark:hover:not-disabled:text-red-300"
+										onclick={() => handleDeleteUser(user)}
+										disabled={deletingUserId === user.id}
+										data-tooltip="Eliminar usuario"
+										data-tooltip-position="top-end"
+										aria-label={`Eliminar usuario ${user.name}`}
+									>
+										{#if deletingUserId === user.id}
+											<LoaderCircle size={16} class="animate-spin" />
+										{:else}
+											<Trash size={16} />
+										{/if}
+									</button>
 								{/if}
 								{#if !canEditUser(user) && !canDeleteUser(user)}
-									<span class="lock-hint" aria-hidden="true">—</span>
+									<span
+										class="inline-flex size-9 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-sm font-bold text-zinc-400 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-500"
+										aria-hidden="true"
+									>
+										—
+									</span>
 								{/if}
 							</div>
 						</td>
@@ -112,10 +311,15 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 				{/each}
 
 				{#snippet pending()}
-					<tr class="table-row">
-						<td class="table-feedback-cell table-cell" colspan={7}>
-							<div class="table-loading-state">
-								<LoaderCircle size={20} class="spinner" />
+					<tr>
+						<td class="px-5 py-12 text-center" colspan={7}>
+							<div
+								class="flex items-center justify-center gap-3 text-sm font-semibold text-zinc-500 dark:text-zinc-400"
+							>
+								<LoaderCircle
+									size={20}
+									class="animate-spin text-blue-600 dark:text-blue-400"
+								/>
 								<span>Cargando usuarios...</span>
 							</div>
 						</td>
@@ -123,9 +327,9 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 				{/snippet}
 
 				{#snippet failed()}
-					<tr class="table-row">
-						<td class="table-feedback-cell table-cell" colspan={7}>
-							<div class="table-error-state">
+					<tr>
+						<td class="px-5 py-12 text-center" colspan={7}>
+							<div class="text-sm font-semibold text-red-600 dark:text-red-400">
 								Error al cargar los usuarios. Por favor, recarga la página.
 							</div>
 						</td>
@@ -135,258 +339,3 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 		</tbody>
 	</table>
 </div>
-
-<style>
-.table-responsive {
-	overflow-x: auto;
-	background-color: light-dark(oklch(100% 0 0), oklch(21% 0.018 260));
-	border: 1px solid light-dark(oklch(90% 0.008 248), oklch(27% 0.015 260));
-	border-radius: 16px;
-	box-shadow: 0 4px 20px -2px
-		light-dark(oklch(0% 0 0 / 0.03), oklch(0% 0 0 / 0.2));
-}
-
-.data-table {
-	inline-size: 100%;
-	text-align: start;
-	border-collapse: collapse;
-}
-
-.table-head {
-	padding: 1.1rem 1.25rem;
-
-	font-size: 0.72rem;
-	font-weight: 750;
-	color: light-dark(oklch(40% 0.05 250), oklch(75% 0.05 250));
-	text-align: start;
-	text-transform: uppercase;
-	letter-spacing: 0.06em;
-	white-space: nowrap;
-
-	background-color: light-dark(oklch(98.5% 0.004 248), oklch(22.5% 0.018 255));
-	border-block-end: 1px solid
-		light-dark(oklch(88% 0.008 248), oklch(27% 0.015 260));
-}
-
-.table-cell {
-	padding: 1.1rem 1.25rem;
-	text-align: start;
-	border-block-end: 1px solid
-		light-dark(oklch(93% 0.005 248), oklch(25% 0.015 260));
-}
-
-.table-row:last-child .table-cell {
-	border-block-end: none;
-}
-
-.user-row {
-	transition: background-color 0.15s ease;
-
-	&:hover {
-		background-color: light-dark(oklch(98.5% 0.004 248), oklch(24% 0.018 255));
-	}
-}
-
-.col-index {
-	inline-size: 70px;
-	min-inline-size: 70px;
-	font-size: 0.85rem;
-	font-weight: 600;
-	color: light-dark(oklch(55% 0.008 255), oklch(65% 0.008 255));
-}
-
-.col-user {
-	min-inline-size: 200px;
-}
-
-.col-username {
-	min-inline-size: 170px;
-}
-
-.col-email {
-	min-inline-size: 270px;
-}
-
-.col-role {
-	min-inline-size: 160px;
-	text-align: center;
-}
-
-.col-status {
-	inline-size: 110px;
-	min-inline-size: 110px;
-	text-align: center;
-}
-
-.col-actions {
-	inline-size: 110px;
-	min-inline-size: 110px;
-	text-align: center;
-}
-
-.actions-group {
-	display: inline-flex;
-	gap: 0.5rem;
-	align-items: center;
-	justify-content: center;
-}
-
-.user-details {
-	display: flex;
-	flex-direction: column;
-	gap: 0.2rem;
-}
-
-.user-name-wrapper {
-	display: inline-flex;
-	gap: 0.5rem;
-	align-items: center;
-}
-
-.user-name {
-	font-size: 0.95rem;
-	font-weight: 680;
-	color: light-dark(oklch(23% 0.012 255), oklch(95% 0.004 255));
-
-	&.inactive {
-		color: light-dark(oklch(40% 0.008 255), oklch(82% 0.012 255));
-		text-decoration: none;
-	}
-}
-
-.you-badge {
-	display: inline-flex;
-	align-items: center;
-	padding: 0.12rem 0.45rem;
-
-	font-size: 0.65rem;
-	font-weight: 750;
-	color: light-dark(oklch(38% 0.14 250), oklch(85% 0.12 250));
-	letter-spacing: 0.03em;
-
-	background-color: light-dark(oklch(93% 0.03 250), oklch(28% 0.04 260));
-	border: 1px solid light-dark(oklch(87% 0.02 250), oklch(34% 0.02 260));
-	border-radius: 6px;
-}
-
-.mono {
-	font-family: var(--font-mono);
-	font-size: 0.88rem;
-	color: light-dark(oklch(34% 0.01 255), oklch(82% 0.008 255));
-}
-
-.email {
-	font-size: 0.9rem;
-	font-weight: 500;
-	color: light-dark(oklch(45% 0.04 250), oklch(74% 0.035 250));
-}
-
-.role-badge {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-
-	padding: 0.28rem 0.72rem;
-
-	font-size: 0.68rem;
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
-
-	background-color: light-dark(oklch(97.6% 0.004 248), oklch(22.5% 0.018 255));
-	border-radius: 999px;
-
-	&[data-role="ADMIN"] {
-		color: light-dark(oklch(46% 0.135 245), oklch(72% 0.12 245));
-		background-color: light-dark(oklch(95.6% 0.02 245), oklch(28% 0.028 245));
-	}
-
-	&[data-role="USER"] {
-		color: light-dark(oklch(45% 0.12 180), oklch(72% 0.1 180));
-		background-color: light-dark(oklch(95.6% 0.02 180), oklch(28% 0.025 180));
-	}
-}
-
-.status-pill {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-
-	padding: 0.28rem 0.72rem;
-
-	font-size: 0.68rem;
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
-
-	background-color: light-dark(oklch(97.6% 0.004 248), oklch(22.5% 0.018 255));
-	border-radius: 999px;
-
-	&[data-active="true"] {
-		color: light-dark(oklch(43% 0.072 150), oklch(68% 0.072 150));
-		background-color: light-dark(oklch(95.8% 0.022 150), oklch(28% 0.024 150));
-	}
-
-	&[data-active="false"] {
-		color: light-dark(oklch(47% 0.075 20), oklch(71% 0.075 20));
-		background-color: light-dark(oklch(95.9% 0.022 20), oklch(28% 0.024 20));
-	}
-}
-
-.lock-hint {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-
-	inline-size: 38px;
-	block-size: 38px;
-
-	font-size: 0.95rem;
-	font-weight: 700;
-	color: light-dark(oklch(55% 0.008 255), oklch(63% 0.016 255));
-
-	background-color: light-dark(
-		oklch(98.1% 0.004 248),
-		oklch(27.5% 0.032 256.86)
-	);
-	border: 1px solid light-dark(oklch(90% 0.006 248), oklch(27% 0.015 260));
-	border-radius: 12px;
-}
-
-.table-loading-state,
-.table-error-state {
-	display: flex;
-	gap: 0.75rem;
-	align-items: center;
-	justify-content: center;
-
-	padding: 3rem 1rem;
-
-	font-size: 0.95rem;
-	font-weight: 600;
-	line-height: 1.45;
-	text-align: center;
-}
-
-.table-loading-state {
-	color: light-dark(oklch(49% 0.008 255), oklch(71% 0.008 255));
-}
-
-.table-loading-state :global(.spinner) {
-	animation: spin-1s-table-loading-state 1s linear infinite;
-}
-
-.table-error-state {
-	color: light-dark(oklch(52% 0.12 25), oklch(66% 0.08 25));
-}
-
-@keyframes spin-1s-table-loading-state {
-	0% {
-		transform: rotate(0deg);
-	}
-
-	100% {
-		transform: rotate(360deg);
-	}
-}
-</style>

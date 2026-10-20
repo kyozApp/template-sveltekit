@@ -22,17 +22,3 @@ export const authCheckSchema = {
 		v.readonly(),
 	),
 };
-
-/**
- * Resumen estadístico de requerimientos enviados pendientes de respuesta
- */
-export const authPendingUnansweredSchema = {
-	response: v.pipe(
-		v.object({
-			total: v.pipe(v.number(), v.minValue(0)),
-			memoCount: v.pipe(v.number(), v.minValue(0)),
-			processCount: v.pipe(v.number(), v.minValue(0)),
-		}),
-		v.readonly(),
-	),
-};

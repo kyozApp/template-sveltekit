@@ -6,15 +6,26 @@ import { page } from "$app/state";
 import { CircleAlert, House } from "@lucide/svelte";
 </script>
 
-<div class="error-page">
-	<div class="error-card" in:fly={{ y: 10, duration: 400 }}>
-		<div class="icon-container">
+<div
+	class="flex min-h-dvh items-center justify-center bg-zinc-50 p-6 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100"
+>
+	<div
+		class="flex w-full max-w-md flex-col items-center rounded-2xl border border-zinc-200 bg-white p-8 text-center shadow-lg sm:p-10 dark:border-zinc-800 dark:bg-zinc-900"
+		in:fly={{ y: 10, duration: 400 }}
+	>
+		<div
+			class="mb-6 flex size-20 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-950/60 dark:text-red-400"
+		>
 			<CircleAlert size={48} />
 		</div>
 
-		<h1 class="error-code">{page.status}</h1>
+		<h1
+			class="mb-2 bg-linear-to-br from-zinc-900 to-zinc-500 bg-clip-text text-8xl font-black tracking-tight text-transparent dark:from-zinc-100 dark:to-zinc-500"
+		>
+			{page.status}
+		</h1>
 
-		<h2 class="error-title">
+		<h2 class="mb-3 text-xl font-extrabold text-zinc-900 dark:text-zinc-50">
 			{#if page.status === 404}
 				Página No Encontrada
 			{:else}
@@ -22,7 +33,7 @@ import { CircleAlert, House } from "@lucide/svelte";
 			{/if}
 		</h2>
 
-		<p class="error-message">
+		<p class="mb-8 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
 			{#if page.status === 404}
 				Lo sentimos, la página que buscas no existe o ha sido movida.
 			{:else}
@@ -30,112 +41,12 @@ import { CircleAlert, House } from "@lucide/svelte";
 			{/if}
 		</p>
 
-		<a href={resolve("")} class="btn-home">
+		<a
+			href={resolve("")}
+			class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-blue-600 bg-blue-600 px-6 py-3 text-sm font-bold text-white transition-all duration-200 hover:border-blue-700 hover:bg-blue-700 dark:border-blue-500 dark:bg-blue-600 dark:hover:border-blue-600 dark:hover:bg-blue-500"
+		>
 			<House size={18} />
 			<span>Volver al Inicio</span>
 		</a>
 	</div>
 </div>
-
-<style>
-.error-page {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 100dvh;
-	padding: 1.5rem;
-	color: light-dark(oklch(20% 0.02 255), oklch(98% 0.01 255));
-	background-color: light-dark(oklch(98% 0.01 255), oklch(18% 0.03 255));
-}
-
-.error-card {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-	max-width: 480px;
-	padding: 3rem 2rem;
-	text-align: center;
-	background-color: light-dark(oklch(100% 0 0), oklch(25% 0.03 255));
-	border: 1px solid light-dark(oklch(90% 0.02 255), oklch(35% 0.03 255));
-	border-radius: 16px;
-	box-shadow: 0 10px 30px oklch(0% 0 0 / 0.05);
-}
-
-.icon-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 80px;
-	height: 80px;
-	margin-bottom: 1.5rem;
-	background-color: oklch(from oklch(62% 0.25 35) l c h / 0.1);
-	border-radius: 50%;
-}
-
-.error-code {
-	margin-bottom: 0.5rem;
-
-	font-size: 6rem;
-	font-weight: 950;
-	line-height: 1;
-
-	-webkit-text-fill-color: transparent;
-	letter-spacing: -0.05em;
-
-	background: linear-gradient(
-		135deg,
-		light-dark(oklch(20% 0.02 255), oklch(98% 0.01 255)) 30%,
-		light-dark(oklch(60% 0.02 255), oklch(75% 0.02 255)) 100%
-	);
-	background-clip: text;
-}
-
-.error-title {
-	margin-bottom: 1rem;
-
-	font-size: 1.5rem;
-	font-weight: 800;
-}
-
-.error-message {
-	margin-bottom: 2rem;
-
-	font-size: 0.95rem;
-	line-height: 1.6;
-	color: light-dark(oklch(60% 0.02 255), oklch(75% 0.02 255));
-}
-
-.btn-home {
-	display: inline-flex;
-	gap: 0.5rem;
-	align-items: center;
-
-	padding: 0.75rem 1.5rem;
-
-	font-size: 0.95rem;
-	font-weight: 600;
-	color: oklch(100% 0 0);
-	text-decoration: none;
-
-	background-color: light-dark(oklch(52% 0.14 205), oklch(60% 0.14 205));
-	border-radius: 12px;
-	box-shadow: 0 4px 12px
-		oklch(
-			from light-dark(oklch(52% 0.14 205), oklch(61.655% 0.10654 209.681)) l c h /
-			0.2
-		);
-
-	transition: all 0.2s ease;
-
-	&:hover {
-		background-color: oklch(44% 0.14 205);
-		box-shadow: 0 6px 16px
-			oklch(
-				from light-dark(oklch(52% 0.14 205), oklch(60% 0.14 205)) l c h /
-				0.3
-			);
-		transform: translateY(-1px);
-	}
-}
-</style>

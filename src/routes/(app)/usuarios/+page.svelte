@@ -1,35 +1,72 @@
 <script lang="ts">
 import { fly } from "svelte/transition";
+import { goto } from "$app/navigation";
+import { page } from "$app/state";
 
-import UserDashboard from "./UserDashboard.svelte";
-import UserDashboardHeader from "./UserDashboardHeader.svelte";
+import { Shield, UserPlus } from "@lucide/svelte";
+
+import UserModals from "./UserModals.svelte";
+import UserTable from "./UserTable.svelte";
 
 let { data } = $props();
+
+// Abre el modal para crear un nuevo usuario mediante navegación superficial
+const handleOpenCreateModal = () => {
+	goto("", {
+		shallow: true,
+		state: {
+			...page.state,
+			showUserCreate: { isOpen: true },
+		},
+	});
+};
 </script>
 
 <svelte:head>
 	<title>Usuarios</title>
 </svelte:head>
 
-<div class="dashboard-container" in:fly={{ y: 8, duration: 350 }}>
-	<UserDashboardHeader />
-	<UserDashboard currentUserRole={data.user.role} />
+<div
+	class="flex w-full flex-col gap-6 px-2 py-3 pb-8 text-zinc-900 md:gap-8 md:px-5 md:py-5 md:pb-10 dark:text-zinc-100"
+	in:fly={{ y: 8, duration: 350 }}
+>
+	<header
+		class="flex flex-wrap items-center justify-between gap-5 rounded-3xl border border-zinc-200 bg-white p-4 md:px-6 md:py-5 dark:border-zinc-800 dark:bg-zinc-900"
+	>
+		<div class="flex min-w-60 flex-1 flex-col gap-1.5">
+			<span
+				class="inline-flex items-center gap-1.5 self-start text-sm font-bold tracking-wider text-blue-600 uppercase dark:text-blue-400"
+			>
+				<Shield size={14} />
+				Gestión de Accesos
+			</span>
+			<p
+				class="m-0 max-w-xl text-xs leading-relaxed font-medium text-zinc-500 dark:text-zinc-400"
+			>
+				Administra y gestiona los accesos, roles y cuentas del personal
+				registrado.
+			</p>
+		</div>
+
+		<div
+			class="flex w-full flex-wrap items-center justify-start gap-3 md:w-auto md:justify-end"
+		>
+			<button
+				type="button"
+				onclick={handleOpenCreateModal}
+				class="inline-flex w-full min-w-44 cursor-pointer items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-zinc-100 px-5 py-3 text-sm font-bold tracking-wide text-zinc-700 transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 md:w-auto dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-blue-700 dark:hover:bg-blue-950/40 dark:hover:text-blue-300"
+			>
+				<UserPlus size={18} />
+				<span>Nuevo Usuario</span>
+			</button>
+		</div>
+	</header>
+
+	<div
+		class="m-0 flex w-full max-w-full flex-col gap-6 px-2 pt-2 pb-8 text-zinc-900 dark:text-zinc-100"
+	>
+		<UserTable currentUser={data.user} />
+	</div>
 </div>
 
-<style>
-.dashboard-container {
-	display: flex;
-	flex-direction: column;
-	gap: 2rem;
-
-	width: 100%;
-	padding: 1.25rem 1.25rem 2.5rem;
-
-	color: light-dark(oklch(20% 0.02 255), oklch(98% 0.01 255));
-
-	@media (width <= 768px) {
-		gap: 1.5rem;
-		padding: 0.75rem 0.5rem 2rem;
-	}
-}
-</style>
+<UserModals currentUserId={data.user.id} />

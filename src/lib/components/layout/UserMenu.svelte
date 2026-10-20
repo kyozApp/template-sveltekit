@@ -1,12 +1,10 @@
 <script lang="ts">
-import { isHttpError } from "@sveltejs/kit";
 import { resolve } from "$app/paths";
 
 import { LoaderCircle, LogOut, Settings, User } from "@lucide/svelte";
 
 import { ROLE_LABELS } from "#lib/constants.ts";
 import { logoutUser } from "#lib/remote/auth/auth.command.remote.ts";
-import { notifications } from "#lib/services/notifications.svelte.ts";
 
 interface Props {
 	user: App.AuthenticatedLocals["user"];
@@ -31,16 +29,42 @@ const initials = $derived.by(() => {
 		.toUpperCase();
 });
 
+// Alterna la visibilidad del menú flotante de usuario
+const handleToggleMenu = () => {
+	isOpen = !isOpen;
+};
+
+// Cierra el menú flotante de usuario
+const handleCloseMenu = () => {
+	isOpen = false;
+};
+
+// Ejecuta el cierre de sesión del usuario y redirige a la pantalla de inicio de sesión
+const handleLogout = async () => {
+	if (isSubmitting) return;
+	isSubmitting = true;
+
+	try {
+		await logoutUser();
+	} catch (e) {
+		console.error("[AUTH LOGOUT][CLIENT ERROR]", e);
+	} finally {
+		window.location.href = "/iniciar-sesion";
+	}
+};
+
 // Cierre automático al hacer clic afuera o presionar tecla Escape
 $effect(() => {
 	if (!isOpen) return;
 
+	// Cierra el menú desplegable si se detecta un clic fuera de su contenedor
 	const handleClickOutside = (e: MouseEvent) => {
 		if (menuContainer && !menuContainer.contains(e.target as Node)) {
 			isOpen = false;
 		}
 	};
 
+	// Cierra el menú desplegable al presionar la tecla Escape
 	const handleKeyDown = (e: KeyboardEvent) => {
 		if (e.key === "Escape") {
 			isOpen = false;
@@ -55,106 +79,119 @@ $effect(() => {
 		document.removeEventListener("keydown", handleKeyDown);
 	};
 });
-
-const handleLogout = async () => {
-	if (isSubmitting) return;
-	isSubmitting = true;
-
-	try {
-		await logoutUser();
-		window.location.href = "/iniciar-sesion";
-	} catch (e) {
-		if (isHttpError(e)) {
-			notifications.showToastError(
-				"No pudimos cerrar la sesión en este momento. Por favor, comunícate con sistemas.",
-			);
-		} else {
-			notifications.showToastError(
-				"No se pudo establecer comunicación con el servidor.",
-			);
-		}
-		isSubmitting = false;
-	}
-};
 </script>
 
-<div class="user-menu-root" bind:this={menuContainer}>
+<div class="relative inline-flex" bind:this={menuContainer}>
 	<!-- Botón Trigger de Usuario (Avatar Circular Minimalista) -->
 	<button
 		type="button"
-		class="menu-trigger"
-		class:active={isOpen}
-		onclick={() => (isOpen = !isOpen)}
+		class={[
+			"group inline-flex cursor-pointer items-center justify-center rounded-full border-2 border-transparent p-0.5 transition-all duration-150",
+			isOpen
+				? "border-blue-400 dark:border-blue-600"
+				: "hover:border-blue-400 dark:hover:border-blue-600",
+		]}
+		onclick={handleToggleMenu}
 		aria-haspopup="menu"
 		aria-expanded={isOpen}
 		aria-label="Menú de usuario"
 	>
-		<span class="avatar-pill">{initials}</span>
+		<span
+			class={[
+				"flex size-9 items-center justify-center rounded-full border border-blue-200 bg-blue-100 text-xs font-bold text-blue-700 transition-all duration-150 dark:border-blue-900 dark:bg-blue-950/60 dark:text-blue-300",
+				isOpen
+					? "scale-105 shadow-md"
+					: "group-hover:scale-105 group-hover:shadow-md",
+			]}
+		>
+			{initials}
+		</span>
 	</button>
 
 	<!-- Menú Flotante Dropdown -->
 	{#if isOpen}
 		<div
-			class="dropdown-popover"
+			class="absolute top-full right-0 z-50 mt-2.5 flex w-65 origin-top-right flex-col rounded-2xl border border-zinc-200 bg-white shadow-xl transition-all duration-150 dark:border-zinc-800 dark:bg-zinc-900"
 			role="menu"
 			tabindex="-1"
 			aria-label="Opciones del usuario"
 		>
 			<!-- Tarjeta de Identidad -->
-			<div class="user-identity-card">
-				<div class="identity-avatar">{initials}</div>
-				<div class="identity-info">
-					<span class="identity-name">{user.name}</span>
-					<span class="identity-email">{user.email}</span>
-					<div class="identity-role-wrap">
-						<span class="role-badge" data-role={user.role}>
+			<div class="flex items-center gap-3 p-4">
+				<div
+					class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-sm font-extrabold text-blue-700 dark:bg-blue-950/60 dark:text-blue-300"
+				>
+					{initials}
+				</div>
+				<div class="flex min-w-0 flex-1 flex-col gap-0.5">
+					<span
+						class="truncate text-sm font-bold text-zinc-900 dark:text-zinc-50"
+					>
+						{user.name}
+					</span>
+					<span class="truncate text-xs text-zinc-500 dark:text-zinc-400">
+						{user.email}
+					</span>
+					<div class="mt-1">
+						<span
+							class={[
+								"inline-flex rounded-full px-2 py-0.5 text-xs font-bold tracking-wider uppercase",
+								user.role === "ADMIN"
+									? "bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300"
+									: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300",
+							]}
+						>
 							{ROLE_LABELS[user.role]}
 						</span>
 					</div>
 				</div>
 			</div>
 
-			<div class="dropdown-divider"></div>
+			<div class="h-px bg-zinc-200 dark:bg-zinc-800"></div>
 
 			<!-- Navegación de Perfil y Configuración -->
-			<nav class="dropdown-links">
+			<nav class="flex flex-col p-1.5">
 				<a
 					href={resolve("perfil")}
-					class="dropdown-item"
+					class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-700 no-underline transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-50"
 					role="menuitem"
-					onclick={() => (isOpen = false)}
+					onclick={handleCloseMenu}
 				>
-					<span class="item-icon"><User size={16} /></span>
+					<span class="flex items-center text-zinc-500 dark:text-zinc-400">
+						<User size={16} />
+					</span>
 					<span>Mi Perfil</span>
 				</a>
 
 				{#if isAdmin}
 					<a
 						href={resolve("configuracion")}
-						class="dropdown-item"
+						class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-700 no-underline transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-50"
 						role="menuitem"
-						onclick={() => (isOpen = false)}
+						onclick={handleCloseMenu}
 					>
-						<span class="item-icon"><Settings size={16} /></span>
+						<span class="flex items-center text-zinc-500 dark:text-zinc-400">
+							<Settings size={16} />
+						</span>
 						<span>Configuración</span>
 					</a>
 				{/if}
 			</nav>
 
-			<div class="dropdown-divider"></div>
+			<div class="h-px bg-zinc-200 dark:bg-zinc-800"></div>
 
 			<!-- Botón de Cerrar Sesión -->
-			<div class="dropdown-footer">
+			<div class="p-1.5">
 				<button
 					type="button"
-					class="btn-dropdown-logout"
+					class="flex w-full cursor-pointer items-center gap-2.5 rounded-lg border-none bg-transparent px-3 py-2 text-xs font-semibold text-red-600 transition-colors duration-150 hover:bg-red-50 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-60 dark:text-red-400 dark:hover:bg-red-950/30 dark:hover:text-red-300"
 					role="menuitem"
 					onclick={handleLogout}
 					disabled={isSubmitting}
 					aria-label="Cerrar sesión"
 				>
 					{#if isSubmitting}
-						<LoaderCircle size={15} class="spinner" />
+						<LoaderCircle size={15} class="animate-spin" />
 						<span>Cerrando sesión...</span>
 					{:else}
 						<LogOut size={15} />
@@ -165,246 +202,3 @@ const handleLogout = async () => {
 		</div>
 	{/if}
 </div>
-
-<style>
-.user-menu-root {
-	position: relative;
-	display: inline-flex;
-}
-
-/* ── Trigger del Menú (Avatar Circular) ────────── */
-.menu-trigger {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: 2px;
-	cursor: pointer;
-
-	background-color: transparent;
-	border: 2px solid transparent;
-	border-radius: 50%;
-
-	transition: all 0.15s ease;
-
-	&:hover,
-	&.active {
-		border-color: light-dark(oklch(80% 0.05 250), oklch(40% 0.06 250));
-	}
-}
-
-.avatar-pill {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 36px;
-	height: 36px;
-
-	font-size: 0.82rem;
-	font-weight: 750;
-	color: light-dark(oklch(38% 0.12 250), oklch(85% 0.1 250));
-
-	background-color: light-dark(oklch(91% 0.03 250), oklch(28% 0.04 260));
-	border: 1px solid light-dark(oklch(85% 0.02 250), oklch(34% 0.02 260));
-	border-radius: 50%;
-
-	transition:
-		transform 0.15s ease,
-		box-shadow 0.15s ease;
-}
-
-.menu-trigger:hover .avatar-pill,
-.menu-trigger.active .avatar-pill {
-	box-shadow: 0 2px 8px light-dark(oklch(0% 0 0 / 0.1), oklch(0% 0 0 / 0.3));
-	transform: scale(1.04);
-}
-
-/* ── Popover Flotante ──────────────────────────── */
-.dropdown-popover {
-	position: absolute;
-	top: calc(100% + 10px);
-	right: 0;
-	z-index: var(--z-dropdown);
-
-	display: flex;
-	flex-direction: column;
-	width: 260px;
-
-	background-color: light-dark(oklch(100% 0 0), oklch(21% 0.018 260));
-	border: 1px solid light-dark(oklch(90% 0.01 250), oklch(29% 0.015 260));
-	border-radius: 14px;
-	box-shadow: 0 10px 25px -4px
-		light-dark(oklch(0% 0 0 / 0.1), oklch(0% 0 0 / 0.45));
-	transform-origin: top right;
-
-	animation: popover-fade 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes popover-fade {
-	from {
-		opacity: 0;
-		transform: scale(0.96) translateY(-4px);
-	}
-	to {
-		opacity: 1;
-		transform: scale(1) translateY(0);
-	}
-}
-
-/* ── Tarjeta de Identidad ──────────────────────── */
-.user-identity-card {
-	display: flex;
-	gap: 0.75rem;
-	align-items: center;
-	padding: 1rem 1.15rem;
-}
-
-.identity-avatar {
-	display: flex;
-	flex-shrink: 0;
-	align-items: center;
-	justify-content: center;
-	width: 40px;
-	height: 40px;
-
-	font-size: 0.95rem;
-	font-weight: 800;
-	color: light-dark(oklch(38% 0.14 250), oklch(85% 0.12 250));
-
-	background-color: light-dark(oklch(93% 0.03 250), oklch(28% 0.04 260));
-	border-radius: 12px;
-}
-
-.identity-info {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	gap: 0.15rem;
-	min-width: 0;
-}
-
-.identity-name {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	font-size: 0.88rem;
-	font-weight: 700;
-	color: light-dark(oklch(20% 0.02 255), oklch(98% 0.01 255));
-	white-space: nowrap;
-}
-
-.identity-email {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	font-size: 0.76rem;
-	color: light-dark(oklch(52% 0.02 255), oklch(70% 0.02 255));
-	white-space: nowrap;
-}
-
-.identity-role-wrap {
-	margin-top: 0.25rem;
-}
-
-.role-badge {
-	display: inline-flex;
-	padding: 0.15rem 0.5rem;
-	font-size: 0.65rem;
-	font-weight: 750;
-	color: light-dark(oklch(35% 0.08 250), oklch(80% 0.08 250));
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
-
-	background-color: light-dark(oklch(95% 0.01 250), oklch(26% 0.02 260));
-	border-radius: 999px;
-
-	&[data-role="ADMIN"] {
-		color: light-dark(oklch(42% 0.14 250), oklch(78% 0.12 250));
-		background-color: light-dark(oklch(94% 0.03 250), oklch(28% 0.035 250));
-	}
-
-	&[data-role="USER"] {
-		color: light-dark(oklch(45% 0.12 180), oklch(72% 0.1 180));
-		background-color: light-dark(oklch(95.6% 0.02 180), oklch(28% 0.025 180));
-	}
-}
-
-.dropdown-divider {
-	height: 1px;
-	background-color: light-dark(oklch(92% 0.01 250), oklch(27% 0.015 260));
-}
-
-/* ── Links del Menú ────────────────────────────── */
-.dropdown-links {
-	display: flex;
-	flex-direction: column;
-	padding: 0.35rem;
-}
-
-.dropdown-item {
-	display: flex;
-	gap: 0.65rem;
-	align-items: center;
-	padding: 0.55rem 0.85rem;
-
-	font-size: 0.84rem;
-	font-weight: 600;
-	color: light-dark(oklch(35% 0.02 255), oklch(88% 0.01 255));
-	text-decoration: none;
-
-	border-radius: 8px;
-	transition: all 0.12s ease;
-
-	&:hover {
-		color: light-dark(oklch(20% 0.02 255), oklch(98% 0.01 255));
-		background-color: light-dark(oklch(95% 0.01 250), oklch(27% 0.02 260));
-	}
-}
-
-.item-icon {
-	display: flex;
-	align-items: center;
-	color: light-dark(oklch(55% 0.02 255), oklch(68% 0.02 255));
-}
-
-/* ── Footer con Botón Salir ────────────────────── */
-.dropdown-footer {
-	padding: 0.35rem;
-}
-
-.btn-dropdown-logout {
-	display: flex;
-	gap: 0.65rem;
-	align-items: center;
-	width: 100%;
-	padding: 0.55rem 0.85rem;
-
-	font-size: 0.84rem;
-	font-weight: 650;
-	color: light-dark(oklch(48% 0.14 25), oklch(75% 0.12 25));
-	cursor: pointer;
-
-	background: none;
-	border: none;
-	border-radius: 8px;
-
-	transition: all 0.12s ease;
-
-	&:hover:not(:disabled) {
-		color: light-dark(oklch(38% 0.18 25), oklch(88% 0.14 25));
-		background-color: light-dark(oklch(96% 0.02 25), oklch(28% 0.035 25));
-	}
-
-	&:disabled {
-		cursor: not-allowed;
-		opacity: 0.6;
-	}
-}
-
-.btn-dropdown-logout :global(.spinner) {
-	animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-	to {
-		transform: rotate(360deg);
-	}
-}
-</style>

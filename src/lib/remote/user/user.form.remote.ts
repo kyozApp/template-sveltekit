@@ -41,14 +41,14 @@ export const createUser = form(userCreateSchema.body, async (data) => {
 	// 3. Hashear la contraseña con Argon2
 	const hashedPassword = await argon2.hash(data.password);
 
-	// 4. Insertar nuevo usuario en la base de datos
+	// 4. Insertar nuevo usuario activo en la base de datos
 	await db.orm.public.User.create({
 		name: data.name,
 		username: data.username,
 		email: data.email,
 		password: hashedPassword,
 		role: data.role,
-		isActive: data.isActive,
+		isActive: true,
 	});
 
 	// 5. Invalidar caché y refrescar el listado

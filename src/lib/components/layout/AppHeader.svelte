@@ -12,11 +12,13 @@ interface Props {
 let { isSidebarOpen = $bindable(), user }: Props = $props();
 </script>
 
-<header class="app-header">
-	<div class="header-left">
+<header
+	class="sticky top-0 z-30 flex h-17.5 shrink-0 items-center justify-between border-b border-zinc-200 bg-white px-5 md:px-8 dark:border-zinc-800 dark:bg-zinc-900"
+>
+	<div class="flex items-center gap-6">
 		<button
 			type="button"
-			class="sidebar-toggle"
+			class="flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-zinc-200 bg-transparent text-zinc-500 transition-all duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
 			onclick={() => (isSidebarOpen = !isSidebarOpen)}
 			aria-label={isSidebarOpen ? "Colapsar sidebar" : "Expandir sidebar"}
 			aria-expanded={isSidebarOpen}
@@ -25,74 +27,9 @@ let { isSidebarOpen = $bindable(), user }: Props = $props();
 		</button>
 	</div>
 
-	<div class="header-right">
+	<div class="flex items-center gap-5">
 		<ThemeToggle />
-		<div class="divider"></div>
+		<div class="h-6 w-px bg-zinc-200 dark:bg-zinc-800"></div>
 		<UserMenu {user} />
 	</div>
 </header>
-
-<style>
-.app-header {
-	position: sticky;
-	top: 0;
-	z-index: var(--z-sticky);
-
-	display: flex;
-	flex-shrink: 0;
-	align-items: center;
-	justify-content: space-between;
-
-	height: 70px;
-	padding: 0 2rem;
-
-	background-color: light-dark(oklch(100% 0 0), oklch(21% 0.018 260));
-	border-bottom: 1px solid light-dark(oklch(90% 0.02 255), oklch(27% 0.015 260));
-
-	@media (width <= 768px) {
-		padding: 0 1.25rem;
-	}
-}
-
-.header-left {
-	display: flex;
-	gap: 1.5rem;
-	align-items: center;
-}
-
-.header-right {
-	display: flex;
-	gap: 1.25rem;
-	align-items: center;
-}
-
-.sidebar-toggle {
-	display: flex;
-	flex-shrink: 0;
-	align-items: center;
-	justify-content: center;
-	width: 40px;
-	height: 40px;
-
-	color: light-dark(oklch(60% 0.02 255), oklch(75% 0.02 255));
-	cursor: pointer;
-
-	background: none;
-	border: 1px solid light-dark(oklch(90% 0.02 255), oklch(27% 0.015 260));
-	border-radius: 10px;
-
-	transition: all 0.15s ease;
-
-	&:hover {
-		color: light-dark(oklch(20% 0.02 255), oklch(91% 0.008 260));
-		background-color: light-dark(oklch(95% 0.01 250), oklch(100% 0 0 / 0.04));
-		border-color: light-dark(oklch(90% 0.02 255), oklch(27% 0.015 260));
-	}
-}
-
-.divider {
-	width: 1px;
-	height: 24px;
-	background-color: light-dark(oklch(90% 0.02 255), oklch(27% 0.015 260));
-}
-</style>

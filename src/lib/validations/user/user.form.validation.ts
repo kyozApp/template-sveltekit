@@ -52,7 +52,6 @@ export const userCreateSchema = {
 			v.optional(v.string(), ""),
 			v.picklist(ROLES, "Selecciona un rol válido de la lista."),
 		),
-		isActive: v.optional(v.boolean(), false),
 	}),
 };
 
