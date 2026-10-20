@@ -3,6 +3,7 @@ import { isHttpError } from "@sveltejs/kit";
 import { refreshAll } from "$app/navigation";
 
 import {
+	ChevronDown,
 	CircleAlert,
 	Eye,
 	EyeOff,
@@ -56,6 +57,11 @@ const handleTogglePassword = () => {
 // Valida los campos del formulario en tiempo real mientras el usuario escribe
 const handleFormInput = () => {
 	updateForm.validate();
+};
+
+// Quita el foco del selector al elegir una opción para restaurar la orientación de la flecha
+const handleRoleChange = (e: Event) => {
+	(e.currentTarget as HTMLSelectElement).blur();
 };
 </script>
 
@@ -309,15 +315,21 @@ const handleFormInput = () => {
 								{...fieldRole.as("select", details.role)}
 								id="user-update-role"
 								class={[
-									"min-h-12 w-full cursor-pointer appearance-none rounded-xl border border-zinc-200 bg-white py-3 pr-10 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
+									"peer min-h-12 w-full cursor-pointer appearance-none rounded-xl border border-zinc-200 bg-white bg-none py-3 pr-10 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
 									fieldRole.issues()?.length &&
 										"border-red-500 dark:border-red-400",
 								]}
+								onchange={handleRoleChange}
 								disabled={submitting}
 							>
 								<option value="ADMIN">Administrador</option>
 								<option value="USER">Usuario</option>
 							</select>
+							<span
+								class="pointer-events-none absolute right-4 z-10 flex size-4 items-center justify-center text-zinc-500 transition-transform duration-200 peer-focus:rotate-180 dark:text-zinc-400"
+							>
+								<ChevronDown size={16} />
+							</span>
 						</div>
 						{#if fieldRole.issues()?.length}
 							<span
