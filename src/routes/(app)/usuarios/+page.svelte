@@ -63,7 +63,7 @@ const handleOpenCreateModal = () => {
 	</header>
 
 	<div
-		class="m-0 flex w-full max-w-full flex-col gap-6 px-2 pt-2 pb-8 text-zinc-900 dark:text-zinc-100"
+		class="m-0 flex w-full max-w-full flex-col gap-6 px-0 pt-2 pb-8 text-zinc-900 dark:text-zinc-100"
 	>
 		<UserTable currentUser={data.user} />
 	</div>

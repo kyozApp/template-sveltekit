@@ -45,23 +45,23 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 
 		<!-- Cabecera de Perfil -->
 		<header
-			class="flex flex-col items-start gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:gap-5 sm:p-7 dark:border-zinc-800 dark:bg-zinc-900"
+			class="flex flex-row items-center gap-4 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:gap-5 sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
 		>
 			<div
-				class="flex size-17 shrink-0 items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 text-xl font-extrabold tracking-wide text-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
+				class="flex size-14 shrink-0 items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 text-lg font-extrabold tracking-wide text-zinc-800 sm:size-17 sm:text-xl dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
 			>
 				<span>{initials}</span>
 			</div>
-			<div class="flex min-w-0 flex-1 flex-col gap-1.5">
-				<div class="flex flex-wrap items-center gap-3">
+			<div class="flex min-w-0 flex-1 flex-col gap-1 sm:gap-1.5">
+				<div class="flex flex-wrap items-center gap-2 sm:gap-3">
 					<h1
-						class="text-xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50"
+						class="text-lg font-extrabold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-50"
 					>
 						{user.name}
 					</h1>
 					<span
 						class={[
-							"inline-flex items-center justify-center rounded-full px-2.5 py-1 text-xs font-bold tracking-wider uppercase",
+							"inline-flex items-center justify-center rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wider uppercase sm:py-1",
 							user.role === "ADMIN"
 								? "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200"
 								: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300",
@@ -71,25 +71,25 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 					</span>
 				</div>
 				<p
-					class="flex flex-wrap items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400"
+					class="flex flex-wrap items-center gap-1.5 text-xs text-zinc-500 sm:gap-2 sm:text-sm dark:text-zinc-400"
 				>
 					<span class="font-mono font-semibold text-zinc-800 dark:text-zinc-200"
 						>@{user.username}</span
 					>
 					<span class="text-zinc-300 dark:text-zinc-600">•</span>
-					<span>{user.email}</span>
+					<span class="truncate">{user.email}</span>
 				</p>
 			</div>
 		</header>
 
 		<!-- Barra de Navegación por Pestañas -->
 		<div
-			class="flex gap-2 overflow-x-auto rounded-xl border border-zinc-200 bg-zinc-100 p-1.5 dark:border-zinc-800 dark:bg-zinc-900/60"
+			class="flex gap-1.5 overflow-x-auto rounded-xl border border-zinc-200 bg-zinc-100 p-1.5 dark:border-zinc-800 dark:bg-zinc-900/60"
 		>
 			<button
 				type="button"
 				class={[
-					"inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-150",
+					"inline-flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-semibold whitespace-nowrap transition-all duration-150 sm:flex-initial sm:gap-2 sm:px-4 sm:py-2.5",
 					activeTab === "info"
 						? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
 						: "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100",
@@ -97,12 +97,13 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 				onclick={() => handleSelectTab("info")}
 			>
 				<User size={16} />
-				<span>Información Personal</span>
+				<span class="sm:hidden">Personal</span>
+				<span class="hidden sm:inline">Información Personal</span>
 			</button>
 			<button
 				type="button"
 				class={[
-					"inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-150",
+					"inline-flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-semibold whitespace-nowrap transition-all duration-150 sm:flex-initial sm:gap-2 sm:px-4 sm:py-2.5",
 					activeTab === "security"
 						? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
 						: "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100",
@@ -110,12 +111,13 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 				onclick={() => handleSelectTab("security")}
 			>
 				<KeyRound size={16} />
-				<span>Seguridad y Contraseña</span>
+				<span class="sm:hidden">Seguridad</span>
+				<span class="hidden sm:inline">Seguridad y Contraseña</span>
 			</button>
 			<button
 				type="button"
 				class={[
-					"inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-150",
+					"inline-flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-semibold whitespace-nowrap transition-all duration-150 sm:flex-initial sm:gap-2 sm:px-4 sm:py-2.5",
 					activeTab === "sessions"
 						? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
 						: "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100",
@@ -123,7 +125,10 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 				onclick={() => handleSelectTab("sessions")}
 			>
 				<Laptop size={16} />
-				<span>Sesiones ({profile.sessions.length})</span>
+				<span class="sm:hidden">Sesiones ({profile.sessions.length})</span>
+				<span class="hidden sm:inline"
+					>Sesiones ({profile.sessions.length})</span
+				>
 			</button>
 		</div>
 

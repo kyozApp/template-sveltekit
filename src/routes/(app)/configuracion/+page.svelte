@@ -31,16 +31,16 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 >
 	<!-- Encabezado de la Sección -->
 	<header
-		class="flex items-center gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:gap-5 sm:p-7 dark:border-zinc-800 dark:bg-zinc-900"
+		class="flex items-center gap-4 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:gap-5 sm:p-7 dark:border-zinc-800 dark:bg-zinc-900"
 	>
 		<div
-			class="flex size-14 shrink-0 items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
+			class="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 text-zinc-700 sm:size-14 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
 		>
-			<Settings size={28} />
+			<Settings class="size-6 sm:size-7" />
 		</div>
 		<div class="flex flex-col gap-1">
 			<h1
-				class="text-xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50"
+				class="text-lg font-extrabold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-50"
 			>
 				Configuración del Sistema
 			</h1>
@@ -53,12 +53,12 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 
 	<!-- Barra de Navegación por Pestañas -->
 	<div
-		class="flex gap-2 overflow-x-auto rounded-xl border border-zinc-200 bg-zinc-100 p-1.5 dark:border-zinc-800 dark:bg-zinc-900/60"
+		class="flex gap-1.5 overflow-x-auto rounded-xl border border-zinc-200 bg-zinc-100 p-1.5 dark:border-zinc-800 dark:bg-zinc-900/60"
 	>
 		<button
 			type="button"
 			class={[
-				"inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-150",
+				"inline-flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-semibold whitespace-nowrap transition-all duration-150 sm:flex-initial sm:gap-2 sm:px-4 sm:py-2.5",
 				activeTab === "general"
 					? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
 					: "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100",
@@ -66,12 +66,13 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 			onclick={() => handleSelectTab("general")}
 		>
 			<Layers size={16} />
-			<span>Parámetros Generales</span>
+			<span class="sm:hidden">General</span>
+			<span class="hidden sm:inline">Parámetros Generales</span>
 		</button>
 		<button
 			type="button"
 			class={[
-				"inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-150",
+				"inline-flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-semibold whitespace-nowrap transition-all duration-150 sm:flex-initial sm:gap-2 sm:px-4 sm:py-2.5",
 				activeTab === "security"
 					? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
 					: "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100",
@@ -79,12 +80,13 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 			onclick={() => handleSelectTab("security")}
 		>
 			<Lock size={16} />
-			<span>Políticas de Seguridad</span>
+			<span class="sm:hidden">Seguridad</span>
+			<span class="hidden sm:inline">Políticas de Seguridad</span>
 		</button>
 		<button
 			type="button"
 			class={[
-				"inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-150",
+				"inline-flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-xs font-semibold whitespace-nowrap transition-all duration-150 sm:flex-initial sm:gap-2 sm:px-4 sm:py-2.5",
 				activeTab === "system"
 					? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
 					: "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100",
@@ -92,7 +94,8 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 			onclick={() => handleSelectTab("system")}
 		>
 			<Server size={16} />
-			<span>Infraestructura y Worker</span>
+			<span class="sm:hidden">Sistema</span>
+			<span class="hidden sm:inline">Infraestructura y Worker</span>
 		</button>
 	</div>
 
@@ -104,7 +107,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 				in:fly={{ y: 6, duration: 250 }}
 			>
 				<div
-					class="flex gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+					class="flex gap-3.5 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:gap-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
 				>
 					<div
 						class="flex size-11 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-600 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
@@ -121,7 +124,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 						<div
 							class="mt-2 flex flex-col gap-2.5 border-t border-zinc-200 pt-3 dark:border-zinc-800"
 						>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Aplicación:</span
 								>
@@ -131,7 +134,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 									Template SvelteKit
 								</span>
 							</div>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Versión de Arquitectura:</span
 								>
@@ -141,7 +144,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 									SvelteKit 3 / Svelte 5
 								</span>
 							</div>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Zona Horaria:</span
 								>
@@ -154,7 +157,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 				</div>
 
 				<div
-					class="flex gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+					class="flex gap-3.5 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:gap-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
 				>
 					<div
 						class="flex size-11 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-600 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
@@ -171,7 +174,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 						<div
 							class="mt-2 flex flex-col gap-2.5 border-t border-zinc-200 pt-3 dark:border-zinc-800"
 						>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400">Motor:</span>
 								<span
 									class="font-mono font-semibold text-zinc-900 dark:text-zinc-100"
@@ -179,7 +182,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 									PostgreSQL 17+
 								</span>
 							</div>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Driver ORM:</span
 								>
@@ -189,12 +192,12 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 									@prisma/orm-postgres (v8)
 								</span>
 							</div>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Migraciones:</span
 								>
 								<span
-									class="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
+									class="inline-flex shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide whitespace-nowrap text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
 								>
 									Sincronizado
 								</span>
@@ -209,7 +212,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 				in:fly={{ y: 6, duration: 250 }}
 			>
 				<div
-					class="flex gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+					class="flex gap-3.5 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:gap-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
 				>
 					<div
 						class="flex size-11 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-600 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
@@ -226,7 +229,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 						<div
 							class="mt-2 flex flex-col gap-2.5 border-t border-zinc-200 pt-3 dark:border-zinc-800"
 						>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Algoritmo de Hashing:</span
 								>
@@ -236,7 +239,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 									Argon2id
 								</span>
 							</div>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Cookies de Sesión:</span
 								>
@@ -246,7 +249,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 									HttpOnly, SameSite=Lax
 								</span>
 							</div>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>TTL de Sesión:</span
 								>
@@ -259,7 +262,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 				</div>
 
 				<div
-					class="flex gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+					class="flex gap-3.5 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:gap-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
 				>
 					<div
 						class="flex size-11 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-600 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
@@ -277,7 +280,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 						<div
 							class="mt-2 flex flex-col gap-2.5 border-t border-zinc-200 pt-3 dark:border-zinc-800"
 						>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Frecuencia de Polling:</span
 								>
@@ -285,22 +288,25 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 									Cada 60 segundos
 								</span>
 							</div>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Revisión en Foco:</span
 								>
 								<span
-									class="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
+									class="inline-flex shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide whitespace-nowrap text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
 								>
-									Activo (visibilitychange)
+									<span class="sm:hidden">Activo</span
+									><span class="hidden sm:inline"
+										>Activo (visibilitychange)</span
+									>
 								</span>
 							</div>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Revocación Automática:</span
 								>
 								<span
-									class="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
+									class="inline-flex shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide whitespace-nowrap text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
 								>
 									Activa
 								</span>
@@ -315,7 +321,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 				in:fly={{ y: 6, duration: 250 }}
 			>
 				<div
-					class="flex gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+					class="flex gap-3.5 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:gap-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
 				>
 					<div
 						class="flex size-11 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-600 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
@@ -332,7 +338,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 						<div
 							class="mt-2 flex flex-col gap-2.5 border-t border-zinc-200 pt-3 dark:border-zinc-800"
 						>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400">Proceso:</span>
 								<span
 									class="font-mono font-semibold text-zinc-900 dark:text-zinc-100"
@@ -340,20 +346,21 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 									build/worker.js
 								</span>
 							</div>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Limpieza de Sesiones:</span
 								>
 								<span class="font-semibold text-zinc-900 dark:text-zinc-100">
-									Diario a las 03:00 AM
+									<span class="sm:hidden">03:00 AM diaria</span
+									><span class="hidden sm:inline">Diario a las 03:00 AM</span>
 								</span>
 							</div>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Estado de Ejecución:</span
 								>
 								<span
-									class="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
+									class="inline-flex shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide whitespace-nowrap text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
 								>
 									En Ejecución
 								</span>
@@ -363,7 +370,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 				</div>
 
 				<div
-					class="flex gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+					class="flex gap-3.5 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:gap-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
 				>
 					<div
 						class="flex size-11 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-600 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
@@ -380,7 +387,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 						<div
 							class="mt-2 flex flex-col gap-2.5 border-t border-zinc-200 pt-3 dark:border-zinc-800"
 						>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Estructura Modular:</span
 								>
@@ -388,7 +395,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 									Pestañas dinámicas
 								</span>
 							</div>
-							<div class="flex items-center justify-between text-xs">
+							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400"
 									>Nivel de Acceso:</span
 								>

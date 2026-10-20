@@ -48,7 +48,7 @@ const handleRevoke = async (sessionId: string) => {
 </script>
 
 <div
-	class="flex flex-col gap-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-7 dark:border-zinc-800 dark:bg-zinc-900"
+	class="flex flex-col gap-5 sm:gap-6 rounded-2xl border border-zinc-200 bg-white p-4 sm:p-7 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
 >
 	<div class="flex flex-col gap-1">
 		<h2 class="text-base font-bold text-zinc-900 dark:text-zinc-50">
@@ -74,7 +74,7 @@ const handleRevoke = async (sessionId: string) => {
 			{#each sessions as session (session.id)}
 				<div
 					class={[
-						"flex items-center gap-4 rounded-xl border p-4 transition-colors duration-150",
+						"flex items-start sm:items-center gap-3.5 sm:gap-4 rounded-xl border p-3.5 sm:p-4 transition-colors duration-150",
 						session.isCurrent
 							? "border-emerald-300 bg-emerald-50/50 dark:border-emerald-800/80 dark:bg-emerald-950/20"
 							: "border-zinc-200 bg-zinc-50/60 dark:border-zinc-800 dark:bg-zinc-900/60",
@@ -100,14 +100,15 @@ const handleRevoke = async (sessionId: string) => {
 							</span>
 							{#if session.isCurrent}
 								<span
-									class="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
+									class="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold tracking-wide text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
 								>
-									En línea ahora
+									<span class="size-1.5 rounded-full bg-emerald-500"></span>
+									En línea
 								</span>
 							{/if}
 						</div>
 						<div
-							class="flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400"
+							class="flex flex-col gap-0.5 text-xs text-zinc-500 sm:flex-row sm:items-center sm:gap-2 dark:text-zinc-400"
 						>
 							<span>
 								Iniciada el
@@ -119,7 +120,9 @@ const handleRevoke = async (sessionId: string) => {
 									minute: "2-digit",
 								})}
 							</span>
-							<span class="text-zinc-300 dark:text-zinc-600">•</span>
+							<span class="hidden text-zinc-300 sm:inline dark:text-zinc-600"
+								>•</span
+							>
 							<span>
 								Expira el
 								{new Date(session.expiresAt).toLocaleDateString("es-PE", {
@@ -136,7 +139,7 @@ const handleRevoke = async (sessionId: string) => {
 					{#if !session.isCurrent}
 						<button
 							type="button"
-							class="inline-flex size-9 cursor-pointer items-center justify-center rounded-xl border border-transparent bg-transparent text-red-600 transition-all duration-200 hover:not-disabled:border-red-200 hover:not-disabled:bg-red-50 hover:not-disabled:text-red-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-red-400 dark:hover:not-disabled:border-red-900/60 dark:hover:not-disabled:bg-red-950/40 dark:hover:not-disabled:text-red-300"
+							class="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-transparent bg-transparent text-red-600 transition-all duration-200 hover:not-disabled:border-red-200 hover:not-disabled:bg-red-50 hover:not-disabled:text-red-700 disabled:cursor-not-allowed disabled:opacity-50 dark:text-red-400 dark:hover:not-disabled:border-red-900/60 dark:hover:not-disabled:bg-red-950/40 dark:hover:not-disabled:text-red-300"
 							onclick={() => handleRevoke(session.id)}
 							disabled={revokingId === session.id}
 							aria-label="Cerrar esta sesión remota"

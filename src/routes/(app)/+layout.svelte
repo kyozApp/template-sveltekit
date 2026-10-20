@@ -123,7 +123,7 @@ $effect(() => {
 
 		<!-- Área de contenido principal -->
 		<main
-			class="flex flex-1 flex-col overflow-y-auto scroll-smooth bg-zinc-50 p-6 md:p-9 dark:bg-zinc-950"
+			class="flex flex-1 flex-col overflow-y-auto scroll-smooth bg-zinc-50 p-4 sm:p-6 md:p-9 dark:bg-zinc-950"
 		>
 			{@render children()}
 		</main>
