@@ -1,7 +1,7 @@
 <script lang="ts">
 import { isHttpError } from "@sveltejs/kit";
 
-import { Laptop, LoaderCircle, ShieldAlert, Trash2 } from "@lucide/svelte";
+import { Laptop, LoaderCircle, ShieldAlert, Trash } from "@lucide/svelte";
 
 import { revokeProfileSession } from "#lib/remote/profile/profile.command.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
@@ -146,7 +146,7 @@ const handleRevoke = async (sessionId: string) => {
 							{#if revokingId === session.id}
 								<LoaderCircle size={16} class="animate-spin" />
 							{:else}
-								<Trash2 size={16} />
+								<Trash size={16} />
 							{/if}
 						</button>
 					{/if}

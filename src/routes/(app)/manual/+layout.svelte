@@ -3,7 +3,7 @@ import { fly } from "svelte/transition";
 import { resolve } from "$app/paths";
 import { page } from "$app/state";
 
-import { BookOpen, LayoutDashboard, UserCog } from "@lucide/svelte";
+import { BookOpen, Layers, SlidersVertical, UserCog } from "@lucide/svelte";
 
 let { data, children } = $props();
 
@@ -37,18 +37,18 @@ const isAdmin = $derived(user.role === "ADMIN");
 			</div>
 
 			<nav class="flex flex-col gap-2">
-				<!-- Módulo Dashboard -->
+				<!-- Módulo 1: Plantilla -->
 				<div class="flex flex-col gap-1">
 					<a
-						href={resolve("manual/dashboard")}
+						href={resolve("manual/plantilla")}
 						class={[
 							"relative flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm font-semibold no-underline transition-all duration-150",
-							page.url.pathname === "/manual/dashboard"
+							page.url.pathname === "/manual/plantilla"
 								? "bg-blue-50 text-blue-700 shadow-xs dark:bg-blue-950/40 dark:text-blue-300"
 								: "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
 						]}
 					>
-						{#if page.url.pathname === "/manual/dashboard"}
+						{#if page.url.pathname === "/manual/plantilla"}
 							<span
 								class="absolute inset-y-2 left-0 w-1 rounded-r-full bg-blue-600 dark:bg-blue-400"
 							></span>
@@ -56,31 +56,37 @@ const isAdmin = $derived(user.role === "ADMIN");
 						<span
 							class={[
 								"flex shrink-0 items-center justify-center transition-colors duration-150",
-								page.url.pathname === "/manual/dashboard"
+								page.url.pathname === "/manual/plantilla"
 									? "text-blue-600 dark:text-blue-400"
 									: "text-zinc-400 dark:text-zinc-500",
 							]}
 						>
-							<LayoutDashboard size={16} />
+							<Layers size={16} />
 						</span>
-						<span class="flex-1 truncate">Dashboard</span>
+						<span class="flex-1 truncate">Plantilla</span>
 					</a>
 
-					{#if page.url.pathname === "/manual/dashboard"}
+					{#if page.url.pathname === "/manual/plantilla"}
 						<div
 							class="ml-5 flex flex-col gap-0.5 border-l-2 border-blue-100 py-1 pl-3 dark:border-blue-950/60"
 						>
 							<a
-								href="#introduccion"
+								href="#vision-general"
 								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
 							>
-								¿Qué es el Dashboard?
+								Visión General
 							</a>
 							<a
-								href="#controles-globales"
+								href="#arquitectura"
 								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
 							>
-								Controles Globales
+								Arquitectura y Stack
+							</a>
+							<a
+								href="#estructura"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+							>
+								Estructura del Proyecto
 							</a>
 							<a
 								href="#faqs"
@@ -92,7 +98,74 @@ const isAdmin = $derived(user.role === "ADMIN");
 					{/if}
 				</div>
 
-				<!-- Módulo Usuarios -->
+				<!-- Módulo 2: Interfaz y Cuenta -->
+				<div class="flex flex-col gap-1">
+					<a
+						href={resolve("manual/interfaz")}
+						class={[
+							"relative flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm font-semibold no-underline transition-all duration-150",
+							page.url.pathname === "/manual/interfaz"
+								? "bg-blue-50 text-blue-700 shadow-xs dark:bg-blue-950/40 dark:text-blue-300"
+								: "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
+						]}
+					>
+						{#if page.url.pathname === "/manual/interfaz"}
+							<span
+								class="absolute inset-y-2 left-0 w-1 rounded-r-full bg-blue-600 dark:bg-blue-400"
+							></span>
+						{/if}
+						<span
+							class={[
+								"flex shrink-0 items-center justify-center transition-colors duration-150",
+								page.url.pathname === "/manual/interfaz"
+									? "text-blue-600 dark:text-blue-400"
+									: "text-zinc-400 dark:text-zinc-500",
+							]}
+						>
+							<SlidersVertical size={16} />
+						</span>
+						<span class="flex-1 truncate">Interfaz y Cuenta</span>
+					</a>
+
+					{#if page.url.pathname === "/manual/interfaz"}
+						<div
+							class="ml-5 flex flex-col gap-0.5 border-l-2 border-blue-100 py-1 pl-3 dark:border-blue-950/60"
+						>
+							<a
+								href="#modo-color"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+							>
+								Modo Claro y Oscuro
+							</a>
+							<a
+								href="#menu-perfil"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+							>
+								Menú de Perfil
+							</a>
+							<a
+								href="#cierre-sesion"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+							>
+								Cierre de Sesión
+							</a>
+							<a
+								href="#barra-lateral"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+							>
+								Barra Lateral
+							</a>
+							<a
+								href="#faqs"
+								class="rounded-lg px-2 py-1 text-xs font-medium text-zinc-600 no-underline transition-colors hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
+							>
+								Preguntas Frecuentes
+							</a>
+						</div>
+					{/if}
+				</div>
+
+				<!-- Módulo 3: Usuarios (Solo Administradores) -->
 				{#if isAdmin}
 					<div class="flex flex-col gap-1">
 						<a

@@ -4,6 +4,6 @@ import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user?.role !== "ADMIN") {
-		redirect(307, "/manual/dashboard");
+		redirect(307, "/manual/plantilla");
 	}
 };

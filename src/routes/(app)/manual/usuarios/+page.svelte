@@ -1,11 +1,8 @@
 <script lang="ts">
 import {
 	ChevronDown,
-	ChevronRight,
-	HelpCircle,
 	KeyRound,
 	Pencil,
-	TableProperties,
 	ToggleRight,
 	UserPlus,
 } from "@lucide/svelte";
@@ -35,48 +32,25 @@ const faqs = [
 </svelte:head>
 
 <header
-	class="flex flex-col gap-3 border-b border-zinc-200 pb-6 dark:border-zinc-800"
+	class="flex flex-col gap-1 border-b border-zinc-200 pb-6 dark:border-zinc-800"
 >
-	<nav
-		class="flex items-center gap-2 text-xs font-semibold tracking-wide"
-		aria-label="Navegación del manual"
+	<h1
+		class="text-2xl font-extrabold tracking-tight text-zinc-900 md:text-3xl dark:text-zinc-100"
 	>
-		<span
-			class="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-xs font-bold tracking-wider text-blue-700 uppercase dark:border-blue-900/60 dark:bg-blue-950/40 dark:text-blue-300"
-		>
-			Administración
-		</span>
-		<span class="flex items-center text-zinc-400 dark:text-zinc-600">
-			<ChevronRight size={14} />
-		</span>
-		<span class="text-zinc-500 dark:text-zinc-400">Usuarios</span>
-	</nav>
-
-	<div class="flex flex-col gap-1">
-		<h1
-			class="text-2xl font-extrabold tracking-tight text-zinc-900 md:text-3xl dark:text-zinc-100"
-		>
-			Usuarios
-		</h1>
-		<p
-			class="text-sm leading-relaxed font-normal text-zinc-500 md:text-base dark:text-zinc-400"
-		>
-			Gestión de colaboradores, alta, edición, control de estado activo/inactivo
-			y preguntas frecuentes.
-		</p>
-	</div>
+		Usuarios
+	</h1>
+	<p
+		class="text-sm leading-relaxed font-normal text-zinc-500 md:text-base dark:text-zinc-400"
+	>
+		Gestión de colaboradores, alta, edición, control de estado activo/inactivo y
+		preguntas frecuentes.
+	</p>
 </header>
 
 <article class="flex flex-col gap-10">
 	<!-- 1. Listar Usuarios y Cambio de Estado -->
 	<section id="listar-estados" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
-			<span
-				class="inline-flex items-center gap-1.5 self-start rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-xs font-bold tracking-wider text-blue-700 uppercase dark:border-blue-900/60 dark:bg-blue-950/40 dark:text-blue-300"
-			>
-				<TableProperties size={14} />
-				Listado y Estados
-			</span>
 			<h3
 				class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100"
 			>
@@ -161,12 +135,6 @@ const faqs = [
 	<!-- 2. Crear Nuevo Usuario -->
 	<section id="crear-usuario" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
-			<span
-				class="inline-flex items-center gap-1.5 self-start rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-xs font-bold tracking-wider text-blue-700 uppercase dark:border-blue-900/60 dark:bg-blue-950/40 dark:text-blue-300"
-			>
-				<UserPlus size={14} />
-				Alta de Personal
-			</span>
 			<h3
 				class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100"
 			>
@@ -252,12 +220,6 @@ const faqs = [
 	<!-- 3. Editar Usuario y Resetear Claves -->
 	<section id="editar-usuario" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
-			<span
-				class="inline-flex items-center gap-1.5 self-start rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-xs font-bold tracking-wider text-blue-700 uppercase dark:border-blue-900/60 dark:bg-blue-950/40 dark:text-blue-300"
-			>
-				<Pencil size={14} />
-				Modificación y Seguridad
-			</span>
 			<h3
 				class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100"
 			>
@@ -337,12 +299,6 @@ const faqs = [
 	<!-- 4. Preguntas Frecuentes de Usuarios -->
 	<section id="faqs" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
-			<span
-				class="inline-flex items-center gap-1.5 self-start rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-xs font-bold tracking-wider text-blue-700 uppercase dark:border-blue-900/60 dark:bg-blue-950/40 dark:text-blue-300"
-			>
-				<HelpCircle size={14} />
-				Resolución de Dudas
-			</span>
 			<h3
 				class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100"
 			>
