@@ -1,30 +1,31 @@
 <script lang="ts">
-import { fly } from "svelte/transition";
-import { resolve } from "$app/paths";
-import { page } from "$app/state";
+	import { fly } from "svelte/transition";
+	import { resolve } from "$app/paths";
+	import { page } from "$app/state";
 
-import { BookOpen, Layers, LayoutDashboard, UserCog, X } from "@lucide/svelte";
+	import {
+		BookOpen,
+		Layers,
+		LayoutDashboard,
+		UserCog,
+		X,
+	} from "@lucide/svelte";
 
-import type { SessionUser } from "#lib/constants.ts";
+	import type { SessionUser } from "#lib/constants.ts";
 
-interface Props {
-	isSidebarOpen: boolean;
-	user: SessionUser;
-}
+	interface Props {
+		isSidebarOpen: boolean;
+		user: SessionUser;
+	}
 
-let { isSidebarOpen = $bindable(), user }: Props = $props();
-
-// Cierra el menú lateral en dispositivos móviles
-const handleCloseSidebar = () => {
-	isSidebarOpen = false;
-};
+	let { isSidebarOpen = $bindable(), user }: Props = $props();
 </script>
 
 {#if isSidebarOpen}
 	<button
 		type="button"
 		class="fixed inset-0 z-35 cursor-pointer border-none bg-black/40 backdrop-blur-xs transition-opacity duration-200 md:hidden dark:bg-black/60"
-		onclick={handleCloseSidebar}
+		onclick={() => (isSidebarOpen = false)}
 		tabindex="-1"
 		aria-hidden="true"
 	></button>
@@ -68,7 +69,7 @@ const handleCloseSidebar = () => {
 			<button
 				type="button"
 				class="flex size-9 cursor-pointer items-center justify-center rounded-lg border-none bg-transparent text-zinc-500 transition-colors duration-150 hover:bg-zinc-100 md:hidden dark:text-zinc-400 dark:hover:bg-zinc-800"
-				onclick={handleCloseSidebar}
+				onclick={() => (isSidebarOpen = false)}
 				aria-label="Cerrar menú"
 			>
 				<X size={20} />

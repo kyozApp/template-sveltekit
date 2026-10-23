@@ -29,16 +29,6 @@ const initials = $derived.by(() => {
 		.toUpperCase();
 });
 
-// Alterna la visibilidad del menú flotante de usuario
-const handleToggleMenu = () => {
-	isOpen = !isOpen;
-};
-
-// Cierra el menú flotante de usuario
-const handleCloseMenu = () => {
-	isOpen = false;
-};
-
 // Ejecuta el cierre de sesión del usuario y redirige a la pantalla de inicio de sesión
 const handleLogout = async () => {
 	if (isSubmitting) return;
@@ -91,7 +81,7 @@ $effect(() => {
 				? "border-zinc-400 dark:border-zinc-600"
 				: "hover:border-zinc-400 dark:hover:border-zinc-600",
 		]}
-		onclick={handleToggleMenu}
+		onclick={() => (isOpen = !isOpen)}
 		aria-haspopup="menu"
 		aria-expanded={isOpen}
 		aria-label="Menú de usuario"
@@ -155,7 +145,7 @@ $effect(() => {
 					href={resolve("perfil")}
 					class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-700 no-underline transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-50"
 					role="menuitem"
-					onclick={handleCloseMenu}
+					onclick={() => (isOpen = false)}
 				>
 					<span class="flex items-center text-zinc-500 dark:text-zinc-400">
 						<User size={16} />
@@ -168,7 +158,7 @@ $effect(() => {
 						href={resolve("configuracion")}
 						class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-700 no-underline transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-50"
 						role="menuitem"
-						onclick={handleCloseMenu}
+						onclick={() => (isOpen = false)}
 					>
 						<span class="flex items-center text-zinc-500 dark:text-zinc-400">
 							<Settings size={16} />
