@@ -12,8 +12,10 @@ import {
 import { getUserList } from "#lib/remote/user/user.query.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
 
+import type { PageData } from "./$types";
+
 interface Props {
-	currentUser: App.AuthenticatedLocals["user"];
+	currentUser: PageData["user"];
 }
 
 let { currentUser }: Props = $props();

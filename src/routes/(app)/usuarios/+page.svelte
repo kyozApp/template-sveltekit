@@ -4,10 +4,11 @@ import { goto } from "$app/navigation";
 
 import { Shield, UserPlus } from "@lucide/svelte";
 
+import type { PageProps } from "./$types";
 import UserModals from "./UserModals.svelte";
 import UserTable from "./UserTable.svelte";
 
-let { data } = $props();
+let { data }: PageProps = $props();
 </script>
 
 <svelte:head>
