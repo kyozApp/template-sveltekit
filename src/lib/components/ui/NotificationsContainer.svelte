@@ -137,21 +137,6 @@ $effect(() => {
 		observer.disconnect();
 	};
 });
-
-// Cierra el diálogo de alerta
-const handleCloseAlert = () => {
-	notifications.closeAlert();
-};
-
-// Resuelve el diálogo de confirmación con la opción elegida
-const handleConfirmDecision = (confirmed: boolean) => {
-	notifications.resolveConfirm(confirmed);
-};
-
-// Cierra una notificación toast específica
-const handleCloseToast = (id: string) => {
-	notifications.closeToast(id);
-};
 </script>
 
 <!-- Contenedores de Sonner (Toasts agrupados por posición en pantalla) -->
@@ -238,7 +223,7 @@ const handleCloseToast = (id: string) => {
 					<button
 						type="button"
 						class="flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:text-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
-						onclick={() => handleCloseToast(toast.id)}
+						onclick={() => notifications.closeToast(toast.id)}
 						aria-label="Cerrar notificación"
 					>
 						<X size={16} />
@@ -255,7 +240,7 @@ const handleCloseToast = (id: string) => {
 	class="m-auto border-0 bg-transparent p-0 outline-none backdrop:bg-zinc-950/60 backdrop:backdrop-blur-sm open:flex open:items-center open:justify-center"
 	oncancel={(e) => {
 		e.preventDefault();
-		handleCloseAlert();
+		notifications.closeAlert();
 	}}
 >
 	{#if notifications.alert.show}
@@ -335,7 +320,7 @@ const handleCloseToast = (id: string) => {
 						notifications.alert.type === "error" &&
 							"border border-red-600 bg-red-600 hover:bg-red-700 dark:border-red-500 dark:bg-red-600 dark:hover:bg-red-500",
 					]}
-					onclick={handleCloseAlert}
+					onclick={() => notifications.closeAlert()}
 				>
 					Entendido
 				</button>
@@ -350,7 +335,7 @@ const handleCloseToast = (id: string) => {
 	class="m-auto border-0 bg-transparent p-0 outline-none backdrop:bg-zinc-950/60 backdrop:backdrop-blur-sm open:flex open:items-center open:justify-center"
 	oncancel={(e) => {
 		e.preventDefault();
-		handleConfirmDecision(false);
+		notifications.resolveConfirm(false);
 	}}
 >
 	{#if notifications.confirmState.show}
@@ -393,14 +378,14 @@ const handleCloseToast = (id: string) => {
 				<button
 					type="button"
 					class="inline-flex w-1/2 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-white px-5 py-3 text-sm font-bold text-zinc-700 transition-all duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
-					onclick={() => handleConfirmDecision(false)}
+					onclick={() => notifications.resolveConfirm(false)}
 				>
 					Cancelar
 				</button>
 				<button
 					type="button"
 					class="inline-flex w-1/2 cursor-pointer items-center justify-center rounded-xl border border-amber-600 bg-amber-600 px-5 py-3 text-sm font-bold text-white transition-all duration-200 hover:border-amber-700 hover:bg-amber-700 dark:border-amber-500 dark:bg-amber-600 dark:hover:border-amber-600 dark:hover:bg-amber-500"
-					onclick={() => handleConfirmDecision(true)}
+					onclick={() => notifications.resolveConfirm(true)}
 				>
 					Aceptar
 				</button>

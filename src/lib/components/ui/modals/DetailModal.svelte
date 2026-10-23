@@ -14,11 +14,6 @@ interface Props {
 }
 
 let { isOpen, onRequestClose, width, header, children }: Props = $props();
-
-// Delega el cierre del modal al controlador proporcionado por el padre
-const handleClose = () => {
-	onRequestClose();
-};
 </script>
 
 <Modal {isOpen} {onRequestClose} {width}>
@@ -34,7 +29,7 @@ const handleClose = () => {
 			<button
 				type="button"
 				class="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-600 transition-colors duration-150 hover:bg-zinc-200 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
-				onclick={handleClose}
+				onclick={() => onRequestClose()}
 				aria-label="Cerrar modal"
 			>
 				<X size={20} />
