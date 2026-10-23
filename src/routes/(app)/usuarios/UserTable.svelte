@@ -2,7 +2,7 @@
 import { isHttpError } from "@sveltejs/kit";
 import { goto } from "$app/navigation";
 
-import { LoaderCircle, Mail, Pencil, Trash } from "@lucide/svelte";
+import { LoaderCircle, Pencil, Trash } from "@lucide/svelte";
 
 import { ROLE_LABELS } from "#lib/constants.ts";
 import {
@@ -17,9 +17,6 @@ interface Props {
 }
 
 let { currentUser }: Props = $props();
-
-let deletingUserId = $state<string | null>(null);
-let togglingUserId = $state<string | null>(null);
 
 // Determina si el usuario en sesión tiene permisos para alternar el estado del usuario objetivo
 const canToggleUserStatus = (targetUser: { id: string; role: string }) => {
@@ -45,29 +42,16 @@ const canDeleteUser = (targetUser: { id: string; role: string }) => {
 	return true;
 };
 
-// Abre el modal para editar el usuario seleccionado mediante navegación superficial
-const handleOpenUpdateModal = (userId: string) => {
-	goto("", {
-		shallow: true,
-		state: {
-			showUserUpdate: { isOpen: true, data: { userId } },
-		},
-	});
-};
-
 // Solicita confirmación y ejecuta la eliminación del usuario en el sistema
 const handleDeleteUser = async (userToDelete: { id: string; name: string }) => {
-	if (deletingUserId) return;
-
-	const confirmed = await notifications.showConfirmAlert(
-		"Eliminar Usuario",
-		`¿Estás seguro de que deseas dar de baja a "${userToDelete.name}"? El usuario será eliminado del sistema y sus sesiones serán canceladas.`,
-	);
-
-	if (!confirmed) return;
-
-	deletingUserId = userToDelete.id;
 	try {
+		const confirmed = await notifications.showConfirmAlert(
+			"Eliminar Usuario",
+			`¿Estás seguro de que deseas dar de baja a "${userToDelete.name}"? El usuario será eliminado del sistema y sus sesiones serán canceladas.`,
+		);
+
+		if (!confirmed) return;
+
 		await deleteUser({ id: userToDelete.id });
 		notifications.showToastSuccess(
 			`Usuario "${userToDelete.name}" eliminado con éxito.`,
@@ -84,8 +68,6 @@ const handleDeleteUser = async (userToDelete: { id: string; name: string }) => {
 				"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
 			);
 		}
-	} finally {
-		deletingUserId = null;
 	}
 };
 
@@ -94,9 +76,6 @@ const handleToggleStatus = async (userToToggle: {
 	id: string;
 	isActive: boolean;
 }) => {
-	if (togglingUserId) return;
-	togglingUserId = userToToggle.id;
-
 	try {
 		await toggleUserStatus({
 			id: userToToggle.id,
@@ -118,8 +97,6 @@ const handleToggleStatus = async (userToToggle: {
 				"No se pudo establecer comunicación con el servidor. Si el problema continúa, comuníquese con sistemas.",
 			);
 		}
-	} finally {
-		togglingUserId = null;
 	}
 };
 </script>
@@ -127,175 +104,9 @@ const handleToggleStatus = async (userToToggle: {
 <svelte:boundary>
 	{@const list = await getUserList()}
 
-	<!-- Vista Móvil: Tarjeta Contenedora Única (Grouped Inset List) -->
+	<!-- Tabla Única Responsive con Scroll Horizontal -->
 	<div
-		class="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm md:hidden dark:border-zinc-800 dark:bg-zinc-900"
-	>
-		<div class="divide-y divide-zinc-200 dark:divide-zinc-800">
-			{#each list as user, index (user.id)}
-				<div
-					class="flex flex-col gap-3 p-4 transition-colors duration-150 hover:bg-zinc-50/60 dark:hover:bg-zinc-800/30"
-				>
-					<!-- Fila Superior: #ID, @usuario, Tú, y Estado badge -->
-					<div class="flex items-center justify-between gap-2">
-						<div class="flex flex-wrap items-center gap-2">
-							<span
-								class="font-mono text-xs font-semibold text-zinc-400 dark:text-zinc-500"
-							>
-								#{index + 1}
-							</span>
-							<span
-								class="inline-flex items-center rounded-lg border border-zinc-200 bg-zinc-100 px-2 py-0.5 font-mono text-xs font-semibold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
-							>
-								@{user.username}
-							</span>
-							{#if user.id === currentUser.id}
-								<span
-									class="inline-flex items-center rounded-md border border-zinc-200 bg-zinc-100 px-1.5 py-0.5 text-xs font-bold text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
-								>
-									Tú
-								</span>
-							{/if}
-						</div>
-
-						<span
-							class={[
-								"inline-flex shrink-0 items-center justify-center rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wider uppercase",
-								user.isActive
-									? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
-									: "bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300",
-							]}
-						>
-							{user.isActive ? "Activo" : "Inactivo"}
-						</span>
-					</div>
-
-					<!-- Nombre del usuario y Rol -->
-					<div class="flex flex-col gap-1.5">
-						<div class="flex items-baseline justify-between gap-2">
-							<h3
-								class={[
-									"text-base font-bold tracking-tight",
-									user.isActive
-										? "text-zinc-900 dark:text-zinc-100"
-										: "text-zinc-400 dark:text-zinc-500",
-								]}
-							>
-								{user.name}
-							</h3>
-							<span
-								class={[
-									"inline-flex shrink-0 items-center justify-center rounded-full px-2 py-0.5 text-xs font-bold tracking-wider uppercase",
-									user.role === "ADMIN"
-										? "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200"
-										: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300",
-								]}
-							>
-								{ROLE_LABELS[user.role]}
-							</span>
-						</div>
-
-						<!-- Correo Electrónico -->
-						<div
-							class="flex items-center gap-2 text-xs font-medium text-zinc-500 dark:text-zinc-400"
-						>
-							<Mail
-								size={14}
-								class="shrink-0 text-zinc-400 dark:text-zinc-500"
-							/>
-							<span class="truncate">{user.email}</span>
-						</div>
-					</div>
-
-					<!-- Acciones y Control de Estado -->
-					<div
-						class="flex items-center justify-between border-t border-zinc-100 pt-3 dark:border-zinc-800/80"
-					>
-						<!-- Interruptor de Estado -->
-						<div class="flex items-center gap-2">
-							<span class="text-xs font-medium text-zinc-500 dark:text-zinc-400"
-								>Estado:</span
-							>
-							{#if canToggleUserStatus(user)}
-								<button
-									type="button"
-									onclick={() => handleToggleStatus(user)}
-									role="switch"
-									aria-checked={user.isActive}
-									aria-label="Alternar estado del usuario"
-									disabled={togglingUserId === user.id}
-									class={[
-										"relative inline-flex h-6.5 w-11.5 shrink-0 cursor-pointer items-center rounded-full border border-zinc-300 p-0.5 transition-colors duration-250 ease-in-out disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-700",
-										user.isActive
-											? "bg-emerald-600 dark:bg-emerald-500"
-											: "bg-zinc-200 dark:bg-zinc-800",
-									]}
-								>
-									<span
-										class={[
-											"size-5 rounded-full bg-white shadow-md transition-transform duration-250 ease-in-out dark:bg-zinc-100",
-											user.isActive ? "translate-x-5" : "translate-x-0.5",
-										]}
-									></span>
-									<span class="sr-only">
-										Estado del usuario: {user.isActive ? "Activo" : "Inactivo"}
-									</span>
-								</button>
-							{:else}
-								<span
-									class="text-xs font-semibold text-zinc-400 dark:text-zinc-500"
-								>
-									{user.id === currentUser.id ? "Tu cuenta" : "Protegido"}
-								</span>
-							{/if}
-						</div>
-
-						<!-- Botones de Acción -->
-						<div class="flex items-center gap-2">
-							{#if canEditUser(user)}
-								<button
-									type="button"
-									class="inline-flex size-9 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-600 transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-200 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
-									onclick={() => handleOpenUpdateModal(user.id)}
-									aria-label="Editar usuario"
-								>
-									<Pencil size={15} />
-								</button>
-							{/if}
-							{#if canDeleteUser(user)}
-								<button
-									type="button"
-									class="inline-flex size-9 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-600 transition-all duration-200 hover:border-red-300 hover:bg-red-50 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-55 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-red-900 dark:hover:bg-red-950/40 dark:hover:text-red-400"
-									onclick={() => handleDeleteUser(user)}
-									aria-label="Eliminar usuario"
-									disabled={deletingUserId === user.id}
-								>
-									{#if deletingUserId === user.id}
-										<LoaderCircle
-											size={15}
-											class="animate-spin text-red-600 dark:text-red-400"
-										/>
-									{:else}
-										<Trash size={15} />
-									{/if}
-								</button>
-							{/if}
-						</div>
-					</div>
-				</div>
-			{:else}
-				<div class="p-8 text-center">
-					<p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-						No se encontraron usuarios registrados.
-					</p>
-				</div>
-			{/each}
-		</div>
-	</div>
-
-	<!-- Vista Escritorio: Tabla completa -->
-	<div
-		class="hidden overflow-x-auto rounded-2xl border border-zinc-200 bg-white shadow-sm md:block dark:border-zinc-800 dark:bg-zinc-900"
+		class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
 	>
 		<table class="w-full border-collapse text-left">
 			<thead>
@@ -400,7 +211,7 @@ const handleToggleStatus = async (userToToggle: {
 									role="switch"
 									aria-checked={user.isActive}
 									aria-label="Alternar estado del usuario"
-									disabled={togglingUserId === user.id}
+									disabled={toggleUserStatus.pending > 0}
 									class={[
 										"relative inline-flex h-7.5 w-13.5 shrink-0 cursor-pointer items-center rounded-full border border-zinc-300 p-0.5 transition-colors duration-250 ease-in-out disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-700",
 										user.isActive
@@ -437,7 +248,16 @@ const handleToggleStatus = async (userToToggle: {
 									<button
 										type="button"
 										class="inline-flex size-9 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 p-0 text-zinc-600 transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-200 hover:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-55 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
-										onclick={() => handleOpenUpdateModal(user.id)}
+										onclick={() =>
+											goto("", {
+												shallow: true,
+												state: {
+													showUserUpdate: {
+														isOpen: true,
+														data: { userId: user.id },
+													},
+												},
+											})}
 										aria-label="Editar usuario"
 										data-tooltip="Editar usuario"
 										data-tooltip-position="top-end"
@@ -453,16 +273,9 @@ const handleToggleStatus = async (userToToggle: {
 										aria-label="Eliminar usuario"
 										data-tooltip="Eliminar usuario"
 										data-tooltip-position="top-end"
-										disabled={deletingUserId === user.id}
+										disabled={deleteUser.pending > 0}
 									>
-										{#if deletingUserId === user.id}
-											<LoaderCircle
-												size={16}
-												class="animate-spin text-red-600 dark:text-red-400"
-											/>
-										{:else}
-											<Trash size={16} />
-										{/if}
+										<Trash size={16} />
 									</button>
 								{/if}
 							</div>

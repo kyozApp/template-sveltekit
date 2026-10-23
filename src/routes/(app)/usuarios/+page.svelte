@@ -8,16 +8,6 @@ import UserModals from "./UserModals.svelte";
 import UserTable from "./UserTable.svelte";
 
 let { data } = $props();
-
-// Abre el modal para crear un nuevo usuario mediante navegación superficial
-const handleOpenCreateModal = () => {
-	goto("", {
-		shallow: true,
-		state: {
-			showUserCreate: { isOpen: true },
-		},
-	});
-};
 </script>
 
 <svelte:head>
@@ -51,7 +41,14 @@ const handleOpenCreateModal = () => {
 		>
 			<button
 				type="button"
-				onclick={handleOpenCreateModal}
+				onclick={() => {
+					goto("", {
+						shallow: true,
+						state: {
+							showUserCreate: { isOpen: true },
+						},
+					});
+				}}
 				class="inline-flex w-full min-w-44 cursor-pointer items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-zinc-100 px-5 py-3 text-sm font-bold tracking-wide text-zinc-700 transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-200 hover:text-zinc-900 md:w-auto dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
 			>
 				<UserPlus size={18} />
