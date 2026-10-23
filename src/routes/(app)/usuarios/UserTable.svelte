@@ -18,28 +18,22 @@ interface Props {
 
 let { currentUser }: Props = $props();
 
+const isAdmin = $derived(currentUser.role === "ADMIN");
+
 // Determina si el usuario en sesión tiene permisos para alternar el estado del usuario objetivo
-const canToggleUserStatus = (targetUser: { id: string; role: string }) => {
-	if (targetUser.id === currentUser.id) {
+const canToggleUserStatus = (targetUser: { id: string }) => {
+	if (!isAdmin) {
 		return false;
 	}
-	return currentUser.role === "ADMIN";
-};
-
-// Determina si el usuario en sesión tiene permisos para editar al usuario objetivo
-const canEditUser = (_targetUser: { id: string; role: string }) => {
-	return currentUser.role === "ADMIN";
+	return targetUser.id !== currentUser.id;
 };
 
 // Determina si el usuario en sesión tiene permisos para eliminar al usuario objetivo
-const canDeleteUser = (targetUser: { id: string; role: string }) => {
-	if (currentUser.role !== "ADMIN") {
+const canDeleteUser = (targetUser: { id: string }) => {
+	if (!isAdmin) {
 		return false;
 	}
-	if (targetUser.id === currentUser.id) {
-		return false;
-	}
-	return true;
+	return targetUser.id !== currentUser.id;
 };
 
 // Solicita confirmación y ejecuta la eliminación del usuario en el sistema
@@ -244,7 +238,7 @@ const handleToggleStatus = async (userToToggle: {
 						</td>
 						<td class="px-5 py-4 text-center">
 							<div class="inline-flex items-center justify-center gap-2">
-								{#if canEditUser(user)}
+								{#if isAdmin}
 									<button
 										type="button"
 										class="inline-flex size-9 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 p-0 text-zinc-600 transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-200 hover:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-55 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
