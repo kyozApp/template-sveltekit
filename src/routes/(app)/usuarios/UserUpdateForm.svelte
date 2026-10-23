@@ -5,10 +5,7 @@ import { refreshAll } from "$app/navigation";
 import {
 	ChevronDown,
 	CircleAlert,
-	Eye,
-	EyeOff,
 	LoaderCircle,
-	Lock,
 	Mail,
 	Pencil,
 	Shield,
@@ -23,6 +20,8 @@ import { getUserDetails } from "#lib/remote/user/user.query.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
 import { userUpdateSchema } from "#lib/validations/user/user.form.validation.ts";
 
+import UserUpdatePassword from "./UserUpdatePassword.svelte";
+
 interface Props {
 	userId: string;
 	currentUserId: string;
@@ -31,9 +30,7 @@ interface Props {
 
 let { userId, currentUserId, onClose }: Props = $props();
 
-const sessionId = nanoid();
-
-const updateForm = updateUser.for(sessionId);
+const updateForm = updateUser.for(nanoid());
 
 const {
 	id: fieldId,
@@ -45,24 +42,7 @@ const {
 	isActive: fieldIsActive,
 } = updateForm.fields;
 
-let showPassword = $state(false);
-
 const submitting = $derived(updateForm.pending > 0);
-
-// Alterna la visibilidad de la contraseña entre texto sin formato y oculto
-const handleTogglePassword = () => {
-	showPassword = !showPassword;
-};
-
-// Valida los campos del formulario en tiempo real mientras el usuario escribe
-const handleFormInput = () => {
-	updateForm.validate();
-};
-
-// Quita el foco del selector al elegir una opción para restaurar la orientación de la flecha
-const handleRoleChange = (e: Event) => {
-	(e.currentTarget as HTMLSelectElement).blur();
-};
 </script>
 
 <svelte:boundary>
@@ -112,11 +92,15 @@ const handleRoleChange = (e: Event) => {
 					}
 				}
 			})}
-			oninput={handleFormInput}
+			oninput={() => updateForm.validate()}
 			novalidate
 		>
+			<!-- ID del usuario -->
+			<input {...fieldId.as("hidden", userId)}>
+
 			<div class="flex flex-col gap-4">
 				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+					<!-- Nombre completo -->
 					<div class="flex flex-col gap-2">
 						<label
 							for="user-update-name"
@@ -152,6 +136,7 @@ const handleRoleChange = (e: Event) => {
 						{/if}
 					</div>
 
+					<!-- Nombre de usuario -->
 					<div class="flex flex-col gap-2">
 						<label
 							for="user-update-username"
@@ -189,6 +174,7 @@ const handleRoleChange = (e: Event) => {
 				</div>
 
 				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+					<!-- Correo electrónico -->
 					<div class="flex flex-col gap-2">
 						<label
 							for="user-update-email"
@@ -224,56 +210,11 @@ const handleRoleChange = (e: Event) => {
 						{/if}
 					</div>
 
-					<div class="flex flex-col gap-2">
-						<label
-							for="user-update-password"
-							class="text-xs font-bold tracking-wider text-zinc-700 uppercase dark:text-zinc-300"
-						>
-							Nueva Contraseña (Opcional)
-						</label>
-						<div class="relative flex w-full items-center">
-							<span
-								class="pointer-events-none absolute left-4 z-10 flex size-4 items-center justify-center text-zinc-500 transition-colors duration-200 dark:text-zinc-400"
-							>
-								<Lock size={16} />
-							</span>
-							<input
-								{...fieldPassword.as(showPassword ? "text" : "password")}
-								id="user-update-password"
-								class={[
-									"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-12 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
-									fieldPassword.issues()?.length &&
-										"border-red-500 dark:border-red-400",
-								]}
-								placeholder="Dejar en blanco para mantener actual"
-								disabled={submitting}
-							>
-							<button
-								type="button"
-								class="absolute right-3.5 flex cursor-pointer items-center justify-center border-none bg-transparent p-0 text-zinc-400 transition-colors duration-150 hover:text-zinc-600 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:text-zinc-300"
-								onclick={handleTogglePassword}
-								disabled={submitting}
-								aria-label={showPassword
-									? "Ocultar contraseña"
-									: "Mostrar contraseña"}
-							>
-								{#if showPassword}
-									<EyeOff size={16} />
-								{:else}
-									<Eye size={16} />
-								{/if}
-							</button>
-						</div>
-						{#if fieldPassword.issues()?.length}
-							<span
-								class="mt-1 inline-flex items-center gap-1.5 p-0 text-xs leading-tight font-medium text-red-600 dark:text-red-400"
-							>
-								<CircleAlert size={14} />
-								<span>{fieldPassword.issues()?.[0]?.message}</span>
-							</span>
-						{/if}
-					</div>
+					<!-- Contraseña -->
+					<UserUpdatePassword {fieldPassword} {submitting} />
 				</div>
+
+				<!-- Rol del usuario -->
 
 				<div class="flex flex-col gap-2">
 					<label
@@ -319,7 +260,7 @@ const handleRoleChange = (e: Event) => {
 									fieldRole.issues()?.length &&
 										"border-red-500 dark:border-red-400",
 								]}
-								onchange={handleRoleChange}
+								onchange={(e) => e.currentTarget.blur()}
 								disabled={submitting}
 							>
 								<option value="ADMIN">Administrador</option>
@@ -342,6 +283,7 @@ const handleRoleChange = (e: Event) => {
 					{/if}
 				</div>
 
+				<!-- Estado de la cuenta -->
 				<div
 					class="flex items-center justify-between gap-4 rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/60"
 				>
@@ -412,8 +354,7 @@ const handleRoleChange = (e: Event) => {
 				{/if}
 			</div>
 
-			<input {...fieldId.as("hidden", userId)}>
-
+			<!-- Botones de acción -->
 			<div class="flex flex-wrap items-center justify-end gap-3 pt-2">
 				<button
 					type="button"

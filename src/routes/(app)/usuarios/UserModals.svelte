@@ -13,30 +13,27 @@ interface Props {
 }
 
 let { currentUserId }: Props = $props();
-
-// Cierra el modal activo retrocediendo en el historial de navegación superficial
-const handleCloseModal = () => {
-	history.back();
-};
 </script>
 
+<!-- Crear nuevo usuario -->
 {#if page.state.showUserCreate}
 	<FormModal
 		isOpen={page.state.showUserCreate.isOpen}
-		onRequestClose={handleCloseModal}
+		onRequestClose={() => history.back()}
 		width="medium"
 		title="Crear Nuevo Usuario"
 		subtitle="Registra un nuevo usuario en la plataforma"
 		icon={UserPlus}
 	>
-		<UserCreateForm onClose={handleCloseModal} />
+		<UserCreateForm onClose={() => history.back()} />
 	</FormModal>
 {/if}
 
+<!-- Editar usuario existente -->
 {#if page.state.showUserUpdate}
 	<FormModal
 		isOpen={page.state.showUserUpdate.isOpen}
-		onRequestClose={handleCloseModal}
+		onRequestClose={() => history.back()}
 		width="medium"
 		title="Editar Usuario"
 		subtitle="Modifica los datos y permisos del usuario"
@@ -45,7 +42,7 @@ const handleCloseModal = () => {
 		<UserUpdateForm
 			userId={page.state.showUserUpdate.data.userId}
 			{currentUserId}
-			onClose={handleCloseModal}
+			onClose={() => history.back()}
 		/>
 	</FormModal>
 {/if}

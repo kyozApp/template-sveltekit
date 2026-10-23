@@ -1,7 +1,6 @@
 <script lang="ts">
 import { fly } from "svelte/transition";
 import { goto } from "$app/navigation";
-import { page } from "$app/state";
 
 import { Shield, UserPlus } from "@lucide/svelte";
 
@@ -15,7 +14,6 @@ const handleOpenCreateModal = () => {
 	goto("", {
 		shallow: true,
 		state: {
-			...page.state,
 			showUserCreate: { isOpen: true },
 		},
 	});
