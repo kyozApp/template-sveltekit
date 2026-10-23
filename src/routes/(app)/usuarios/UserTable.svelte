@@ -4,7 +4,7 @@ import { goto } from "$app/navigation";
 
 import { LoaderCircle, Pencil, Trash } from "@lucide/svelte";
 
-import { ROLE_LABELS } from "#lib/constants.ts";
+import { ROLE_LABELS, type SessionUser } from "#lib/constants.ts";
 import {
 	deleteUser,
 	toggleUserStatus,
@@ -12,10 +12,8 @@ import {
 import { getUserList } from "#lib/remote/user/user.query.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
 
-import type { PageData } from "./$types";
-
 interface Props {
-	currentUser: PageData["user"];
+	currentUser: SessionUser;
 }
 
 let { currentUser }: Props = $props();

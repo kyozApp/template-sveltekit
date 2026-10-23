@@ -5,9 +5,11 @@ import { page } from "$app/state";
 
 import { BookOpen, Layers, LayoutDashboard, UserCog, X } from "@lucide/svelte";
 
+import type { SessionUser } from "#lib/constants.ts";
+
 interface Props {
 	isSidebarOpen: boolean;
-	user: App.AuthenticatedLocals["user"];
+	user: SessionUser;
 }
 
 let { isSidebarOpen = $bindable(), user }: Props = $props();

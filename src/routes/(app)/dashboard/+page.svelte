@@ -12,7 +12,9 @@ import {
 
 import { ROLE_LABELS } from "#lib/constants.ts";
 
-let { data } = $props();
+import type { PageProps } from "./$types";
+
+let { data }: PageProps = $props();
 
 const user = $derived(data.user);
 </script>

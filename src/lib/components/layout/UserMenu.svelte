@@ -3,11 +3,11 @@ import { resolve } from "$app/paths";
 
 import { LoaderCircle, LogOut, Settings, User } from "@lucide/svelte";
 
-import { ROLE_LABELS } from "#lib/constants.ts";
+import { ROLE_LABELS, type SessionUser } from "#lib/constants.ts";
 import { logoutUser } from "#lib/remote/auth/auth.command.remote.ts";
 
 interface Props {
-	user: App.AuthenticatedLocals["user"];
+	user: SessionUser;
 }
 
 let { user }: Props = $props();

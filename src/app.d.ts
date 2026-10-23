@@ -1,29 +1,19 @@
-import type { Role } from "#lib/constants.ts";
-
-interface User {
-	id: string;
-	name: string;
-	username: string;
-	email: string;
-	role: Role;
-}
+import type { SessionUser } from "#lib/constants.ts";
 
 declare global {
 	namespace App {
 		// Definimos la interfaz Locals para todas las rutas
 		interface Locals {
-			user: User | null;
+			user: SessionUser | null;
 			sessionToken: string | null;
 		}
 		// Definimos la interfaz AuthenticatedLocals para rutas autenticadas
 		interface AuthenticatedLocals extends App.Locals {
-			user: User;
+			user: SessionUser;
 			sessionToken: string;
 		}
 		// Definimos PageData para páginas y layouts
-		interface PageData {
-			user?: User;
-		}
+		interface PageData {}
 		// Definimos la interfaz PageState para Shallow Routing
 		interface PageState {
 			// Usuarios

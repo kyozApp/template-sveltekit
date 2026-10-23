@@ -5,7 +5,9 @@ import { page } from "$app/state";
 
 import { BookOpen, Layers, SlidersVertical, UserCog } from "@lucide/svelte";
 
-let { data, children } = $props();
+import type { LayoutProps } from "./$types";
+
+let { data, children }: LayoutProps = $props();
 
 const user = $derived(data.user);
 const isAdmin = $derived(user.role === "ADMIN");

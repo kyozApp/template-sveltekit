@@ -3,10 +3,11 @@ import { PanelLeft } from "@lucide/svelte";
 
 import UserMenu from "#lib/components/layout/UserMenu.svelte";
 import ThemeToggle from "#lib/components/ui/ThemeToggle.svelte";
+import type { SessionUser } from "#lib/constants.ts";
 
 interface Props {
 	isSidebarOpen: boolean;
-	user: App.AuthenticatedLocals["user"];
+	user: SessionUser;
 }
 
 let { isSidebarOpen = $bindable(), user }: Props = $props();
