@@ -1,5 +1,6 @@
 {
-	// Esquema para autocompletado y validación del archivo en el editor (VS Code, etc.)
+	// Para actualizar usa el comando pnpm biome migrate --write
+	// Esquema para autocompletado y validación del archivo en el editor (VS Code, Zed, etc.)
 	"$schema": "https://biomejs.dev/schemas/2.6.4/schema.json",
 
 	// Integración con el sistema de control de versiones (Git)
@@ -110,12 +111,12 @@
 		}
 	},
 
-	// Formateador para archivos HTML
+	// Formateador para archivos HTML / Svelte / Astro / Vue
 	"html": {
 		"formatter": {
-			"enabled": true // Habilita el formateo de HTML
+			"enabled": true // Habilita el formateo de plantillas HTML/Svelte
 		},
-		"experimentalFullSupportEnabled": true // Activa soporte completo y avanzado para sintaxis HTML
+		"experimentalFullSupportEnabled": true // Activa soporte completo y avanzado para sintaxis HTML y Svelte
 	},
 
 	// Formateador para archivos JavaScript / TypeScript
@@ -157,10 +158,12 @@
 
 	// Configuración centralizada de Tailwind CSS (Biome v2.6+)
 	"tailwind": {
-		// Atributos HTML/JSX donde Biome buscará y ordenará las clases de Tailwind
+		// Hoja de estilos principal de Tailwind v4 para leer @theme, @utility y @custom-variant
+		"stylesheet": "./src/routes/layout.css",
+		// Atributos HTML/JSX/Svelte donde Biome buscará y ordenará las clases de Tailwind
 		"attributes": ["class", "className", "classList"],
 		// Funciones de utilidad para concatenar clases donde se deben ordenar las cadenas
-		"mergeFunctions": ["clsx", "tw"],
+		"mergeFunctions": ["clsx", "tw", "cn", "twMerge"],
 		// Funciones de librerías de variantes (CVA, Tailwind Variants) para ordenar las clases de sus variantes
 		"variantFunctions": ["cva", "tv"]
 	}

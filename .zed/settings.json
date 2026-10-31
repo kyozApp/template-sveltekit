@@ -49,39 +49,29 @@
 				"source.organizeImports.biome": true
 			}
 		},
-		// "Svelte": {
-		// 	"tab_size": 2,
-		// 	"hard_tabs": true,
-		// 	"formatter": { "language_server": { "name": "biome" } },
-		// 	"code_actions_on_format": {
-		// 		"source.fixAll.biome": true
-		// 	}
-		// }
-		// "Svelte": {
-		// 	"tab_size": 2,
-		// 	"hard_tabs": true,
-		// 	"prettier": {
-		// 		"allowed": true,
-		// 		"plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"]
-		// 	},
-		// 	"formatter": "prettier"
-		// }
 		"Svelte": {
 			"tab_size": 2,
 			"hard_tabs": true,
-			"prettier": {
-				"allowed": true,
-				"plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"]
-			},
-			"formatter": [
-				"prettier",
-				{ "code_action": "source.fixAll.biome" },
-				{ "code_action": "source.organizeImports.biome" },
-				{ "language_server": { "name": "biome" } }
-			]
+			"prettier": { "allowed": false },
+			"language_servers": [
+				"svelte-language-server",
+				"biome",
+				"tailwindcss-language-server",
+				"..."
+			],
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
 		}
 	},
 	"lsp": {
+		"biome": {
+			"settings": {
+				"require_config_file": true
+			}
+		},
 		"tailwindcss-language-server": {
 			"settings": {
 				"includeLanguages": { "svelte": "html" },
