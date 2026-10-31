@@ -3,11 +3,21 @@ allowBuilds:
   esbuild: true
   workerd: true
 minimumReleaseAgeExclude:
-  - '@inlang/paraglide-js@2.26.0'
-  - '@inlang/sdk@3.1.0'
-  - '@lix-js/sdk@0.19.0'
-  - '@prisma/cli-engine@0.6.3'
-  - '@sveltejs/kit@3.0.1'
+  - "@inlang/paraglide-js@2.26.0"
+  - "@inlang/sdk@3.1.0"
+  - "@lix-js/sdk@0.19.0"
+  - "@prisma/cli-engine@0.6.3"
+  - "@sveltejs/kit@3.0.1"
   - dotenv@18.0.6
   - svelte@5.57.2
   - vite@8.3.3
+  - "@prisma/orm-family-sql@8.0.0-rc.22"
+  - "@prisma/orm-framework@8.0.0-rc.22"
+  - "@prisma/orm-postgres@8.0.0-rc.22"
+  - "@prisma/orm-target-postgres@8.0.0-rc.22"
+  - "@prisma/orm-toolchain@8.0.0-rc.22"
+permissions:
+  "@prisma/orm-postgres":
+    skills: true
+  prisma:
+    skills: true

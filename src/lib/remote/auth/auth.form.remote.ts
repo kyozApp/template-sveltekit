@@ -46,9 +46,12 @@ export const loginUser = form(authLoginSchema.body, async (data) => {
 	});
 
 	// 6. Configurar cookie segura de sesión
-	// NOTA DE SEGURIDAD (Producción / Red Interna):
-	// Se mantiene 'secure: false' para compatibilidad en entornos locales o despliegues HTTP en red interna (LAN).
-	// Si se expone a través de un proxy inverso con HTTPS (SSL/TLS), cambiar a 'secure: true' o 'secure: import.meta.env.PROD'.
+	/**
+	 * NOTA DE SEGURIDAD (Producción / Red Interna): se mantiene `secure: false`
+	 * para compatibilidad en entornos locales o despliegues HTTP en red interna
+	 * (LAN). Si se expone mediante un proxy inverso con HTTPS (SSL/TLS), cambiar
+	 * a `secure: true` o `secure: import.meta.env.PROD`.
+	 */
 	event.cookies.set("session", session.id, {
 		path: "/",
 		httpOnly: true,

@@ -32,10 +32,10 @@ const faqs = [
 </svelte:head>
 
 <header
-	class="flex flex-col gap-1 border-b border-zinc-200 pb-6 dark:border-zinc-800"
+	class="flex flex-col gap-1 border-b border-zinc-200 pb-5 sm:pb-6 dark:border-zinc-800"
 >
 	<h1
-		class="text-2xl font-extrabold tracking-tight text-zinc-900 md:text-3xl dark:text-zinc-100"
+		class="text-2xl font-extrabold tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-100"
 	>
 		Usuarios
 	</h1>
@@ -47,7 +47,7 @@ const faqs = [
 	</p>
 </header>
 
-<article class="flex flex-col gap-10">
+<article class="flex flex-col gap-8 sm:gap-10">
 	<!-- 1. Listar Usuarios y Cambio de Estado -->
 	<section id="listar-estados" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
@@ -56,7 +56,9 @@ const faqs = [
 			>
 				1. Listar Usuarios y Cambio de Estado
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				La tabla principal de usuarios permite consultar a todo el personal
 				registrado y controlar en vivo su acceso al sistema mediante el
 				interruptor de estado:
@@ -64,7 +66,7 @@ const faqs = [
 		</div>
 
 		<div
-			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
+			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
 		>
 			<div class="flex items-center gap-3">
 				<span
@@ -85,7 +87,7 @@ const faqs = [
 			</div>
 
 			<p
-				class="m-0 text-xs leading-relaxed text-zinc-600 sm:text-sm dark:text-zinc-400"
+				class="m-0 text-xs leading-relaxed break-words text-zinc-600 sm:text-sm dark:text-zinc-400"
 			>
 				En la columna <strong>Estado</strong> de cada colaborador encontrarás un
 				interruptor deslizante para gestionar su acceso de forma inmediata:
@@ -140,14 +142,16 @@ const faqs = [
 			>
 				2. Registrar un Nuevo Colaborador
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				Procedimiento para dar de alta a un nuevo integrante del equipo en la
 				plataforma:
 			</p>
 		</div>
 
 		<div
-			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
+			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
 		>
 			<div class="flex items-center gap-3">
 				<span
@@ -225,14 +229,16 @@ const faqs = [
 			>
 				3. Modificar Datos y Resetear Contraseñas
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				Instrucciones para corregir información del colaborador o asistir en la
 				recuperación de acceso:
 			</p>
 		</div>
 
 		<div
-			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
+			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
 		>
 			<div class="flex items-center gap-3">
 				<span
@@ -259,7 +265,6 @@ const faqs = [
 					En la tabla de usuarios, haz clic en el botón de edición
 					<span
 						class="inline-flex size-6 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-100 align-middle text-zinc-600 shadow-2xs dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
-						title="Editar usuario"
 					>
 						<Pencil size={13} />
 					</span>
@@ -304,7 +309,9 @@ const faqs = [
 			>
 				Preguntas Frecuentes sobre Usuarios
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				Respuestas a las situaciones más comunes durante la administración de
 				cuentas de colaboradores:
 			</p>
@@ -316,9 +323,9 @@ const faqs = [
 					class="group overflow-hidden rounded-2xl border border-zinc-200 bg-white transition-colors duration-150 open:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900 dark:open:border-zinc-600"
 				>
 					<summary
-						class="flex cursor-pointer list-none items-center justify-between p-4 text-sm font-bold text-zinc-900 transition-colors duration-150 outline-none select-none hover:text-zinc-600 sm:p-5 dark:text-zinc-100 dark:hover:text-zinc-300 [&::-webkit-details-marker]:hidden"
+						class="flex cursor-pointer list-none items-center justify-between gap-3 p-4 text-sm font-bold text-zinc-900 transition-colors duration-150 outline-none select-none hover:text-zinc-600 sm:p-5 dark:text-zinc-100 dark:hover:text-zinc-300 [&::-webkit-details-marker]:hidden"
 					>
-						<span>{q}</span>
+						<span class="min-w-0 flex-1 text-left">{q}</span>
 						<span
 							class="flex shrink-0 items-center justify-center text-zinc-400 transition-transform duration-200 group-open:rotate-180 dark:text-zinc-500"
 						>
@@ -329,7 +336,7 @@ const faqs = [
 						class="border-t border-zinc-100 px-4 pt-3 pb-4 sm:px-5 sm:pt-4 sm:pb-5 dark:border-zinc-800"
 					>
 						<p
-							class="m-0 text-xs leading-relaxed text-zinc-600 sm:text-sm dark:text-zinc-400"
+							class="m-0 text-xs leading-relaxed break-words text-zinc-600 sm:text-sm dark:text-zinc-400"
 						>
 							{a}
 						</p>

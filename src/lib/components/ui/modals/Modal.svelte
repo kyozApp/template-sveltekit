@@ -8,19 +8,19 @@ interface Props {
 	children: Snippet;
 }
 
-// Solo props declarativas. Nada de estado interno ni $bindable.
-// El control de apertura/cierre es 100% responsabilidad del padre via isOpen.
-// El estado del modal siempre es binario: true = abierto, false = cerrado.
-// isOpen: REQUIRED (sin default, sin fallback). El padre siempre lo pasa.
-// onRequestClose: opcional. Permite que ESC delegue el cierre al flujo del
-// padre.
-// width: opcional con default interno 'medium' solo para comodidad de uso.
-// children: REQUIRED (snippet del contenido a renderizar dentro del modal).
+/**
+ * Props declarativas del primitivo, sin estado interno ni `$bindable`: `isOpen`
+ * es obligatorio (binario, sin default); `onRequestClose` es opcional y permite
+ * delegar el cierre por ESC al padre; `width` tiene default `"medium"`;
+ * `children` es obligatorio.
+ */
 let { isOpen, onRequestClose, width = "medium", children }: Props = $props();
 
-// Cada instancia tiene su propia referencia al <dialog> nativo.
-// Al anidar modales N niveles, cada instancia opera sobre su propio dialogEl,
-// y showModal() los apila correctamente en el top layer del navegador.
+/**
+ * Referencia al `<dialog>` nativo propia de cada instancia: al anidar modales,
+ * cada uno opera sobre su propio `dialogEl` y `showModal()` los apila en el top
+ * layer del navegador.
+ */
 let dialogEl = $state<HTMLDialogElement | null>(null);
 
 const widthClass = $derived(
@@ -33,18 +33,20 @@ const widthClass = $derived(
 				: width,
 );
 
-// Intercepta el evento de cancelación nativo (ESC) y delega el cierre al controlador del padre
+// Intercepta el evento de cancelación nativo del dialog y delega el cierre al controlador del padre
 const handleCancel = (e: Event) => {
+	if (e.target !== dialogEl) {
+		return;
+	}
+
 	e.preventDefault();
 	onRequestClose?.();
 };
 
-// ÚNICA interacción con el DOM: sincronizar el <dialog> al prop isOpen del padre.
-// No hay setOpen, no hay onClose, no hay reopen, no hay sync al revés.
-// El $effect solo LEE isOpen y actualiza el DOM consecuentemente.
-// Según la doc oficial, el cleanup de $effect corre antes de cada re-ejecución,
-// por eso no guardamos flags de destrucción aquí.
-// Guards: evita InvalidStateError al llamar showModal/close cuando ya está en ese estado.
+/**
+ * Única interacción con el DOM: sincroniza el `<dialog>` con el prop `isOpen`.
+ * Solo lee `isOpen`; los guards con `dialogEl.open` evitan `InvalidStateError`.
+ */
 $effect(() => {
 	if (!dialogEl) return;
 

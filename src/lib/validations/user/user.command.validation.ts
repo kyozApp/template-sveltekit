@@ -9,7 +9,6 @@ export const userToggleStatusSchema = {
 			v.string("El ID de usuario es obligatorio y debe ser un string."),
 			v.uuid("El ID de usuario no es un UUID válido."),
 		),
-		isActive: v.boolean(),
 	}),
 };
 

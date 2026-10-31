@@ -12,6 +12,7 @@ import {
 } from "@lucide/svelte";
 import { nanoid } from "nanoid";
 
+import { ROLE_LABELS, ROLES } from "#lib/constants.ts";
 import { createUser } from "#lib/remote/user/user.form.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
 import { userCreateSchema } from "#lib/validations/user/user.form.validation.ts";
@@ -171,7 +172,7 @@ const submitting = $derived(createForm.pending > 0);
 							<Mail size={16} />
 						</span>
 						<input
-							{...fieldEmail.as("text")}
+							{...fieldEmail.as("email")}
 							id="user-create-email"
 							class={[
 								"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
@@ -223,8 +224,9 @@ const submitting = $derived(createForm.pending > 0);
 						disabled={submitting}
 					>
 						<option value="" disabled selected>Selecciona un rol</option>
-						<option value="ADMIN">Administrador</option>
-						<option value="USER">Usuario</option>
+						{#each ROLES as role}
+							<option value={role}>{ROLE_LABELS[role]}</option>
+						{/each}
 					</select>
 					<span
 						class="pointer-events-none absolute right-4 z-10 flex size-4 items-center justify-center text-zinc-500 transition-transform duration-200 peer-focus:rotate-180 dark:text-zinc-400"

@@ -3,7 +3,7 @@ import * as v from "valibot";
 import { ROLES } from "#lib/constants.ts";
 
 /**
- * Esquema de respuesta para los datos del perfil y sesiones
+ * Obtener los datos del perfil y sesiones
  */
 export const profileDataSchema = {
 	response: v.object({

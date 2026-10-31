@@ -18,12 +18,14 @@ let { isOpen, onRequestClose, width, header, children }: Props = $props();
 
 <Modal {isOpen} {onRequestClose} {width}>
 	<div
-		class="flex w-full flex-col overflow-hidden rounded-2xl bg-white dark:bg-zinc-900"
+		class="flex max-h-[90dvh] w-full flex-col overflow-hidden rounded-2xl bg-white dark:bg-zinc-900"
 	>
 		<div
-			class="flex items-center justify-between border-b border-zinc-200 bg-white px-5 py-4 sm:px-7 sm:py-5 dark:border-zinc-800 dark:bg-zinc-900"
+			class="flex shrink-0 items-center justify-between border-b border-zinc-200 bg-white px-4 py-3.5 sm:px-7 sm:py-5 dark:border-zinc-800 dark:bg-zinc-900"
 		>
-			<div class="flex flex-1 items-center gap-3.5">
+			<div
+				class="mr-2 flex min-w-0 flex-1 items-center gap-2.5 sm:mr-3 sm:gap-3.5"
+			>
 				{@render header()}
 			</div>
 			<button
@@ -32,11 +34,13 @@ let { isOpen, onRequestClose, width, header, children }: Props = $props();
 				onclick={() => onRequestClose()}
 				aria-label="Cerrar modal"
 			>
-				<X size={20} />
+				<X size={18} class="sm:size-5" />
 			</button>
 		</div>
 
-		<div class="flex flex-col p-5 sm:p-7">
+		<div
+			class="flex min-h-0 flex-1 flex-col overflow-hidden p-3.5 sm:p-6 md:p-7"
+		>
 			{@render children()}
 		</div>
 	</div>

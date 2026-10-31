@@ -15,7 +15,7 @@ const faqs = [
 	},
 	{
 		q: "¿Cómo restrinjo una página para que solo los Administradores tengan acceso?",
-		a: "En el archivo '+page.server.ts' de la ruta, verifica 'locals.user.role'. Si el rol no es 'ADMIN', ejecuta un 'redirect(307, resolve(\"dashboard\"))'. También puedes ocultar el enlace de navegación en 'AppSidebar.svelte' usando la condición 'isAdmin'.",
+		a: "En el archivo '+layout.server.ts' de la ruta, obtén el usuario con 'await parent()' y valida el permiso con 'hasPermission(user.role, \"users:manage\")' de '#lib/constants.ts'. Si el usuario no lo posee, ejecuta un 'redirect(302, \"/dashboard\")'. Los permisos de cada rol se declaran en 'ROLE_PERMISSIONS'; para ocultar el enlace de navegación en 'AppSidebar.svelte' usa la misma verificación.",
 	},
 	{
 		q: "¿Por qué se utiliza Svelte 5 Runes ($state, $derived, $effect) en toda la plantilla?",
@@ -33,10 +33,10 @@ const faqs = [
 </svelte:head>
 
 <header
-	class="flex flex-col gap-1 border-b border-zinc-200 pb-6 dark:border-zinc-800"
+	class="flex flex-col gap-1 border-b border-zinc-200 pb-5 sm:pb-6 dark:border-zinc-800"
 >
 	<h1
-		class="text-2xl font-extrabold tracking-tight text-zinc-900 md:text-3xl dark:text-zinc-100"
+		class="text-2xl font-extrabold tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-100"
 	>
 		Manual de la Plantilla
 	</h1>
@@ -48,7 +48,7 @@ const faqs = [
 	</p>
 </header>
 
-<article class="flex flex-col gap-10">
+<article class="flex flex-col gap-8 sm:gap-10">
 	<!-- 1. Visión General -->
 	<section id="vision-general" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
@@ -57,7 +57,9 @@ const faqs = [
 			>
 				1. Visión General y Propósito
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				Esta plantilla (<strong>template-sveltekit</strong>) ha sido diseñada
 				como una base robusta, moderna y lista para producción, permitiéndote
 				iniciar aplicaciones SaaS, paneles administrativos o plataformas
@@ -78,7 +80,9 @@ const faqs = [
 				<h4 class="m-0 text-sm font-bold text-zinc-900 dark:text-zinc-100">
 					Svelte 5 Universal
 				</h4>
-				<p class="m-0 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+				<p
+					class="m-0 text-xs leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				>
 					Reactividad limpia con Runes (<code class="font-mono text-xs"
 						>$state</code
 					>,
@@ -98,7 +102,9 @@ const faqs = [
 				<h4 class="m-0 text-sm font-bold text-zinc-900 dark:text-zinc-100">
 					Seguridad y Sesiones
 				</h4>
-				<p class="m-0 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+				<p
+					class="m-0 text-xs leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				>
 					Cookies <code class="font-mono text-xs">httpOnly</code>, roles (ADMIN
 					/ USER) y vigilancia pasiva de expiración en tiempo real.
 				</p>
@@ -115,7 +121,9 @@ const faqs = [
 				<h4 class="m-0 text-sm font-bold text-zinc-900 dark:text-zinc-100">
 					Tailwind CSS v4
 				</h4>
-				<p class="m-0 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+				<p
+					class="m-0 text-xs leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				>
 					Diseño 100% utilitario, cero bloques de estilo heredados y soporte
 					nativo de modo claro y oscuro.
 				</p>
@@ -132,7 +140,9 @@ const faqs = [
 				<h4 class="m-0 text-sm font-bold text-zinc-900 dark:text-zinc-100">
 					TypeScript Estricto
 				</h4>
-				<p class="m-0 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+				<p
+					class="m-0 text-xs leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				>
 					Tipado estricto en layouts, páginas, locals de servidor y componentes
 					para evitar errores en tiempo de ejecución.
 				</p>
@@ -148,7 +158,9 @@ const faqs = [
 			>
 				2. Arquitectura y Tecnologías
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				La solución adopta las mejores prácticas y estándares de la comunidad de
 				SvelteKit:
 			</p>
@@ -161,7 +173,7 @@ const faqs = [
 				class="m-0 flex list-disc flex-col gap-3 pl-4 text-xs leading-relaxed text-zinc-700 sm:text-sm dark:text-zinc-300"
 			>
 				<li>
-					<strong>SvelteKit 2:</strong>
+					<strong>SvelteKit 3:</strong>
 					Enrutamiento basado en archivos, carga de datos con SSR (Server-Side
 					Rendering) y shallow routing para modales elegantes sin recargar la
 					página.
@@ -173,7 +185,7 @@ const faqs = [
 					tipadas.
 				</li>
 				<li>
-					<strong>Drizzle ORM:</strong>
+					<strong>Prisma:</strong>
 					Consultas a base de datos eficientes, migraciones seguras y tipado
 					estricto integrado desde el esquema hasta el cliente.
 				</li>
@@ -204,13 +216,15 @@ const faqs = [
 			>
 				3. Estructura de Directorios
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				El proyecto organiza las responsabilidades de forma predecible:
 			</p>
 		</div>
 
 		<div
-			class="flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 font-mono text-xs text-zinc-800 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-200"
+			class="flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-4 font-mono text-xs break-words text-zinc-800 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-200"
 		>
 			<div
 				class="flex items-center gap-2 font-bold text-zinc-800 dark:text-zinc-200"
@@ -219,14 +233,14 @@ const faqs = [
 				<span>src/</span>
 			</div>
 			<div
-				class="flex flex-col gap-1.5 border-l-2 border-zinc-200 pl-4 dark:border-zinc-700"
+				class="flex flex-col gap-1.5 border-l-2 border-zinc-200 pl-3 sm:pl-4 dark:border-zinc-700"
 			>
 				<div>
 					<strong>routes/(app)/</strong>: Zona autenticada protegida. Contiene
 					la barra lateral, cabecera y módulos privados.
 				</div>
 				<div>
-					<strong>routes/(auth)/</strong>: Zona pública de inicio de sesión y
+					<strong>routes/(public)/</strong>: Zona pública de inicio de sesión y
 					recuperación de credenciales.
 				</div>
 				<div>
@@ -257,7 +271,9 @@ const faqs = [
 			>
 				Preguntas Frecuentes de la Plantilla
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				Respuestas a las dudas más frecuentes al comenzar a construir sobre esta
 				base:
 			</p>
@@ -269,9 +285,9 @@ const faqs = [
 					class="group overflow-hidden rounded-2xl border border-zinc-200 bg-white transition-colors duration-150 open:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900 dark:open:border-zinc-600"
 				>
 					<summary
-						class="flex cursor-pointer list-none items-center justify-between p-4 text-sm font-bold text-zinc-900 transition-colors duration-150 outline-none select-none hover:text-zinc-600 sm:p-5 dark:text-zinc-100 dark:hover:text-zinc-300 [&::-webkit-details-marker]:hidden"
+						class="flex cursor-pointer list-none items-center justify-between gap-3 p-4 text-sm font-bold text-zinc-900 transition-colors duration-150 outline-none select-none hover:text-zinc-600 sm:p-5 dark:text-zinc-100 dark:hover:text-zinc-300 [&::-webkit-details-marker]:hidden"
 					>
-						<span>{q}</span>
+						<span class="min-w-0 flex-1 text-left">{q}</span>
 						<span
 							class="flex shrink-0 items-center justify-center text-zinc-400 transition-transform duration-200 group-open:rotate-180 dark:text-zinc-500"
 						>
@@ -282,7 +298,7 @@ const faqs = [
 						class="border-t border-zinc-100 px-4 pt-3 pb-4 sm:px-5 sm:pt-4 sm:pb-5 dark:border-zinc-800"
 					>
 						<p
-							class="m-0 text-xs leading-relaxed text-zinc-600 sm:text-sm dark:text-zinc-400"
+							class="m-0 text-xs leading-relaxed break-words text-zinc-600 sm:text-sm dark:text-zinc-400"
 						>
 							{a}
 						</p>

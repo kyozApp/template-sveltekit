@@ -30,15 +30,16 @@ let showPassword = $state(false);
 			{...fieldPassword.as(showPassword ? "text" : "password")}
 			id="user-update-password"
 			class={[
-				"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-12 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
+				"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-11 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
 				fieldPassword.issues()?.length && "border-red-500 dark:border-red-400",
 			]}
-			placeholder="Dejar en blanco para mantener actual"
+			placeholder="Dejar en blanco"
+			autocomplete="new-password"
 			disabled={submitting}
 		>
 		<button
 			type="button"
-			class="absolute right-3.5 flex cursor-pointer items-center justify-center border-none bg-transparent p-0 text-zinc-400 transition-colors duration-150 hover:text-zinc-600 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:text-zinc-300"
+			class="absolute right-3 z-10 flex size-8 cursor-pointer items-center justify-center rounded-lg border border-transparent bg-zinc-100 p-0 text-zinc-500 transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-200 hover:text-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:text-zinc-200"
 			onclick={() => (showPassword = !showPassword)}
 			disabled={submitting}
 			aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}

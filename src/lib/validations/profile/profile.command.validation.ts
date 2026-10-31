@@ -1,7 +1,7 @@
 import * as v from "valibot";
 
 /**
- * Esquema de revocación de sesión individual
+ * Revocar sesión individual
  */
 export const profileRevokeSessionSchema = {
 	body: v.object({

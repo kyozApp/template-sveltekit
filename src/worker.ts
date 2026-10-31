@@ -49,16 +49,9 @@ const handleGracefulShutdown = async (signal: string): Promise<void> => {
 	process.exit(0);
 };
 
-/**
- * Responsabilidad única: Registrar los listeners de señales del sistema operativo.
- */
-const setupShutdownHandlers = (): void => {
-	process.on("SIGTERM", () => void handleGracefulShutdown("SIGTERM"));
-	process.on("SIGINT", () => void handleGracefulShutdown("SIGINT"));
-};
+// Escucha de señales para apagado graceful
+process.on("SIGINT", () => void handleGracefulShutdown("SIGINT"));
+process.on("SIGTERM", () => void handleGracefulShutdown("SIGTERM"));
 
-// 1. Iniciar tareas en segundo plano
+// Inicialización de las tareas en segundo plano
 initBackgroundTasks();
-
-// 2. Registrar manejadores de cierre del proceso
-setupShutdownHandlers();

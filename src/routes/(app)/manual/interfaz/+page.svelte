@@ -26,10 +26,10 @@ const faqs = [
 </svelte:head>
 
 <header
-	class="flex flex-col gap-1 border-b border-zinc-200 pb-6 dark:border-zinc-800"
+	class="flex flex-col gap-1 border-b border-zinc-200 pb-5 sm:pb-6 dark:border-zinc-800"
 >
 	<h1
-		class="text-2xl font-extrabold tracking-tight text-zinc-900 md:text-3xl dark:text-zinc-100"
+		class="text-2xl font-extrabold tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-100"
 	>
 		Interfaz y Cuenta
 	</h1>
@@ -41,7 +41,7 @@ const faqs = [
 	</p>
 </header>
 
-<article class="flex flex-col gap-10">
+<article class="flex flex-col gap-8 sm:gap-10">
 	<!-- 1. Modo Claro y Oscuro -->
 	<section id="modo-color" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
@@ -50,14 +50,16 @@ const faqs = [
 			>
 				1. Modo Claro y Oscuro
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				La plataforma incluye soporte completo para temas visuales claro y
 				oscuro, pensado para brindar confort visual durante toda tu jornada:
 			</p>
 		</div>
 
 		<div
-			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
+			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
 		>
 			<div class="flex items-center gap-3">
 				<span
@@ -115,14 +117,16 @@ const faqs = [
 			>
 				2. Menú de Usuario y Perfil
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				En el extremo superior derecho encontrarás tu avatar personal con tus
 				iniciales:
 			</p>
 		</div>
 
 		<div
-			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
+			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
 		>
 			<div class="flex items-center gap-3">
 				<span
@@ -179,14 +183,16 @@ const faqs = [
 			>
 				3. Cierre de Sesión Seguro
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				Procedimiento recomendado para desconectarte al finalizar tu jornada o
 				retirarte de tu equipo:
 			</p>
 		</div>
 
 		<div
-			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
+			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
 		>
 			<div class="flex items-center gap-3">
 				<span
@@ -250,14 +256,16 @@ const faqs = [
 			>
 				4. Barra Lateral Colapsable y Navegación
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				Controles para optimizar el área visible de la pantalla según la tarea
 				que estés realizando:
 			</p>
 		</div>
 
 		<div
-			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
+			class="flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40"
 		>
 			<div class="flex items-center gap-3">
 				<span
@@ -315,7 +323,9 @@ const faqs = [
 			>
 				Preguntas Frecuentes sobre la Interfaz
 			</h3>
-			<p class="m-0 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p
+				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+			>
 				Respuestas a las preguntas más comunes sobre el uso de la interfaz y la
 				cuenta:
 			</p>
@@ -327,9 +337,9 @@ const faqs = [
 					class="group overflow-hidden rounded-2xl border border-zinc-200 bg-white transition-colors duration-150 open:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900 dark:open:border-zinc-600"
 				>
 					<summary
-						class="flex cursor-pointer list-none items-center justify-between p-4 text-sm font-bold text-zinc-900 transition-colors duration-150 outline-none select-none hover:text-zinc-600 sm:p-5 dark:text-zinc-100 dark:hover:text-zinc-300 [&::-webkit-details-marker]:hidden"
+						class="flex cursor-pointer list-none items-center justify-between gap-3 p-4 text-sm font-bold text-zinc-900 transition-colors duration-150 outline-none select-none hover:text-zinc-600 sm:p-5 dark:text-zinc-100 dark:hover:text-zinc-300 [&::-webkit-details-marker]:hidden"
 					>
-						<span>{q}</span>
+						<span class="min-w-0 flex-1 text-left">{q}</span>
 						<span
 							class="flex shrink-0 items-center justify-center text-zinc-400 transition-transform duration-200 group-open:rotate-180 dark:text-zinc-500"
 						>
@@ -340,7 +350,7 @@ const faqs = [
 						class="border-t border-zinc-100 px-4 pt-3 pb-4 sm:px-5 sm:pt-4 sm:pb-5 dark:border-zinc-800"
 					>
 						<p
-							class="m-0 text-xs leading-relaxed text-zinc-600 sm:text-sm dark:text-zinc-400"
+							class="m-0 text-xs leading-relaxed break-words text-zinc-600 sm:text-sm dark:text-zinc-400"
 						>
 							{a}
 						</p>

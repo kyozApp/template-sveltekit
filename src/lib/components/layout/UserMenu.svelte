@@ -3,7 +3,11 @@ import { resolve } from "$app/paths";
 
 import { LoaderCircle, LogOut, Settings, User } from "@lucide/svelte";
 
-import { ROLE_LABELS, type SessionUser } from "#lib/constants.ts";
+import {
+	hasPermission,
+	ROLE_LABELS,
+	type SessionUser,
+} from "#lib/constants.ts";
 import { logoutUser } from "#lib/remote/auth/auth.command.remote.ts";
 
 interface Props {
@@ -16,7 +20,7 @@ let isOpen = $state(false);
 let isSubmitting = $state(false);
 let menuContainer = $state<HTMLDivElement | null>(null);
 
-const isAdmin = $derived(user.role === "ADMIN");
+const canAccessSettings = $derived(hasPermission(user.role, "settings:manage"));
 
 const initials = $derived.by(() => {
 	const name = user.name;
@@ -126,7 +130,7 @@ $effect(() => {
 						<span
 							class={[
 								"inline-flex rounded-full px-2 py-0.5 text-xs font-bold tracking-wider uppercase",
-								user.role === "ADMIN"
+								hasPermission(user.role, "settings:manage")
 									? "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200"
 									: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300",
 							]}
@@ -153,7 +157,7 @@ $effect(() => {
 					<span>Mi Perfil</span>
 				</a>
 
-				{#if isAdmin}
+				{#if canAccessSettings}
 					<a
 						href={resolve("configuracion")}
 						class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-700 no-underline transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-50"

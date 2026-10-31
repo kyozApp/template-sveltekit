@@ -1,0 +1,167 @@
+{
+	// Esquema para autocompletado y validación del archivo en el editor (VS Code, etc.)
+	"$schema": "https://biomejs.dev/schemas/2.6.4/schema.json",
+
+	// Integración con el sistema de control de versiones (Git)
+	"vcs": {
+		"enabled": true, // Habilita la integración con Git
+		"clientKind": "git", // Tipo de cliente de control de versiones
+		"useIgnoreFile": true // Hace que Biome respete los archivos .gitignore
+	},
+
+	// Control de qué archivos procesar o ignorar
+	"files": {
+		"ignoreUnknown": false, // No ignora tipos de archivos desconocidos silenciosamente
+		"includes": [
+			"**", // Procesa todos los archivos del proyecto
+			"!!**/.svelte-kit", // Ignora la caché interna generada por SvelteKit
+			"!!**/build", // Ignora la carpeta de compilación final
+			"!!**/.pnpm-store", // Ignora la caché de paquetes de pnpm
+			"!!**/pnpm-lock.yaml", // Ignora el archivo de bloqueo de dependencias
+			"!!**/migrations", // Ignora las migraciones de base de datos
+			"!!**/src/prisma/contract.d.ts", // Ignora el archivo autogenerado de tipos de Prisma
+			"!!**/src/prisma/contract.json" // Ignora el contrato JSON autogenerado de Prisma
+		]
+	},
+
+	// Configuración del parser de CSS
+	"css": {
+		"parser": {
+			// Permite entender directivas y funciones de Tailwind CSS v4 (@theme, @utility, etc.)
+			"tailwindDirectives": true
+		}
+	},
+
+	// Configuración general del formateador de código
+	"formatter": {
+		"enabled": true, // Habilita el formateador de código
+		"indentStyle": "tab", // Usa tabulaciones en vez de espacios
+		"indentWidth": 2 // Ancho visual de la tabulación (equivalente a 2 espacios)
+	},
+
+	// Configuración del linter (detección de errores y malas prácticas)
+	"linter": {
+		"enabled": true, // Habilita el linter
+		"domains": {
+			// Activa paquetes de reglas recomendadas específicas para Svelte y Tailwind
+			"svelte": "recommended",
+			"tailwind": "recommended"
+		},
+		"rules": {
+			"preset": "recommended", // Activa el conjunto de reglas recomendadas por defecto de Biome
+
+			// Reglas de estilo de código
+			"style": {
+				"noNonNullAssertion": "off", // Permite el operador '!' en TypeScript (ej. variable!)
+				"noDescendingSpecificity": "off", // Permite selectores CSS de menor especificidad después de unos de mayor
+				"noHexColors": "error", // Prohíbe colores hexadecimales (#fff) para obligar a usar tokens o clases de Tailwind
+				"noExcessiveLinesPerFile": {
+					"level": "warn",
+					"options": {
+						"maxLines": 1600, // Avisa si un archivo supera las 1600 líneas
+						"skipBlankLines": true // No cuenta las líneas en blanco para el límite
+					}
+				}
+			},
+
+			// Reglas de complejidad y buenas prácticas
+			"complexity": {
+				"noImportantStyles": "error" // Prohíbe el uso de '!important' en reglas de CSS
+			},
+
+			// Reglas de corrección sintáctica y semántica
+			"correctness": {
+				"noMissingVarFunction": "error", // Exige usar var() al llamar propiedades personalizadas (--color) en CSS
+				"noInvalidPositionAtImportRule": "error", // Asegura que las reglas @import estén al inicio del archivo CSS
+				"noUnknownProperty": "error", // Alerta sobre propiedades CSS que no existen
+				"noUnknownUnit": "error", // Alerta sobre unidades de medida CSS inválidas (ej. 100xz)
+				"noUnknownFunction": "error" // Alerta sobre funciones CSS no estándar o desconocidas
+			},
+
+			// Reglas para código sospechoso o propenso a errores
+			"suspicious": {
+				"noDuplicateProperties": "error", // Prohíbe propiedades CSS duplicadas en un mismo bloque
+				"noEmptyBlock": "error", // Prohíbe bloques de código o selectores CSS vacíos
+				"noDuplicateAtImportRules": "error", // Evita importar el mismo archivo CSS más de una vez
+				"noDuplicateSelectorsKeyframeBlock": "error", // Evita selectores repetidos dentro de animaciones @keyframes
+				"noUnknownAtRules": {
+					"level": "error",
+					"options": {
+						// Lista de at-rules válidas de Tailwind v4 que el linter no debe marcar como error
+						"ignore": [
+							"theme",
+							"plugin",
+							"utility",
+							"variant",
+							"custom-variant",
+							"source"
+						]
+					}
+				}
+			},
+
+			// Reglas experimentales o en fase de pruebas ("nursery")
+			"nursery": {
+				"useTailwindSortedClasses": {
+					"level": "warn", // Muestra advertencia si las clases de Tailwind no están ordenadas
+					"fix": "safe" // Permite ordenar las clases automáticamente de forma segura al guardar o formatear
+				}
+			}
+		}
+	},
+
+	// Formateador para archivos HTML
+	"html": {
+		"formatter": {
+			"enabled": true // Habilita el formateo de HTML
+		},
+		"experimentalFullSupportEnabled": true // Activa soporte completo y avanzado para sintaxis HTML
+	},
+
+	// Formateador para archivos JavaScript / TypeScript
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double" // Usa comillas dobles para cadenas de texto ("en lugar de '")
+		}
+	},
+
+	// Asistencias y transformaciones automáticas de código
+	"assist": {
+		"enabled": true, // Habilita las asistencias automáticas
+		"actions": {
+			"source": {
+				// Organiza y agrupa los imports automáticamente por orden de prioridad
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							":NODE:", // 1. Módulos nativos de Node.js (fs, path, etc.)
+							":BLANK_LINE:",
+							["svelte", "svelte/**", "@sveltejs/**", "$app/**", "$env/**"], // 2. Ecosistema de Svelte y SvelteKit
+							":BLANK_LINE:",
+							":PACKAGE:", // 3. Paquetes de dependencias externas (npm/pnpm)
+							":BLANK_LINE:",
+							["#lib/**", "@/**"], // 4. Módulos internos con alias del proyecto
+							":BLANK_LINE:",
+							":PATH:", // 5. Imports relativos locales (./component, ../utils)
+							":BLANK_LINE:",
+							":STYLE:" // 6. Archivos de estilos e importaciones CSS
+						]
+					}
+				},
+				"useSortedProperties": "on", // Ordena automáticamente las propiedades dentro de objetos
+				"useSortedPackageJson": "on" // Ordena automáticamente las claves en package.json (dependencies, scripts, etc.)
+			}
+		}
+	},
+
+	// Configuración centralizada de Tailwind CSS (Biome v2.6+)
+	"tailwind": {
+		// Atributos HTML/JSX donde Biome buscará y ordenará las clases de Tailwind
+		"attributes": ["class", "className", "classList"],
+		// Funciones de utilidad para concatenar clases donde se deben ordenar las cadenas
+		"mergeFunctions": ["clsx", "tw"],
+		// Funciones de librerías de variantes (CVA, Tailwind Variants) para ordenar las clases de sus variantes
+		"variantFunctions": ["cva", "tv"]
+	}
+}

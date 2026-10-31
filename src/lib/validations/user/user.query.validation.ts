@@ -28,11 +28,14 @@ export type UserListItemResponse = v.InferOutput<
 >[number];
 
 /**
- * Detalles del usuario
+ * Obtener los detalles del usuario
  */
 export const userDetailSchema = {
 	params: v.object({
-		id: v.pipe(v.string(), v.uuid()),
+		id: v.pipe(
+			v.string("El ID de usuario es obligatorio."),
+			v.uuid("El ID de usuario no es válido."),
+		),
 	}),
 	response: v.pipe(
 		v.object({

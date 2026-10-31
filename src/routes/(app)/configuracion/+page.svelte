@@ -13,7 +13,15 @@ import {
 	ShieldCheck,
 } from "@lucide/svelte";
 
+import { hasPermission, ROLE_LABELS, ROLES } from "#lib/constants.ts";
+
 let activeTab = $state<"general" | "security" | "system">("general");
+
+const settingsAccessLabel = $derived(
+	ROLES.filter((role) => hasPermission(role, "settings:manage"))
+		.map((role) => ROLE_LABELS[role])
+		.join(" · "),
+);
 
 // Cambia la pestaña activa de la configuración del sistema
 const handleSelectTab = (tab: "general" | "security" | "system") => {
@@ -402,7 +410,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 								<span
 									class="font-mono font-semibold text-zinc-900 dark:text-zinc-100"
 								>
-									ADMIN
+									{settingsAccessLabel}
 								</span>
 							</div>
 						</div>

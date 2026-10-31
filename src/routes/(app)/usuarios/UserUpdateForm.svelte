@@ -1,6 +1,5 @@
 <script lang="ts">
 import { isHttpError } from "@sveltejs/kit";
-import { refreshAll } from "$app/navigation";
 
 import {
 	ChevronDown,
@@ -14,7 +13,7 @@ import {
 } from "@lucide/svelte";
 import { nanoid } from "nanoid";
 
-import { ROLE_LABELS } from "#lib/constants.ts";
+import { ROLE_LABELS, ROLES } from "#lib/constants.ts";
 import { updateUser } from "#lib/remote/user/user.form.remote.ts";
 import { getUserDetails } from "#lib/remote/user/user.query.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
@@ -69,7 +68,6 @@ const submitting = $derived(updateForm.pending > 0);
 						notifications.showToastSuccess(
 							"¡Usuario actualizado correctamente!",
 						);
-						await refreshAll();
 						onClose();
 						return;
 					}
@@ -95,7 +93,7 @@ const submitting = $derived(updateForm.pending > 0);
 			oninput={() => updateForm.validate()}
 			novalidate
 		>
-			<!-- ID del usuario -->
+			<!-- Campo oculto para userId -->
 			<input {...fieldId.as("hidden", userId)}>
 
 			<div class="flex flex-col gap-4">
@@ -123,6 +121,7 @@ const submitting = $derived(updateForm.pending > 0);
 										"border-red-500 dark:border-red-400",
 								]}
 								placeholder="Nombre del usuario"
+								autocomplete="name"
 								disabled={submitting}
 							>
 						</div>
@@ -158,7 +157,8 @@ const submitting = $derived(updateForm.pending > 0);
 									fieldUsername.issues()?.length &&
 										"border-red-500 dark:border-red-400",
 								]}
-								placeholder="ej. jperez"
+								placeholder="usuario123"
+								autocomplete="username"
 								disabled={submitting}
 							>
 						</div>
@@ -196,7 +196,8 @@ const submitting = $derived(updateForm.pending > 0);
 									fieldEmail.issues()?.length &&
 										"border-red-500 dark:border-red-400",
 								]}
-								placeholder="ejemplo@empresa.com"
+								placeholder="correo@ejemplo.com"
+								autocomplete="email"
 								disabled={submitting}
 							>
 						</div>
@@ -263,8 +264,9 @@ const submitting = $derived(updateForm.pending > 0);
 								onchange={(e) => e.currentTarget.blur()}
 								disabled={submitting}
 							>
-								<option value="ADMIN">Administrador</option>
-								<option value="USER">Usuario</option>
+								{#each ROLES as role}
+									<option value={role}>{ROLE_LABELS[role]}</option>
+								{/each}
 							</select>
 							<span
 								class="pointer-events-none absolute right-4 z-10 flex size-4 items-center justify-center text-zinc-500 transition-transform duration-200 peer-focus:rotate-180 dark:text-zinc-400"
@@ -366,7 +368,7 @@ const submitting = $derived(updateForm.pending > 0);
 				</button>
 				<button
 					type="submit"
-					class="flex min-w-44 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-800 px-6 py-3 text-sm font-bold text-zinc-100 transition-all duration-200 hover:not-disabled:border-zinc-700 hover:not-disabled:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-70 sm:flex-initial dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:not-disabled:border-zinc-600 dark:hover:not-disabled:bg-zinc-700"
+					class="flex min-w-44 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-800 px-5 py-3 text-sm font-bold text-zinc-100 transition-all duration-200 hover:not-disabled:border-zinc-700 hover:not-disabled:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-70 sm:flex-initial dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:not-disabled:border-zinc-600 dark:hover:not-disabled:bg-zinc-700"
 					disabled={submitting}
 				>
 					{#if submitting}

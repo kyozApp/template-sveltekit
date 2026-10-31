@@ -1,24 +1,19 @@
 <script lang="ts">
-	import { fly } from "svelte/transition";
-	import { resolve } from "$app/paths";
-	import { page } from "$app/state";
+import { fly } from "svelte/transition";
+import { resolve } from "$app/paths";
+import { page } from "$app/state";
 
-	import {
-		BookOpen,
-		Layers,
-		LayoutDashboard,
-		UserCog,
-		X,
-	} from "@lucide/svelte";
+import { BookOpen, LayoutDashboard, UserCog, X } from "@lucide/svelte";
 
-	import type { SessionUser } from "#lib/constants.ts";
+import logo from "#lib/assets/favicon.svg";
+import { hasPermission, type SessionUser } from "#lib/constants.ts";
 
-	interface Props {
-		isSidebarOpen: boolean;
-		user: SessionUser;
-	}
+interface Props {
+	isSidebarOpen: boolean;
+	user: SessionUser;
+}
 
-	let { isSidebarOpen = $bindable(), user }: Props = $props();
+let { isSidebarOpen = $bindable(), user }: Props = $props();
 </script>
 
 {#if isSidebarOpen}
@@ -54,7 +49,7 @@
 			<span
 				class="flex items-center justify-center text-zinc-900 dark:text-zinc-100"
 			>
-				<Layers size={24} />
+				<img src={logo} alt="Logo de la aplicación" class="h-7 w-7">
 			</span>
 			{#if isSidebarOpen}
 				<span
@@ -108,7 +103,7 @@
 			{/if}
 		</a>
 
-		{#if user.role === "ADMIN"}
+		{#if hasPermission(user.role, "users:view")}
 			<a
 				href={resolve("usuarios")}
 				class={[
@@ -131,25 +126,27 @@
 			</a>
 		{/if}
 
-		<a
-			href={resolve("manual")}
-			class={[
-				"group relative flex items-center gap-3.5 rounded-xl text-sm font-semibold no-underline transition-colors duration-150",
-				isSidebarOpen ? "px-4 py-3" : "justify-center py-3 md:px-0",
-				page.url.pathname.startsWith("/manual")
-					? "bg-zinc-100 font-bold text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
-					: "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
-			]}
-			data-tooltip={!isSidebarOpen ? "Centro de Ayuda" : undefined}
-			data-tooltip-position="right"
-			aria-label="Centro de Ayuda"
-		>
-			<span class="flex shrink-0 items-center justify-center">
-				<BookOpen size={18} />
-			</span>
-			{#if isSidebarOpen}
-				<span class="whitespace-nowrap">Centro de Ayuda</span>
-			{/if}
-		</a>
+		{#if hasPermission(user.role, "manual:view")}
+			<a
+				href={resolve("manual")}
+				class={[
+					"group relative flex items-center gap-3.5 rounded-xl text-sm font-semibold no-underline transition-colors duration-150",
+					isSidebarOpen ? "px-4 py-3" : "justify-center py-3 md:px-0",
+					page.url.pathname.startsWith("/manual")
+						? "bg-zinc-100 font-bold text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
+						: "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
+				]}
+				data-tooltip={!isSidebarOpen ? "Centro de Ayuda" : undefined}
+				data-tooltip-position="right"
+				aria-label="Centro de Ayuda"
+			>
+				<span class="flex shrink-0 items-center justify-center">
+					<BookOpen size={18} />
+				</span>
+				{#if isSidebarOpen}
+					<span class="whitespace-nowrap">Centro de Ayuda</span>
+				{/if}
+			</a>
+		{/if}
 	</nav>
 </aside>

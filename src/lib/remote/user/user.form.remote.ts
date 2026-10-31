@@ -1,8 +1,9 @@
+import { error } from "@sveltejs/kit";
 import { form } from "$app/server";
 
 import argon2 from "argon2";
 
-import { assertAdmin } from "#lib/server/auth.ts";
+import { assertPermission } from "#lib/server/auth.ts";
 import { db } from "#lib/server/db.ts";
 import {
 	userCreateSchema,
@@ -16,8 +17,8 @@ import { getUserDetails, getUserList } from "./user.query.remote.ts";
  * Registra un nuevo usuario en el sistema.
  */
 export const createUser = form(userCreateSchema.body, async (data) => {
-	// 1. Validar permisos de administrador
-	assertAdmin();
+	// 1. Validar permisos
+	assertPermission("users:manage");
 
 	// 2. Validar disponibilidad de nombre de usuario y correo
 	const existingUsername = await db.orm.public.User.first({
@@ -59,25 +60,21 @@ export const createUser = form(userCreateSchema.body, async (data) => {
  * Actualiza los datos de un usuario existente.
  */
 export const updateUser = form(userUpdateSchema.body, async (data) => {
-	// 1. Validar permisos de administrador
-	const actor = assertAdmin();
+	// 1. Validar permisos
+	const actor = assertPermission("users:manage");
 
 	// 2. Validar existencia del usuario
 	const existing = await db.orm.public.User.where({ id: data.id }).first();
 	if (!existing) {
-		return {
-			success: false,
-			error: "El usuario no se encontró.",
-		};
+		error(404, "El usuario no se encontró.");
 	}
 
-	// 3. Reglas de auto-edición:
-	// A. Nadie puede alterar su propio rol
+	// 3. Impedir que el actor altere su propio rol
 	if (actor.user.id === data.id) {
 		data.role = actor.user.role;
 	}
 
-	// B. Nadie puede desactivar su propia cuenta en sesión
+	// 4. Impedir que el actor desactive su propia cuenta en sesión
 	if (actor.user.id === data.id && data.isActive === false) {
 		return {
 			success: false,
@@ -85,7 +82,7 @@ export const updateUser = form(userUpdateSchema.body, async (data) => {
 		};
 	}
 
-	// 4. Validar duplicidad de nombre de usuario y correo
+	// 5. Validar duplicidad de nombre de usuario y correo
 	if (data.username && data.username !== existing.username) {
 		const usernameTaken = await db.orm.public.User.first({
 			username: data.username,
@@ -108,18 +105,18 @@ export const updateUser = form(userUpdateSchema.body, async (data) => {
 		}
 	}
 
-	// 5. Hashear la nueva contraseña si fue provista
+	// 6. Hashear la nueva contraseña si fue provista
 	let hashedPassword: string | undefined;
 	if (data.password) {
 		hashedPassword = await argon2.hash(data.password);
 	}
 
-	// 6. Revocar sesiones activas si el usuario es desactivado
+	// 7. Revocar sesiones activas si el usuario es desactivado
 	if (data.isActive === false) {
 		await db.orm.public.Session.where({ userId: data.id }).deleteAll();
 	}
 
-	// 7. Actualizar usuario en la base de datos
+	// 8. Actualizar usuario en la base de datos
 	await db.orm.public.User.where({ id: data.id }).update({
 		name: data.name,
 		username: data.username,
@@ -129,7 +126,7 @@ export const updateUser = form(userUpdateSchema.body, async (data) => {
 		isActive: data.isActive,
 	});
 
-	// 8. Invalidar caché y refrescar datos
+	// 9. Invalidar caché y refrescar datos
 	void getUserList().refresh();
 	void getUserDetails({ id: data.id }).refresh();
 	void getProfileData().refresh();

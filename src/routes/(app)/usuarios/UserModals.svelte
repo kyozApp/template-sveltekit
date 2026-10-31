@@ -1,11 +1,12 @@
 <script lang="ts">
 import { page } from "$app/state";
 
-import { Pencil, UserPlus } from "@lucide/svelte";
+import { Pencil, Trash, UserPlus } from "@lucide/svelte";
 
 import FormModal from "#lib/components/ui/modals/FormModal.svelte";
 
 import UserCreateForm from "./UserCreateForm.svelte";
+import UserDeleteForm from "./UserDeleteForm.svelte";
 import UserUpdateForm from "./UserUpdateForm.svelte";
 
 interface Props {
@@ -42,6 +43,24 @@ let { currentUserId }: Props = $props();
 		<UserUpdateForm
 			userId={page.state.showUserUpdate.data.userId}
 			{currentUserId}
+			onClose={() => history.back()}
+		/>
+	</FormModal>
+{/if}
+
+<!-- Eliminar usuario existente -->
+{#if page.state.showUserDelete}
+	<FormModal
+		isOpen={page.state.showUserDelete.isOpen}
+		onRequestClose={() => history.back()}
+		width="medium"
+		title="Eliminar Usuario"
+		subtitle="Confirma la baja permanente del usuario"
+		icon={Trash}
+	>
+		<UserDeleteForm
+			userId={page.state.showUserDelete.data.userId}
+			userName={page.state.showUserDelete.data.userName}
 			onClose={() => history.back()}
 		/>
 	</FormModal>

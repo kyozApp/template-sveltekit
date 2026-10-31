@@ -1,7 +1,7 @@
 import * as v from "valibot";
 
 /**
- * Esquema de actualización de datos de perfil
+ * Actualizar datos de perfil
  */
 export const profileUpdateSchema = {
 	body: v.object({
@@ -45,7 +45,7 @@ export const profileUpdateSchema = {
 export type ProfileUpdateBody = v.InferOutput<typeof profileUpdateSchema.body>;
 
 /**
- * Esquema de cambio de contraseña
+ * Cambiar contraseña
  */
 export const profilePasswordChangeSchema = {
 	body: v.pipe(

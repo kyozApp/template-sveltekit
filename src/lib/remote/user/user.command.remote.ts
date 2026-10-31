@@ -1,7 +1,7 @@
 import { error } from "@sveltejs/kit";
 import { command } from "$app/server";
 
-import { assertAdmin } from "#lib/server/auth.ts";
+import { assertPermission } from "#lib/server/auth.ts";
 import { db } from "#lib/server/db.ts";
 import {
 	userDeleteSchema,
@@ -17,8 +17,8 @@ import { getUserDetails, getUserList } from "./user.query.remote.ts";
 export const toggleUserStatus = command(
 	userToggleStatusSchema.body,
 	async (data) => {
-		// 1. Validar permisos de administrador
-		const actor = assertAdmin();
+		// 1. Validar permisos
+		const actor = assertPermission("users:manage");
 
 		// 2. Prohibir auto-desactivación
 		if (actor.user.id === data.id) {
@@ -54,8 +54,8 @@ export const toggleUserStatus = command(
  * Elimina lógicamente a un usuario del sistema (Soft Delete).
  */
 export const deleteUser = command(userDeleteSchema.body, async (data) => {
-	// 1. Validar permisos de Administrador
-	const actor = assertAdmin();
+	// 1. Validar permisos
+	const actor = assertPermission("users:manage");
 
 	// 2. Prohibir auto-eliminación
 	if (actor.user.id === data.id) {

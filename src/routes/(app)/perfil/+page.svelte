@@ -9,7 +9,7 @@ import {
 	User,
 } from "@lucide/svelte";
 
-import { ROLE_LABELS } from "#lib/constants.ts";
+import { hasPermission, ROLE_LABELS } from "#lib/constants.ts";
 import { getProfileData } from "#lib/remote/profile/profile.query.remote.ts";
 
 import ProfileInfoForm from "./ProfileInfoForm.svelte";
@@ -62,7 +62,7 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 					<span
 						class={[
 							"inline-flex items-center justify-center rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wider uppercase sm:py-1",
-							user.role === "ADMIN"
+							hasPermission(user.role, "settings:manage")
 								? "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200"
 								: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300",
 						]}

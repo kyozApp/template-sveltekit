@@ -48,7 +48,7 @@ const handleRevoke = async (sessionId: string) => {
 </script>
 
 <div
-	class="flex flex-col gap-5 sm:gap-6 rounded-2xl border border-zinc-200 bg-white p-4 sm:p-7 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+	class="flex flex-col gap-5 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:gap-6 sm:p-7 dark:border-zinc-800 dark:bg-zinc-900"
 >
 	<div class="flex flex-col gap-1">
 		<h2 class="text-base font-bold text-zinc-900 dark:text-zinc-50">
@@ -74,7 +74,7 @@ const handleRevoke = async (sessionId: string) => {
 			{#each sessions as session (session.id)}
 				<div
 					class={[
-						"flex items-start sm:items-center gap-3.5 sm:gap-4 rounded-xl border p-3.5 sm:p-4 transition-colors duration-150",
+						"flex items-start gap-3.5 rounded-xl border p-3.5 transition-colors duration-150 sm:items-center sm:gap-4 sm:p-4",
 						session.isCurrent
 							? "border-emerald-300 bg-emerald-50/50 dark:border-emerald-800/80 dark:bg-emerald-950/20"
 							: "border-zinc-200 bg-zinc-50/60 dark:border-zinc-800 dark:bg-zinc-900/60",
@@ -100,7 +100,7 @@ const handleRevoke = async (sessionId: string) => {
 							</span>
 							{#if session.isCurrent}
 								<span
-									class="inline-flex shrink-0 whitespace-nowrap items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold tracking-wide text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
+									class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold tracking-wide whitespace-nowrap text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
 								>
 									<span class="size-1.5 rounded-full bg-emerald-500"></span>
 									En línea

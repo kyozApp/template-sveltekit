@@ -26,6 +26,13 @@ declare global {
 					userId: string;
 				};
 			};
+			showUserDelete?: {
+				isOpen: boolean;
+				data: {
+					userId: string;
+					userName: string;
+				};
+			};
 		}
 	}
 }

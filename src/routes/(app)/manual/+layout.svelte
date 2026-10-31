@@ -5,23 +5,27 @@ import { page } from "$app/state";
 
 import { BookOpen, Layers, SlidersVertical, UserCog } from "@lucide/svelte";
 
+import { hasPermission } from "#lib/constants.ts";
+
 import type { LayoutProps } from "./$types";
 
 let { data, children }: LayoutProps = $props();
 
 const user = $derived(data.user);
-const isAdmin = $derived(user.role === "ADMIN");
+const canViewUsersManual = $derived(
+	hasPermission(user.role, "manual:users:view"),
+);
 </script>
 
 <div
-	class="flex w-full flex-col gap-6 text-zinc-900 dark:text-zinc-100"
+	class="flex w-full flex-col gap-5 pb-20 text-zinc-900 sm:gap-6 lg:pb-0 dark:text-zinc-100"
 	in:fly={{ y: 8, duration: 350 }}
 >
-	<div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
+	<div class="flex flex-col gap-5 sm:gap-6 lg:flex-row lg:items-start lg:gap-8">
 		<!-- Menú Lateral / Índice del Manual -->
 		<aside
 			id="temario-manual"
-			class="flex w-full flex-col gap-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-xs lg:sticky lg:top-6 lg:max-h-[calc(100dvh-3rem)] lg:w-72 lg:min-w-72 lg:overflow-y-auto dark:border-zinc-800 dark:bg-zinc-900"
+			class="flex w-full flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-4 shadow-xs sm:gap-5 sm:p-5 lg:sticky lg:top-6 lg:max-h-[calc(100dvh-3rem)] lg:w-72 lg:min-w-72 lg:overflow-y-auto dark:border-zinc-800 dark:bg-zinc-900"
 			aria-label="Temario del manual"
 		>
 			<div
@@ -71,7 +75,7 @@ const isAdmin = $derived(user.role === "ADMIN");
 
 					{#if page.url.pathname === "/manual/plantilla"}
 						<div
-							class="ml-5 flex flex-col gap-0.5 border-l-2 border-zinc-200 py-1 pl-3 dark:border-zinc-800"
+							class="ml-4 flex flex-col gap-0.5 border-l-2 border-zinc-200 py-1 pl-3 sm:ml-5 dark:border-zinc-800"
 						>
 							<a
 								href="#vision-general"
@@ -132,7 +136,7 @@ const isAdmin = $derived(user.role === "ADMIN");
 
 					{#if page.url.pathname === "/manual/interfaz"}
 						<div
-							class="ml-5 flex flex-col gap-0.5 border-l-2 border-zinc-200 py-1 pl-3 dark:border-zinc-800"
+							class="ml-4 flex flex-col gap-0.5 border-l-2 border-zinc-200 py-1 pl-3 sm:ml-5 dark:border-zinc-800"
 						>
 							<a
 								href="#modo-color"
@@ -168,8 +172,8 @@ const isAdmin = $derived(user.role === "ADMIN");
 					{/if}
 				</div>
 
-				<!-- Módulo 3: Usuarios (Solo Administradores) -->
-				{#if isAdmin}
+				<!-- Módulo 3: Usuarios (Solo con permiso de lectura del manual de usuarios) -->
+				{#if canViewUsersManual}
 					<div class="flex flex-col gap-1">
 						<a
 							href={resolve("manual/usuarios")}
@@ -200,7 +204,7 @@ const isAdmin = $derived(user.role === "ADMIN");
 
 						{#if page.url.pathname === "/manual/usuarios"}
 							<div
-								class="ml-5 flex flex-col gap-0.5 border-l-2 border-zinc-200 py-1 pl-3 dark:border-zinc-800"
+								class="ml-4 flex flex-col gap-0.5 border-l-2 border-zinc-200 py-1 pl-3 sm:ml-5 dark:border-zinc-800"
 							>
 								<a
 									href="#listar-estados"
@@ -243,7 +247,7 @@ const isAdmin = $derived(user.role === "ADMIN");
 	</div>
 
 	<!-- Botón flotante para móvil: Volver al Índice -->
-	<div class="fixed right-5 bottom-6 z-20 lg:hidden">
+	<div class="fixed right-4 bottom-5 z-20 sm:right-5 sm:bottom-6 lg:hidden">
 		<button
 			type="button"
 			onclick={() => {

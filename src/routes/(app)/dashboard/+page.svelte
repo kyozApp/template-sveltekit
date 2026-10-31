@@ -10,7 +10,7 @@ import {
 	Users,
 } from "@lucide/svelte";
 
-import { ROLE_LABELS } from "#lib/constants.ts";
+import { hasPermission, ROLE_LABELS } from "#lib/constants.ts";
 
 import type { PageProps } from "./$types";
 
@@ -44,7 +44,7 @@ const user = $derived(data.user);
 		<div
 			class={[
 				"inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold tracking-wide uppercase",
-				user.role === "ADMIN"
+				hasPermission(user.role, "settings:manage")
 					? "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200"
 					: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300",
 			]}
@@ -133,30 +133,32 @@ const user = $derived(data.user);
 		</div>
 
 		<!-- Tarjeta: Documentación -->
-		<div
-			class="flex items-start gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition-all duration-200 hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700"
-		>
+		{#if hasPermission(user.role, "manual:view")}
 			<div
-				class="flex size-12 shrink-0 items-center justify-center rounded-xl border border-amber-200 bg-amber-100 text-amber-700 dark:border-amber-900 dark:bg-amber-950/60 dark:text-amber-300"
+				class="flex items-start gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition-all duration-200 hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700"
 			>
-				<BookOpen size={22} />
-			</div>
-			<div class="flex flex-col gap-1">
-				<span
-					class="text-xs font-bold tracking-wider text-zinc-500 uppercase dark:text-zinc-400"
+				<div
+					class="flex size-12 shrink-0 items-center justify-center rounded-xl border border-amber-200 bg-amber-100 text-amber-700 dark:border-amber-900 dark:bg-amber-950/60 dark:text-amber-300"
 				>
-					Documentación
-				</span>
-				<span class="text-lg font-extrabold text-zinc-900 dark:text-zinc-100">
-					Manual
-				</span>
-				<a
-					href={resolve("manual")}
-					class="mt-1 text-xs font-semibold text-zinc-700 hover:text-zinc-900 hover:underline dark:text-zinc-300 dark:hover:text-zinc-100"
-				>
-					Consultar guía →
-				</a>
+					<BookOpen size={22} />
+				</div>
+				<div class="flex flex-col gap-1">
+					<span
+						class="text-xs font-bold tracking-wider text-zinc-500 uppercase dark:text-zinc-400"
+					>
+						Documentación
+					</span>
+					<span class="text-lg font-extrabold text-zinc-900 dark:text-zinc-100">
+						Manual
+					</span>
+					<a
+						href={resolve("manual")}
+						class="mt-1 text-xs font-semibold text-zinc-700 hover:text-zinc-900 hover:underline dark:text-zinc-300 dark:hover:text-zinc-100"
+					>
+						Consultar guía →
+					</a>
+				</div>
 			</div>
-		</div>
+		{/if}
 	</div>
 </div>

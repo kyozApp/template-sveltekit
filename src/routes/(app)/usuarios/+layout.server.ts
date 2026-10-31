@@ -1,13 +1,15 @@
 import { redirect } from "@sveltejs/kit";
 
+import { hasPermission } from "#lib/constants.ts";
+
 import type { LayoutServerLoad } from "./$types";
 
 export const load: LayoutServerLoad = async ({ parent }) => {
-	// Obtiene el usuario autenticado desde el layout parent
+	// 1. Obtener el usuario autenticado desde el layout parent
 	const { user } = await parent();
 
-	// Bloquea el acceso a usuarios sin rol de administración
-	if (user.role !== "ADMIN") {
-		redirect(302, "/");
+	// 2. Bloquear el acceso a usuarios sin permiso de lectura de usuarios
+	if (!hasPermission(user.role, "users:view")) {
+		redirect(302, "/dashboard");
 	}
 };

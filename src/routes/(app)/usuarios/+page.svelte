@@ -5,8 +5,8 @@ import { goto } from "$app/navigation";
 import { Shield, UserPlus } from "@lucide/svelte";
 
 import type { PageProps } from "./$types";
+import UserList from "./UserList.svelte";
 import UserModals from "./UserModals.svelte";
-import UserTable from "./UserTable.svelte";
 
 let { data }: PageProps = $props();
 </script>
@@ -61,7 +61,7 @@ let { data }: PageProps = $props();
 	<div
 		class="m-0 flex w-full max-w-full flex-col gap-6 px-0 pt-2 pb-8 text-zinc-900 dark:text-zinc-100"
 	>
-		<UserTable currentUser={data.user} />
+		<UserList currentUser={data.user} />
 	</div>
 </div>
 
