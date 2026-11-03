@@ -1,0 +1,132 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.6.4/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"includes": [
+			"**",
+			"!!**/.svelte-kit",
+			"!!**/build",
+			"!!**/.pnpm-store",
+			"!!**/pnpm-lock.yaml",
+			"!!**/migrations",
+			"!!**/src/prisma/contract.d.ts",
+			"!!**/src/prisma/contract.json"
+		]
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"indentWidth": 2
+	},
+	"linter": {
+		"domains": {
+			"svelte": "recommended",
+			"tailwind": "recommended"
+		},
+		"enabled": true,
+		"rules": {
+			"preset": "recommended",
+			"style": {
+				"noNonNullAssertion": "off",
+				"noDescendingSpecificity": "off",
+				"noHexColors": "error",
+				"noExcessiveLinesPerFile": {
+					"level": "warn",
+					"options": {
+						"maxLines": 1600,
+						"skipBlankLines": true
+					}
+				}
+			},
+			"complexity": {
+				"noImportantStyles": "error"
+			},
+			"correctness": {
+				"noMissingVarFunction": "error",
+				"noInvalidPositionAtImportRule": "error",
+				"noUnknownProperty": "error",
+				"noUnknownUnit": "error",
+				"noUnknownFunction": "error"
+			},
+			"suspicious": {
+				"noDuplicateProperties": "error",
+				"noEmptyBlock": "error",
+				"noDuplicateAtImportRules": "error",
+				"noDuplicateSelectorsKeyframeBlock": "error",
+				"noUnknownAtRules": {
+					"level": "error",
+					"options": {
+						"ignore": [
+							"theme",
+							"plugin",
+							"utility",
+							"variant",
+							"custom-variant",
+							"source"
+						]
+					}
+				}
+			},
+			"nursery": {
+				"useTailwindSortedClasses": {
+					"level": "warn",
+					"fix": "safe"
+				}
+			}
+		}
+	},
+	"html": {
+		"formatter": {
+			"enabled": true
+		},
+		"experimentalFullSupportEnabled": true
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							":NODE:",
+							":BLANK_LINE:",
+							["svelte", "svelte/**", "@sveltejs/**", "$app/**", "$env/**"],
+							":BLANK_LINE:",
+							":PACKAGE:",
+							":BLANK_LINE:",
+							["#lib/**", "@/**"],
+							":BLANK_LINE:",
+							":PATH:",
+							":BLANK_LINE:",
+							":STYLE:"
+						]
+					}
+				},
+				"useSortedProperties": "on",
+				"useSortedPackageJson": "on"
+			}
+		}
+	},
+	"tailwind": {
+		"stylesheet": "./src/routes/layout.css",
+		"attributes": ["class", "className", "classList"],
+		"mergeFunctions": ["clsx", "tw", "cn", "twMerge"],
+		"variantFunctions": ["cva", "tv"]
+	}
+}

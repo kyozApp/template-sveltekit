@@ -28,7 +28,7 @@ export const runSessionCleanup = async (): Promise<void> => {
 
 		// 3. Notificar en consola si se realizaron eliminaciones
 		if (deletedCount > 0) {
-			console.log(
+			console.info(
 				`[Session Cleanup] Se eliminaron ${deletedCount} sesiones expiradas.`,
 			);
 		}

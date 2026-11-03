@@ -1,9 +1,8 @@
 # ⚡ Template SvelteKit
 
-Plantilla base de desarrollo rápido para aplicaciones web Fullstack modernas, construida sobre
-**SvelteKit**, **Svelte 5 (Runes)**, **Prisma 8 (Contract Builder)**, **PostgreSQL 18**,
-**Tailwind CSS v4**, **Inter Variable**, **Paraglide JS (i18n)**, **Subpath Imports (`#lib`)**,
-**Valibot**, **Argon2** y **Biome**.
+Plantilla base de desarrollo rápido para aplicaciones web Fullstack modernas,
+construida sobre **SvelteKit**, **Prisma 8**, **PostgreSQL 18**,
+**Tailwind CSS**, **Paraglide JS (i18n)**, **Valibot**, **Argon2** y **Biome**.
 
 ---
 
@@ -21,26 +20,10 @@ cd mi-app
 ### 2. Personalizar la plantilla
 
 1. En **`package.json`**, actualiza el campo `"name"` con el nombre de tu proyecto.
-2. En tu editor, presiona `Ctrl + Shift + F` (búsqueda global) y reemplaza estos valores:
-   - **`mi-app`**: Nombre de la carpeta de tu proyecto.
-   - **`template_sveltekit_db`**: Nombre de tu base de datos en PostgreSQL.
-   - **`template_sveltekit_prod`**: Nombre del proyecto en Podman Compose (`compose.yaml`).
-   - **`template_sveltekit_prod_db`**: Nombre del contenedor de base de datos en producción.
-
-### 3. Continuar en desarrollo local
-
-Abre la **[Guía de Desarrollo Local](docs/dev.md)** para preparar tu entorno en desarrollo.
-
----
-
-## 📚 Documentación
-
-- 📘 **[Desarrollo (dev.md)](docs/dev.md)**: Primera vez y flujo diario en local.
-- ⚙️ **[Producción (prod.md)](docs/prod.md)**: Despliegue inicial, actualizaciones y monitoreo.
-- 🗄️ **[Base de Datos (database.md)](docs/database.md)**: Consola, respaldos, migración MySQL y
-  mantenimiento de Enums.
-- 🛠️ **[Scripts (scripts/README.md)](scripts/README.md)**: Scripts puntuales de mantenimiento y
-  migración de datos.
+2. En **`.env.example`**, actualiza el nombre de la base de datos `template_sveltekit_db`
+   con el nombre de tu base de datos en PostgreSQL.
+3. En **`compose.yaml`**, actualiza el nombre del proyecto `name: template_sveltekit_prod`
+   y el nombre del contenedor `container_name: template_sveltekit_prod_db`.
 
 ---
 

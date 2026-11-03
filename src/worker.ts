@@ -6,7 +6,7 @@ import { runSessionCleanup } from "./tasks/sessionCleanup.task.js";
 const jobs: CronJob[] = [];
 
 export const initBackgroundTasks = (): void => {
-	console.log("Iniciando tareas programadas en segundo plano...");
+	console.info("Iniciando tareas programadas en segundo plano...");
 
 	// 1. Limpieza de Sesiones Expiradas - Cada 6 horas
 	const cleanupJob = new CronJob("0 */6 * * *", () => {
@@ -24,7 +24,7 @@ export const stopBackgroundTasks = (): void => {
 		job.stop();
 	}
 	jobs.length = 0;
-	console.log("Tareas en segundo plano detenidas.");
+	console.info("Tareas en segundo plano detenidas.");
 };
 
 /**
@@ -33,7 +33,7 @@ export const stopBackgroundTasks = (): void => {
 const closeDatabaseConnection = async (): Promise<void> => {
 	try {
 		await db.close();
-		console.log("Conexión con la base de datos cerrada.");
+		console.info("Conexión con la base de datos cerrada.");
 	} catch (error) {
 		console.error("Error cerrando conexión con la base de datos:", error);
 	}
@@ -43,7 +43,7 @@ const closeDatabaseConnection = async (): Promise<void> => {
  * Responsabilidad única: Coordinar la secuencia de apagado ordenado del worker.
  */
 const handleGracefulShutdown = async (signal: string): Promise<void> => {
-	console.log(`\nWorker detenido vía ${signal}. Cerrando recursos...`);
+	console.info(`\nWorker detenido vía ${signal}. Cerrando recursos...`);
 	stopBackgroundTasks();
 	await closeDatabaseConnection();
 	process.exit(0);

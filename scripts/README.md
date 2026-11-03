@@ -45,4 +45,3 @@ void main();
 ---
 
 - ⬅️ [Volver al README](../README.md)
-- 🗄️ [Guía de Base de Datos (database.md)](../docs/database.md)

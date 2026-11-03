@@ -25,39 +25,39 @@
 	},
 	"dependencies": {
 		"@fontsource-variable/inter": "^5.3.0",
-		"@prisma/orm-postgres": "8.0.0-rc.17",
-		"argon2": "^0.45.1",
+		"@prisma/orm-postgres": "8.0.0-rc.22",
+		"argon2": "^0.45.2",
 		"cron": "^4.4.0",
-		"dotenv": "^18.0.7",
+		"dotenv": "^18.0.9",
 		"mode-watcher": "^1.1.0",
 		"nanoid": "^6.0.2",
 		"valibot": "^1.5.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.6.4",
-		"@inlang/paraglide-js": "^2.27.0",
-		"@lucide/svelte": "^1.55.0",
-		"@prisma/cli-engine": "^0.7.0",
-		"@sveltejs/adapter-node": "^6.0.0",
-		"@sveltejs/kit": "^3.0.1",
+		"@inlang/paraglide-js": "^3.0.0",
+		"@lucide/svelte": "^1.67.0",
+		"@prisma/cli-engine": "^0.9.0",
+		"@sveltejs/adapter-node": "^6.0.1",
+		"@sveltejs/kit": "^3.1.1",
 		"@sveltejs/vite-plugin-svelte": "^7.3.1",
 		"@tailwindcss/forms": "^0.5.11",
 		"@tailwindcss/typography": "^0.5.20",
-		"@tailwindcss/vite": "^4.3.3",
-		"@types/node": "^26.6.5",
-		"prisma": "8.0.0-rc.22",
-		"svelte": "^5.57.2",
-		"svelte-check": "^4.7.6",
-		"tailwindcss": "^4.3.3",
+		"@tailwindcss/vite": "^4.3.4",
+		"@types/node": "^26.6.6",
+		"prisma": "8.0.0-rc.30",
+		"svelte": "^5.57.3",
+		"svelte-check": "^4.7.8",
+		"tailwindcss": "^4.3.4",
 		"tsx": "^4.23.15",
 		"typescript": "^6.0.3",
-		"vite": "^8.3.4"
+		"vite": "^8.3.5"
 	},
-	"packageManager": "pnpm@12.11.2",
+	"packageManager": "pnpm@12.16.1",
 	"devEngines": {
 		"runtime": {
 			"name": "node",
-			"version": "24.21.0",
+			"version": "26.13.0",
 			"onFail": "download"
 		}
 	}
