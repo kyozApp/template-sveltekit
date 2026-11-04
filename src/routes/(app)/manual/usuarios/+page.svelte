@@ -57,7 +57,7 @@ const faqs = [
 				1. Listar Usuarios y Cambio de Estado
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				La tabla principal de usuarios permite consultar a todo el personal
 				registrado y controlar en vivo su acceso al sistema mediante el
@@ -87,7 +87,7 @@ const faqs = [
 			</div>
 
 			<p
-				class="m-0 text-xs leading-relaxed break-words text-zinc-600 sm:text-sm dark:text-zinc-400"
+				class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 sm:text-sm dark:text-zinc-400"
 			>
 				En la columna <strong>Estado</strong> de cada colaborador encontrarás un
 				interruptor deslizante para gestionar su acceso de forma inmediata:
@@ -143,7 +143,7 @@ const faqs = [
 				2. Registrar un Nuevo Colaborador
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				Procedimiento para dar de alta a un nuevo integrante del equipo en la
 				plataforma:
@@ -230,7 +230,7 @@ const faqs = [
 				3. Modificar Datos y Resetear Contraseñas
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				Instrucciones para corregir información del colaborador o asistir en la
 				recuperación de acceso:
@@ -310,7 +310,7 @@ const faqs = [
 				Preguntas Frecuentes sobre Usuarios
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				Respuestas a las situaciones más comunes durante la administración de
 				cuentas de colaboradores:
@@ -336,7 +336,7 @@ const faqs = [
 						class="border-t border-zinc-100 px-4 pt-3 pb-4 sm:px-5 sm:pt-4 sm:pb-5 dark:border-zinc-800"
 					>
 						<p
-							class="m-0 text-xs leading-relaxed break-words text-zinc-600 sm:text-sm dark:text-zinc-400"
+							class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 sm:text-sm dark:text-zinc-400"
 						>
 							{a}
 						</p>
