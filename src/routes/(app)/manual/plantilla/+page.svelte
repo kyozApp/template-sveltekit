@@ -58,7 +58,7 @@ const faqs = [
 				1. Visión General y Propósito
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				Esta plantilla (<strong>template-sveltekit</strong>) ha sido diseñada
 				como una base robusta, moderna y lista para producción, permitiéndote
@@ -81,7 +81,7 @@ const faqs = [
 					Svelte 5 Universal
 				</h4>
 				<p
-					class="m-0 text-xs leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+					class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 				>
 					Reactividad limpia con Runes (<code class="font-mono text-xs"
 						>$state</code
@@ -103,7 +103,7 @@ const faqs = [
 					Seguridad y Sesiones
 				</h4>
 				<p
-					class="m-0 text-xs leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+					class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 				>
 					Cookies <code class="font-mono text-xs">httpOnly</code>, roles (ADMIN
 					/ USER) y vigilancia pasiva de expiración en tiempo real.
@@ -122,7 +122,7 @@ const faqs = [
 					Tailwind CSS v4
 				</h4>
 				<p
-					class="m-0 text-xs leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+					class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 				>
 					Diseño 100% utilitario, cero bloques de estilo heredados y soporte
 					nativo de modo claro y oscuro.
@@ -141,7 +141,7 @@ const faqs = [
 					TypeScript Estricto
 				</h4>
 				<p
-					class="m-0 text-xs leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+					class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 				>
 					Tipado estricto en layouts, páginas, locals de servidor y componentes
 					para evitar errores en tiempo de ejecución.
@@ -159,7 +159,7 @@ const faqs = [
 				2. Arquitectura y Tecnologías
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				La solución adopta las mejores prácticas y estándares de la comunidad de
 				SvelteKit:
@@ -217,14 +217,14 @@ const faqs = [
 				3. Estructura de Directorios
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				El proyecto organiza las responsabilidades de forma predecible:
 			</p>
 		</div>
 
 		<div
-			class="flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-4 font-mono text-xs break-words text-zinc-800 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-200"
+			class="flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-4 font-mono text-xs wrap-break-word text-zinc-800 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-200"
 		>
 			<div
 				class="flex items-center gap-2 font-bold text-zinc-800 dark:text-zinc-200"
@@ -272,7 +272,7 @@ const faqs = [
 				Preguntas Frecuentes de la Plantilla
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				Respuestas a las dudas más frecuentes al comenzar a construir sobre esta
 				base:
@@ -298,7 +298,7 @@ const faqs = [
 						class="border-t border-zinc-100 px-4 pt-3 pb-4 sm:px-5 sm:pt-4 sm:pb-5 dark:border-zinc-800"
 					>
 						<p
-							class="m-0 text-xs leading-relaxed break-words text-zinc-600 sm:text-sm dark:text-zinc-400"
+							class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 sm:text-sm dark:text-zinc-400"
 						>
 							{a}
 						</p>
