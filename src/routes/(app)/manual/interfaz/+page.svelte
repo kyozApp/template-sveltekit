@@ -51,7 +51,7 @@ const faqs = [
 				1. Modo Claro y Oscuro
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				La plataforma incluye soporte completo para temas visuales claro y
 				oscuro, pensado para brindar confort visual durante toda tu jornada:
@@ -118,7 +118,7 @@ const faqs = [
 				2. Menú de Usuario y Perfil
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				En el extremo superior derecho encontrarás tu avatar personal con tus
 				iniciales:
@@ -184,7 +184,7 @@ const faqs = [
 				3. Cierre de Sesión Seguro
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				Procedimiento recomendado para desconectarte al finalizar tu jornada o
 				retirarte de tu equipo:
@@ -257,7 +257,7 @@ const faqs = [
 				4. Barra Lateral Colapsable y Navegación
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				Controles para optimizar el área visible de la pantalla según la tarea
 				que estés realizando:
@@ -324,7 +324,7 @@ const faqs = [
 				Preguntas Frecuentes sobre la Interfaz
 			</h3>
 			<p
-				class="m-0 text-sm leading-relaxed break-words text-zinc-600 dark:text-zinc-400"
+				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
 			>
 				Respuestas a las preguntas más comunes sobre el uso de la interfaz y la
 				cuenta:
@@ -350,7 +350,7 @@ const faqs = [
 						class="border-t border-zinc-100 px-4 pt-3 pb-4 sm:px-5 sm:pt-4 sm:pb-5 dark:border-zinc-800"
 					>
 						<p
-							class="m-0 text-xs leading-relaxed break-words text-zinc-600 sm:text-sm dark:text-zinc-400"
+							class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 sm:text-sm dark:text-zinc-400"
 						>
 							{a}
 						</p>
