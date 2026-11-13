@@ -1,38 +1,25 @@
 {
+	"format_on_save": "on",
+	"tab_size": 2,
+	"hard_tabs": true,
+	"prettier": {
+		"allowed": false
+	},
 	"languages": {
 		"JSON": {
-			"tab_size": 2,
-			"hard_tabs": true,
-			"prettier": { "allowed": false },
 			"formatter": { "language_server": { "name": "biome" } }
 		},
 		"JSONC": {
-			"tab_size": 2,
-			"hard_tabs": true,
-			"prettier": { "allowed": false },
 			"formatter": { "language_server": { "name": "biome" } }
 		},
 		"HTML": {
-			"tab_size": 2,
-			"hard_tabs": true,
-			"prettier": { "allowed": false },
 			"formatter": { "language_server": { "name": "biome" } }
 		},
 		"CSS": {
-			"tab_size": 2,
-			"hard_tabs": true,
-			"prettier": { "allowed": false },
-			"language_servers": [
-				"tailwindcss-intellisense-css",
-				"!vscode-css-language-server",
-				"..."
-			],
+			"language_servers": ["tailwindcss-intellisense-css", "!vscode-css-language-server", "..."],
 			"formatter": { "language_server": { "name": "biome" } }
 		},
 		"JavaScript": {
-			"tab_size": 2,
-			"hard_tabs": true,
-			"prettier": { "allowed": false },
 			"formatter": { "language_server": { "name": "biome" } },
 			"code_actions_on_format": {
 				"source.fixAll.biome": true,
@@ -40,9 +27,6 @@
 			}
 		},
 		"TypeScript": {
-			"tab_size": 2,
-			"hard_tabs": true,
-			"prettier": { "allowed": false },
 			"formatter": { "language_server": { "name": "biome" } },
 			"code_actions_on_format": {
 				"source.fixAll.biome": true,
@@ -50,15 +34,7 @@
 			}
 		},
 		"Svelte": {
-			"tab_size": 2,
-			"hard_tabs": true,
-			"prettier": { "allowed": false },
-			"language_servers": [
-				"svelte-language-server",
-				"biome",
-				"tailwindcss-language-server",
-				"..."
-			],
+			"language_servers": ["svelte-language-server", "biome", "tailwindcss-language-server", "..."],
 			"formatter": { "language_server": { "name": "biome" } },
 			"code_actions_on_format": {
 				"source.fixAll.biome": true,
@@ -72,9 +48,20 @@
 				"require_config_file": true
 			}
 		},
+		"markdownlint": {
+			"settings": {
+				"MD010": {
+					"code_blocks": false
+				},
+				"MD013": false
+			}
+		},
 		"tailwindcss-language-server": {
 			"settings": {
-				"includeLanguages": { "svelte": "html" },
+				"includeLanguages": {
+					"svelte": "html"
+				},
+				"classFunctions": ["clsx", "tw", "cn", "twMerge", "cva", "tv"],
 				"experimental": {
 					"classRegex": [
 						"class=\"([^\"]*)\"",

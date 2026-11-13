@@ -1,16 +1,17 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.6.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.6.7/schema.json",
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
 		"useIgnoreFile": true
 	},
 	"files": {
-		"ignoreUnknown": false,
+		"ignoreUnknown": true,
 		"includes": [
 			"**",
 			"!!**/.svelte-kit",
 			"!!**/build",
+			"!!**/node_modules",
 			"!!**/.pnpm-store",
 			"!!**/pnpm-lock.yaml",
 			"!!**/migrations",
@@ -18,38 +19,45 @@
 			"!!**/src/prisma/contract.json"
 		]
 	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"indentWidth": 2,
+		"lineWidth": 100
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	},
 	"css": {
 		"parser": {
 			"tailwindDirectives": true
 		}
 	},
-	"formatter": {
-		"enabled": true,
-		"indentStyle": "tab",
-		"indentWidth": 2
+	"html": {
+		"experimentalFullSupportEnabled": true,
+		"formatter": {
+			"enabled": true,
+			"indentScriptAndStyle": false
+		}
+	},
+	"tailwind": {
+		"stylesheet": "./src/routes/layout.css",
+		"attributes": ["class", "className", "classList"],
+		"mergeFunctions": ["clsx", "tw", "cn", "twMerge", "cva", "tv"],
+		"variantFunctions": ["cva", "tv"]
 	},
 	"linter": {
-		"domains": {
-			"svelte": "recommended",
-			"tailwind": "recommended"
-		},
 		"enabled": true,
 		"rules": {
 			"preset": "recommended",
 			"style": {
 				"noNonNullAssertion": "off",
-				"noDescendingSpecificity": "off",
-				"noHexColors": "error",
-				"noExcessiveLinesPerFile": {
-					"level": "warn",
-					"options": {
-						"maxLines": 1600,
-						"skipBlankLines": true
-					}
-				}
+				"noDescendingSpecificity": "off"
 			},
 			"complexity": {
-				"noImportantStyles": "error"
+				"noImportantStyles": "warn"
 			},
 			"correctness": {
 				"noMissingVarFunction": "error",
@@ -66,14 +74,7 @@
 				"noUnknownAtRules": {
 					"level": "error",
 					"options": {
-						"ignore": [
-							"theme",
-							"plugin",
-							"utility",
-							"variant",
-							"custom-variant",
-							"source"
-						]
+						"ignore": ["theme", "plugin", "utility", "variant", "custom-variant", "source"]
 					}
 				}
 			},
@@ -81,19 +82,12 @@
 				"useTailwindSortedClasses": {
 					"level": "warn",
 					"fix": "safe"
+				},
+				"useTailwindShorthandClasses": {
+					"level": "warn",
+					"fix": "safe"
 				}
 			}
-		}
-	},
-	"html": {
-		"formatter": {
-			"enabled": true
-		},
-		"experimentalFullSupportEnabled": true
-	},
-	"javascript": {
-		"formatter": {
-			"quoteStyle": "double"
 		}
 	},
 	"assist": {
@@ -122,11 +116,5 @@
 				"useSortedPackageJson": "on"
 			}
 		}
-	},
-	"tailwind": {
-		"stylesheet": "./src/routes/layout.css",
-		"attributes": ["class", "className", "classList"],
-		"mergeFunctions": ["clsx", "tw", "cn", "twMerge"],
-		"variantFunctions": ["cva", "tv"]
 	}
 }

@@ -1,7 +1,6 @@
 import adapter from "@sveltejs/adapter-node";
 import { sveltekit } from "@sveltejs/kit/vite";
 
-import { paraglideVitePlugin } from "@inlang/paraglide-js";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, loadEnv } from "vite";
 
@@ -29,12 +28,6 @@ export default defineConfig(({ mode }) => {
 						filename.split(/[/\\]/).includes("node_modules") ? undefined : true,
 				},
 				adapter: adapter(),
-			}),
-
-			paraglideVitePlugin({
-				project: "./project.inlang",
-				outdir: "./src/lib/paraglide",
-				emitTsDeclarations: true,
 			}),
 		],
 	};

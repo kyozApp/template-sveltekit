@@ -2,7 +2,7 @@
 
 Plantilla base de desarrollo rápido para aplicaciones web Fullstack modernas,
 construida sobre **SvelteKit**, **Prisma 8**, **PostgreSQL 18**,
-**Tailwind CSS**, **Paraglide JS (i18n)**, **Valibot**, **Argon2** y **Biome**.
+**Tailwind CSS**, **Valibot**, **Argon2** y **Biome**.
 
 ---
 

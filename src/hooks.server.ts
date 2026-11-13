@@ -5,22 +5,7 @@ import {
 } from "@sveltejs/kit/hooks";
 
 import type { Role } from "#lib/constants.ts";
-import { getTextDirection } from "#lib/paraglide/runtime.js";
-import { paraglideMiddleware } from "#lib/paraglide/server.js";
 import { db } from "#lib/server/db.ts";
-
-const handleParaglide: Handle = ({ event, resolve }) =>
-	paraglideMiddleware(event.request, ({ request, locale }) => {
-		return resolve(
-			{ ...event, request },
-			{
-				transformPageChunk: ({ html }) =>
-					html
-						.replace("%paraglide.lang%", locale)
-						.replace("%paraglide.dir%", getTextDirection(locale)),
-			},
-		);
-	});
 
 const handleSession: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get("session");
@@ -71,7 +56,7 @@ const handleSession: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-export const handle: Handle = sequence(handleParaglide, handleSession);
+export const handle: Handle = sequence(handleSession);
 
 /**
  * Intercepta y sanitiza excepciones ocurridas en el servidor.
