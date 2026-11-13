@@ -12,9 +12,9 @@ import {
 } from "@lucide/svelte";
 import { nanoid } from "nanoid";
 
-import { changeProfilePassword } from "#lib/remote/profile/profile.form.remote.ts";
+import { changeProfilePassword } from "#lib/modules/profile/remote/profile.form.remote.ts";
+import { profilePasswordChangeSchema } from "#lib/modules/profile/validation/profile.form.validation.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
-import { profilePasswordChangeSchema } from "#lib/validations/profile/profile.form.validation.ts";
 
 const sessionId = nanoid();
 const passwordForm = changeProfilePassword.for(sessionId);

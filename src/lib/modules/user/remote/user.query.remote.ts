@@ -3,9 +3,12 @@ import { query } from "$app/server";
 
 import * as v from "valibot";
 
+import {
+	userDetailSchema,
+	userListSchema,
+} from "#lib/modules/user/validation/user.query.validation.ts";
 import { assertPermission } from "#lib/server/auth.ts";
 import { db } from "#lib/server/db.ts";
-import { userDetailSchema, userListSchema } from "#lib/validations/user/user.query.validation.ts";
 
 /**
  * Obtiene el listado general de usuarios.

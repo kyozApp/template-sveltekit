@@ -13,9 +13,9 @@ import {
 import { nanoid } from "nanoid";
 
 import { ROLE_LABELS, ROLES } from "#lib/constants.ts";
-import { createUser } from "#lib/remote/user/user.form.remote.ts";
+import { createUser } from "#lib/modules/user/remote/user.form.remote.ts";
+import { userCreateSchema } from "#lib/modules/user/validation/user.form.validation.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
-import { userCreateSchema } from "#lib/validations/user/user.form.validation.ts";
 
 import UserCreatePassword from "./UserCreatePassword.svelte";
 

@@ -5,9 +5,9 @@ import { refreshAll } from "$app/navigation";
 import { CircleAlert, LoaderCircle, Mail, Save, User } from "@lucide/svelte";
 import { nanoid } from "nanoid";
 
-import { updateProfile } from "#lib/remote/profile/profile.form.remote.ts";
+import { updateProfile } from "#lib/modules/profile/remote/profile.form.remote.ts";
+import { profileUpdateSchema } from "#lib/modules/profile/validation/profile.form.validation.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
-import { profileUpdateSchema } from "#lib/validations/profile/profile.form.validation.ts";
 
 interface Props {
 	initialData: {

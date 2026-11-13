@@ -1,9 +1,9 @@
 import { error } from "@sveltejs/kit";
 import { command } from "$app/server";
 
+import { profileRevokeSessionSchema } from "#lib/modules/profile/validation/profile.command.validation.ts";
 import { assertAuthenticated } from "#lib/server/auth.ts";
 import { db } from "#lib/server/db.ts";
-import { profileRevokeSessionSchema } from "#lib/validations/profile/profile.command.validation.ts";
 
 import { getProfileData } from "./profile.query.remote.ts";
 

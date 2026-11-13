@@ -1,14 +1,14 @@
 import { error } from "@sveltejs/kit";
 import { command } from "$app/server";
 
-import { assertPermission } from "#lib/server/auth.ts";
-import { db } from "#lib/server/db.ts";
 import {
 	userDeleteSchema,
 	userToggleStatusSchema,
-} from "#lib/validations/user/user.command.validation.ts";
+} from "#lib/modules/user/validation/user.command.validation.ts";
+import { assertPermission } from "#lib/server/auth.ts";
+import { db } from "#lib/server/db.ts";
 
-import { getProfileData } from "../profile/profile.query.remote.ts";
+import { getProfileData } from "../../profile/remote/profile.query.remote.ts";
 import { getUserDetails, getUserList } from "./user.query.remote.ts";
 
 /**

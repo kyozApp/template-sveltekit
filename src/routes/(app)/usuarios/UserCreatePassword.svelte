@@ -1,7 +1,7 @@
 <script lang="ts">
 import { CircleAlert, Eye, EyeOff, Lock } from "@lucide/svelte";
 
-import type { createUser } from "#lib/remote/user/user.form.remote.ts";
+import type { createUser } from "#lib/modules/user/remote/user.form.remote.ts";
 
 interface Props {
 	fieldPassword: typeof createUser.fields.password;

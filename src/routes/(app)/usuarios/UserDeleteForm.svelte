@@ -3,7 +3,7 @@ import { isHttpError } from "@sveltejs/kit";
 
 import { LoaderCircle, Trash, TriangleAlert } from "@lucide/svelte";
 
-import { deleteUser } from "#lib/remote/user/user.command.remote.ts";
+import { deleteUser } from "#lib/modules/user/remote/user.command.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
 
 interface Props {

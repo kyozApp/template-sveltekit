@@ -4,7 +4,7 @@ import { goto } from "$app/navigation";
 import { LoaderCircle, Pencil, Trash } from "@lucide/svelte";
 
 import { hasPermission, ROLE_LABELS, type SessionUser } from "#lib/constants.ts";
-import { getUserList } from "#lib/remote/user/user.query.remote.ts";
+import { getUserList } from "#lib/modules/user/remote/user.query.remote.ts";
 
 import UserStatusToggle from "./UserStatusToggle.svelte";
 

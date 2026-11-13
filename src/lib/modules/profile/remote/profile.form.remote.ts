@@ -2,14 +2,14 @@ import { form } from "$app/server";
 
 import argon2 from "argon2";
 
-import { assertAuthenticated } from "#lib/server/auth.ts";
-import { db } from "#lib/server/db.ts";
 import {
 	profilePasswordChangeSchema,
 	profileUpdateSchema,
-} from "#lib/validations/profile/profile.form.validation.ts";
+} from "#lib/modules/profile/validation/profile.form.validation.ts";
+import { assertAuthenticated } from "#lib/server/auth.ts";
+import { db } from "#lib/server/db.ts";
 
-import { getUserDetails, getUserList } from "../user/user.query.remote.ts";
+import { getUserDetails, getUserList } from "../../user/remote/user.query.remote.ts";
 import { getProfileData } from "./profile.query.remote.ts";
 
 /**

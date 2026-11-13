@@ -3,9 +3,9 @@ import { query } from "$app/server";
 
 import * as v from "valibot";
 
+import { profileDataSchema } from "#lib/modules/profile/validation/profile.query.validation.ts";
 import { assertAuthenticated } from "#lib/server/auth.ts";
 import { db } from "#lib/server/db.ts";
-import { profileDataSchema } from "#lib/validations/profile/profile.query.validation.ts";
 
 /**
  * Consulta la información del perfil del usuario en sesión y sus sesiones activas.

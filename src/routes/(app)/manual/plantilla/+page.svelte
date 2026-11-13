@@ -16,7 +16,7 @@ const faqs = [
 	},
 	{
 		q: "¿Dónde se gestiona el acceso a datos y las mutaciones?",
-		a: "Siguiendo la arquitectura desacoplada de la plantilla, todas las consultas y acciones hacia el backend se concentran en 'src/lib/remote/'. Esto mantiene las vistas y formularios limpios de lógica pesada de infraestructura.",
+		a: "Siguiendo la arquitectura desacoplada de la plantilla, todas las consultas, acciones y esquemas de validación de cada dominio se agrupan en 'src/lib/modules/<modulo>/{remote,validation}/'. Esto mantiene las vistas y formularios limpios de lógica pesada de infraestructura.",
 	},
 ];
 </script>
@@ -197,8 +197,10 @@ const faqs = [
 					sidebar, formularios).
 				</div>
 				<div>
-					<strong>lib/remote/</strong>: Funciones remotas tipadas para interactuar con la base de
-					datos y lógica de negocio.
+					<strong>lib/modules/</strong>: Módulos por dominio con sus funciones remotas (<code
+						>remote/</code
+					>) y validaciones Valibot (<code>validation/</code>) para interactuar con la base de datos
+					y lógica de negocio.
 				</div>
 				<div>
 					<strong>lib/services/</strong>: Servicios reactivos compartidos (notificaciones toast,

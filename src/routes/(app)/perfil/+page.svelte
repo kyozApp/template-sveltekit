@@ -4,7 +4,7 @@ import { fly } from "svelte/transition";
 import { CircleAlert, KeyRound, Laptop, LoaderCircle, User } from "@lucide/svelte";
 
 import { hasPermission, ROLE_LABELS } from "#lib/constants.ts";
-import { getProfileData } from "#lib/remote/profile/profile.query.remote.ts";
+import { getProfileData } from "#lib/modules/profile/remote/profile.query.remote.ts";
 
 import ProfileInfoForm from "./ProfileInfoForm.svelte";
 import ProfilePasswordForm from "./ProfilePasswordForm.svelte";

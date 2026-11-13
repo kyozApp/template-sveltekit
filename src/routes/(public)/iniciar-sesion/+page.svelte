@@ -8,9 +8,9 @@ import { CircleAlert, Eye, EyeOff, LoaderCircle, Lock, LogIn, User } from "@luci
 
 import logo from "#lib/assets/favicon.svg";
 import ThemeToggle from "#lib/components/ui/ThemeToggle.svelte";
-import { loginUser } from "#lib/remote/auth/auth.form.remote.ts";
+import { loginUser } from "#lib/modules/auth/remote/auth.form.remote.ts";
+import { authLoginSchema } from "#lib/modules/auth/validation/auth.form.validation.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
-import { authLoginSchema } from "#lib/validations/auth/auth.form.validation.ts";
 
 const { username: fieldUsername, password: fieldPassword } = loginUser.fields;
 

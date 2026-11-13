@@ -3,7 +3,7 @@ import { isHttpError } from "@sveltejs/kit";
 
 import { Laptop, LoaderCircle, ShieldAlert, Trash } from "@lucide/svelte";
 
-import { revokeProfileSession } from "#lib/remote/profile/profile.command.remote.ts";
+import { revokeProfileSession } from "#lib/modules/profile/remote/profile.command.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
 
 interface SessionItem {

@@ -4,7 +4,7 @@ import { resolve } from "$app/paths";
 import { LoaderCircle, LogOut, Settings, User } from "@lucide/svelte";
 
 import { hasPermission, ROLE_LABELS, type SessionUser } from "#lib/constants.ts";
-import { logoutUser } from "#lib/remote/auth/auth.command.remote.ts";
+import { logoutUser } from "#lib/modules/auth/remote/auth.command.remote.ts";
 
 interface Props {
 	user: SessionUser;

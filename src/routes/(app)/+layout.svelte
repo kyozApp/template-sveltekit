@@ -4,7 +4,7 @@ import { navigating, page } from "$app/state";
 
 import AppHeader from "#lib/components/layout/AppHeader.svelte";
 import AppSidebar from "#lib/components/layout/AppSidebar.svelte";
-import { checkUserAuth } from "#lib/remote/auth/auth.query.remote.ts";
+import { checkUserAuth } from "#lib/modules/auth/remote/auth.query.remote.ts";
 import { notifications } from "#lib/services/notifications.svelte.ts";
 
 import type { LayoutProps } from "./$types";

@@ -4,11 +4,15 @@ import { goto } from "$app/navigation";
 
 import { Shield, UserPlus } from "@lucide/svelte";
 
+import { hasPermission } from "#lib/constants.ts";
+
 import type { PageProps } from "./$types";
 import UserList from "./UserList.svelte";
 import UserModals from "./UserModals.svelte";
 
 let { data }: PageProps = $props();
+
+const canManage = $derived(hasPermission(data.user.role, "users:manage"));
 </script>
 
 <svelte:head>
@@ -34,23 +38,25 @@ let { data }: PageProps = $props();
 			</p>
 		</div>
 
-		<div class="flex w-full flex-wrap items-center justify-start gap-3 md:w-auto md:justify-end">
-			<button
-				type="button"
-				onclick={() => {
-					goto("", {
-						shallow: true,
-						state: {
-							showUserCreate: { isOpen: true },
-						},
-					});
-				}}
-				class="inline-flex w-full min-w-44 cursor-pointer items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-zinc-100 px-5 py-3 text-sm font-bold tracking-wide text-zinc-700 transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-200 hover:text-zinc-900 md:w-auto dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
-			>
-				<UserPlus size={18} />
-				<span>Nuevo Usuario</span>
-			</button>
-		</div>
+		{#if canManage}
+			<div class="flex w-full flex-wrap items-center justify-start gap-3 md:w-auto md:justify-end">
+				<button
+					type="button"
+					onclick={() => {
+						goto("", {
+							shallow: true,
+							state: {
+								showUserCreate: { isOpen: true },
+							},
+						});
+					}}
+					class="inline-flex w-full min-w-44 cursor-pointer items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-zinc-100 px-5 py-3 text-sm font-bold tracking-wide text-zinc-700 transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-200 hover:text-zinc-900 md:w-auto dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
+				>
+					<UserPlus size={18} />
+					<span>Nuevo Usuario</span>
+				</button>
+			</div>
+		{/if}
 	</header>
 
 	<div
@@ -60,4 +66,6 @@ let { data }: PageProps = $props();
 	</div>
 </div>
 
-<UserModals currentUserId={data.user.id} />
+{#if canManage}
+	<UserModals currentUserId={data.user.id} />
+{/if}
