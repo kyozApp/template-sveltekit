@@ -78,8 +78,7 @@ input[type="number"] {
 	visibility: hidden;
 	pointer-events: none;
 	content: "";
-	border-block-start: 4px solid
-		light-dark(var(--color-zinc-200), var(--color-zinc-700));
+	border-block-start: 4px solid light-dark(var(--color-zinc-200), var(--color-zinc-700));
 	border-inline: 4px solid transparent;
 	opacity: 0;
 	transform: translateX(-50%) translateY(4px);
@@ -114,19 +113,14 @@ input[type="number"] {
 	border-block-start: 4px solid transparent;
 	border-block-end: 4px solid transparent;
 	border-inline-start: none;
-	border-inline-end: 4px solid
-		light-dark(var(--color-zinc-200), var(--color-zinc-700));
+	border-inline-end: 4px solid light-dark(var(--color-zinc-200), var(--color-zinc-700));
 	transform: translateY(-50%) translateX(-4px);
 }
 
 [data-tooltip][data-tooltip-position="right"]:hover:not(:disabled)::after,
 [data-tooltip][data-tooltip-position="right"]:hover:not(:disabled)::before,
-[data-tooltip][data-tooltip-position="right"]:focus-visible:not(
-	:disabled
-)::after,
-[data-tooltip][data-tooltip-position="right"]:focus-visible:not(
-	:disabled
-)::before {
+[data-tooltip][data-tooltip-position="right"]:focus-visible:not(:disabled)::after,
+[data-tooltip][data-tooltip-position="right"]:focus-visible:not(:disabled)::before {
 	transform: translateY(-50%) translateX(0);
 }
 
@@ -150,9 +144,7 @@ input[type="number"] {
 [data-tooltip][data-tooltip-position="top"]:hover:not(:disabled)::after,
 [data-tooltip][data-tooltip-position="top"]:hover:not(:disabled)::before,
 [data-tooltip][data-tooltip-position="top"]:focus-visible:not(:disabled)::after,
-[data-tooltip][data-tooltip-position="top"]:focus-visible:not(
-	:disabled
-)::before {
+[data-tooltip][data-tooltip-position="top"]:focus-visible:not(:disabled)::before {
 	visibility: visible;
 	opacity: 1;
 	transform: translateX(-50%) translateY(0);
@@ -206,20 +198,15 @@ input[type="number"] {
 	inset-inline-end: calc(100% + 3px);
 	border-block-start: 4px solid transparent;
 	border-block-end: 4px solid transparent;
-	border-inline-start: 4px solid
-		light-dark(var(--color-zinc-200), var(--color-zinc-700));
+	border-inline-start: 4px solid light-dark(var(--color-zinc-200), var(--color-zinc-700));
 	border-inline-end: none;
 	transform: translateY(-50%) translateX(4px);
 }
 
 [data-tooltip][data-tooltip-position="left"]:hover:not(:disabled)::after,
 [data-tooltip][data-tooltip-position="left"]:hover:not(:disabled)::before,
-[data-tooltip][data-tooltip-position="left"]:focus-visible:not(
-	:disabled
-)::after,
-[data-tooltip][data-tooltip-position="left"]:focus-visible:not(
-	:disabled
-)::before {
+[data-tooltip][data-tooltip-position="left"]:focus-visible:not(:disabled)::after,
+[data-tooltip][data-tooltip-position="left"]:focus-visible:not(:disabled)::before {
 	visibility: visible;
 	opacity: 1;
 	transform: translateY(-50%) translateX(0);

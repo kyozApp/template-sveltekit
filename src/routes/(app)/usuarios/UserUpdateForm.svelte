@@ -49,7 +49,7 @@ const submitting = $derived(updateForm.pending > 0);
 	{@const isActiveChecked = fieldIsActive.value() ?? details.isActive}
 
 	<div
-		class="min-h-0 flex-1 overflow-auto overscroll-contain bg-zinc-50 px-5 py-5 sm:px-8 sm:py-6 dark:bg-zinc-950"
+		class="min-h-0 flex-1 overflow-auto overscroll-contain bg-zinc-50 p-5 sm:px-8 sm:py-6 dark:bg-zinc-950"
 	>
 		<form
 			class="flex flex-col gap-5"
@@ -65,9 +65,7 @@ const submitting = $derived(updateForm.pending > 0);
 							return;
 						}
 
-						notifications.showToastSuccess(
-							"¡Usuario actualizado correctamente!",
-						);
+						notifications.showToastSuccess("¡Usuario actualizado correctamente!");
 						onClose();
 						return;
 					}
@@ -117,8 +115,7 @@ const submitting = $derived(updateForm.pending > 0);
 								id="user-update-name"
 								class={[
 									"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
-									fieldName.issues()?.length &&
-										"border-red-500 dark:border-red-400",
+									fieldName.issues()?.length && "border-red-500 dark:border-red-400",
 								]}
 								placeholder="Nombre del usuario"
 								autocomplete="name"
@@ -154,8 +151,7 @@ const submitting = $derived(updateForm.pending > 0);
 								id="user-update-username"
 								class={[
 									"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
-									fieldUsername.issues()?.length &&
-										"border-red-500 dark:border-red-400",
+									fieldUsername.issues()?.length && "border-red-500 dark:border-red-400",
 								]}
 								placeholder="usuario123"
 								autocomplete="username"
@@ -193,8 +189,7 @@ const submitting = $derived(updateForm.pending > 0);
 								id="user-update-email"
 								class={[
 									"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
-									fieldEmail.issues()?.length &&
-										"border-red-500 dark:border-red-400",
+									fieldEmail.issues()?.length && "border-red-500 dark:border-red-400",
 								]}
 								placeholder="correo@ejemplo.com"
 								autocomplete="email"
@@ -235,9 +230,7 @@ const submitting = $derived(updateForm.pending > 0);
 							>
 								<Shield size={16} />
 							</span>
-							<span
-								class="flex-1 text-sm font-medium text-zinc-900 dark:text-zinc-100"
-							>
+							<span class="flex-1 text-sm font-medium text-zinc-900 dark:text-zinc-100">
 								{ROLE_LABELS[details.role]}
 							</span>
 							<span
@@ -258,8 +251,7 @@ const submitting = $derived(updateForm.pending > 0);
 								id="user-update-role"
 								class={[
 									"peer min-h-12 w-full cursor-pointer appearance-none rounded-xl border border-zinc-200 bg-white bg-none py-3 pr-10 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
-									fieldRole.issues()?.length &&
-										"border-red-500 dark:border-red-400",
+									fieldRole.issues()?.length && "border-red-500 dark:border-red-400",
 								]}
 								onchange={(e) => e.currentTarget.blur()}
 								disabled={submitting}
@@ -296,9 +288,7 @@ const submitting = $derived(updateForm.pending > 0);
 							<User size={16} />
 						</div>
 						<div class="flex flex-col gap-0.5">
-							<span
-								class="text-sm font-semibold text-zinc-900 dark:text-zinc-100"
-							>
+							<span class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
 								Estado de la cuenta
 							</span>
 							<div>
@@ -349,8 +339,7 @@ const submitting = $derived(updateForm.pending > 0);
 					>
 						<TriangleAlert size={16} class="shrink-0" />
 						<span>
-							Por seguridad, no puedes modificar tu propio rol ni desactivar tu
-							sesión actual.
+							Por seguridad, no puedes modificar tu propio rol ni desactivar tu sesión actual.
 						</span>
 					</div>
 				{/if}
@@ -387,10 +376,7 @@ const submitting = $derived(updateForm.pending > 0);
 		<div
 			class="flex flex-col items-center justify-center gap-3 p-12 text-zinc-500 dark:text-zinc-400"
 		>
-			<LoaderCircle
-				size={32}
-				class="animate-spin text-zinc-600 dark:text-zinc-400"
-			/>
+			<LoaderCircle size={32} class="animate-spin text-zinc-600 dark:text-zinc-400" />
 			<span class="text-sm font-medium">Cargando datos del usuario...</span>
 		</div>
 	{/snippet}
@@ -400,9 +386,7 @@ const submitting = $derived(updateForm.pending > 0);
 			class="flex flex-col items-center justify-center gap-3 p-8 text-center text-red-600 dark:text-red-400"
 		>
 			<CircleAlert size={32} />
-			<p class="text-sm font-medium">
-				No se pudieron cargar los datos del usuario.
-			</p>
+			<p class="text-sm font-medium">No se pudieron cargar los datos del usuario.</p>
 			<button
 				type="button"
 				class="mt-2 rounded-xl border border-zinc-200 bg-white px-4 py-2 text-xs font-bold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300"

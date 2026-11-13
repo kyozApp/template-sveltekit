@@ -12,9 +12,7 @@ import type { LayoutProps } from "./$types";
 let { data, children }: LayoutProps = $props();
 
 const user = $derived(data.user);
-const canViewUsersManual = $derived(
-	hasPermission(user.role, "manual:users:view"),
-);
+const canViewUsersManual = $derived(hasPermission(user.role, "manual:users:view"));
 </script>
 
 <div
@@ -28,17 +26,13 @@ const canViewUsersManual = $derived(
 			class="flex w-full flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-4 shadow-xs sm:gap-5 sm:p-5 lg:sticky lg:top-6 lg:max-h-[calc(100dvh-3rem)] lg:w-72 lg:min-w-72 lg:overflow-y-auto dark:border-zinc-800 dark:bg-zinc-900"
 			aria-label="Temario del manual"
 		>
-			<div
-				class="flex items-center gap-3 border-b border-zinc-200 pb-4 dark:border-zinc-800"
-			>
+			<div class="flex items-center gap-3 border-b border-zinc-200 pb-4 dark:border-zinc-800">
 				<div
 					class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
 				>
 					<BookOpen size={18} />
 				</div>
-				<span
-					class="text-sm font-bold tracking-tight text-zinc-900 dark:text-zinc-100"
-				>
+				<span class="text-sm font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
 					Índice del Manual
 				</span>
 			</div>

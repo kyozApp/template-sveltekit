@@ -35,13 +35,9 @@ const main = async () => {
 				role: u.role,
 				isActive: u.isActive,
 			});
-			console.info(
-				`✅ Usuario ${u.role} (${user.username}) creado exitosamente.`,
-			);
+			console.info(`✅ Usuario ${u.role} (${user.username}) creado exitosamente.`);
 		} else {
-			console.info(
-				`ℹ️  Usuario ${u.role} (${u.username}) ya asegurado en la base de datos.`,
-			);
+			console.info(`ℹ️  Usuario ${u.role} (${u.username}) ya asegurado en la base de datos.`);
 		}
 	}
 

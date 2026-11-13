@@ -12,9 +12,7 @@ export const userToggleStatusSchema = {
 	}),
 };
 
-export type UserToggleStatusBody = v.InferOutput<
-	typeof userToggleStatusSchema.body
->;
+export type UserToggleStatusBody = v.InferOutput<typeof userToggleStatusSchema.body>;
 
 /**
  * Eliminar lógicamente usuario (Soft Delete)

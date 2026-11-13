@@ -22,11 +22,7 @@ let { initialData }: Props = $props();
 const sessionId = nanoid();
 const profileForm = updateProfile.for(sessionId);
 
-const {
-	name: fieldName,
-	username: fieldUsername,
-	email: fieldEmail,
-} = profileForm.fields;
+const { name: fieldName, username: fieldUsername, email: fieldEmail } = profileForm.fields;
 
 const submitting = $derived(profileForm.pending > 0);
 
@@ -40,9 +36,7 @@ const handleFormInput = () => {
 	class="flex flex-col gap-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-7 dark:border-zinc-800 dark:bg-zinc-900"
 >
 	<div class="flex flex-col gap-1">
-		<h2 class="text-base font-bold text-zinc-900 dark:text-zinc-50">
-			Información Personal
-		</h2>
+		<h2 class="text-base font-bold text-zinc-900 dark:text-zinc-50">Información Personal</h2>
 		<p class="text-xs text-zinc-500 dark:text-zinc-400">
 			Actualiza tu nombre completo, usuario y correo electrónico de contacto.
 		</p>
@@ -62,9 +56,7 @@ const handleFormInput = () => {
 						return;
 					}
 
-					notifications.showToastSuccess(
-						"¡Tus datos de perfil han sido actualizados con éxito!",
-					);
+					notifications.showToastSuccess("¡Tus datos de perfil han sido actualizados con éxito!");
 					await refreshAll();
 					return;
 				}
@@ -81,9 +73,7 @@ const handleFormInput = () => {
 					);
 				} else {
 					console.error("[PROFILE UPDATE][CONNECTION ERROR]", e);
-					notifications.showToastError(
-						"No se pudo establecer comunicación con el servidor.",
-					);
+					notifications.showToastError("No se pudo establecer comunicación con el servidor.");
 				}
 			}
 		})}
@@ -109,8 +99,7 @@ const handleFormInput = () => {
 						id="profile-name"
 						class={[
 							"min-h-11 w-full rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-white focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
-							fieldName.issues()?.length &&
-								"border-red-500 dark:border-red-400",
+							fieldName.issues()?.length && "border-red-500 dark:border-red-400",
 						]}
 						placeholder="Tu nombre completo"
 						autocomplete="name"
@@ -145,8 +134,7 @@ const handleFormInput = () => {
 						id="profile-username"
 						class={[
 							"min-h-11 w-full rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-white focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
-							fieldUsername.issues()?.length &&
-								"border-red-500 dark:border-red-400",
+							fieldUsername.issues()?.length && "border-red-500 dark:border-red-400",
 						]}
 						placeholder="usuario123"
 						autocomplete="username"
@@ -181,8 +169,7 @@ const handleFormInput = () => {
 						id="profile-email"
 						class={[
 							"min-h-11 w-full rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-white focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
-							fieldEmail.issues()?.length &&
-								"border-red-500 dark:border-red-400",
+							fieldEmail.issues()?.length && "border-red-500 dark:border-red-400",
 						]}
 						placeholder="correo@ejemplo.com"
 						autocomplete="email"

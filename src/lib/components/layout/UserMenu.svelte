@@ -3,11 +3,7 @@ import { resolve } from "$app/paths";
 
 import { LoaderCircle, LogOut, Settings, User } from "@lucide/svelte";
 
-import {
-	hasPermission,
-	ROLE_LABELS,
-	type SessionUser,
-} from "#lib/constants.ts";
+import { hasPermission, ROLE_LABELS, type SessionUser } from "#lib/constants.ts";
 import { logoutUser } from "#lib/remote/auth/auth.command.remote.ts";
 
 interface Props {
@@ -93,9 +89,7 @@ $effect(() => {
 		<span
 			class={[
 				"flex size-9 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-xs font-bold text-zinc-800 transition-all duration-150 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200",
-				isOpen
-					? "scale-105 shadow-md"
-					: "group-hover:scale-105 group-hover:shadow-md",
+				isOpen ? "scale-105 shadow-md" : "group-hover:scale-105 group-hover:shadow-md",
 			]}
 		>
 			{initials}
@@ -118,9 +112,7 @@ $effect(() => {
 					{initials}
 				</div>
 				<div class="flex min-w-0 flex-1 flex-col gap-0.5">
-					<span
-						class="truncate text-sm font-bold text-zinc-900 dark:text-zinc-50"
-					>
+					<span class="truncate text-sm font-bold text-zinc-900 dark:text-zinc-50">
 						{user.name}
 					</span>
 					<span class="truncate text-xs text-zinc-500 dark:text-zinc-400">

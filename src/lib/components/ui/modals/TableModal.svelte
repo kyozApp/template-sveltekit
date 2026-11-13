@@ -15,15 +15,7 @@ interface Props {
 	children: Snippet;
 }
 
-let {
-	isOpen,
-	onRequestClose,
-	width,
-	title,
-	subtitle,
-	icon: Icon,
-	children,
-}: Props = $props();
+let { isOpen, onRequestClose, width, title, subtitle, icon: Icon, children }: Props = $props();
 </script>
 
 <Modal {isOpen} {onRequestClose} {width}>
@@ -47,9 +39,7 @@ let {
 						>
 							{title}
 						</h2>
-						<p
-							class="text-xs font-medium text-zinc-500 sm:text-sm dark:text-zinc-400"
-						>
+						<p class="text-xs font-medium text-zinc-500 sm:text-sm dark:text-zinc-400">
 							{subtitle}
 						</p>
 					</div>
@@ -65,9 +55,7 @@ let {
 			</button>
 		</div>
 
-		<div
-			class="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 md:p-7"
-		>
+		<div class="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 md:p-7">
 			{@render children()}
 		</div>
 	</div>

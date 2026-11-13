@@ -5,10 +5,7 @@ import * as v from "valibot";
 
 import { assertPermission } from "#lib/server/auth.ts";
 import { db } from "#lib/server/db.ts";
-import {
-	userDetailSchema,
-	userListSchema,
-} from "#lib/validations/user/user.query.validation.ts";
+import { userDetailSchema, userListSchema } from "#lib/validations/user/user.query.validation.ts";
 
 /**
  * Obtiene el listado general de usuarios.
@@ -19,16 +16,7 @@ export const getUserList = query(async () => {
 
 	// 2. Consultar listado general de usuarios (excluyendo eliminados)
 	const users = await db.orm.public.User.where({ isDeleted: false })
-		.select(
-			"id",
-			"name",
-			"username",
-			"email",
-			"role",
-			"isActive",
-			"createdAt",
-			"updatedAt",
-		)
+		.select("id", "name", "username", "email", "role", "isActive", "createdAt", "updatedAt")
 		.orderBy((u) => u.createdAt.desc())
 		.all();
 
@@ -46,16 +34,7 @@ export const getUserDetails = query(userDetailSchema.params, async (data) => {
 
 	// 2. Consultar detalle del usuario en la base de datos
 	const user = await db.orm.public.User.where({ id: data.id })
-		.select(
-			"id",
-			"name",
-			"username",
-			"email",
-			"role",
-			"isActive",
-			"createdAt",
-			"updatedAt",
-		)
+		.select("id", "name", "username", "email", "role", "isActive", "createdAt", "updatedAt")
 		.first();
 
 	// 3. Validar existencia del registro

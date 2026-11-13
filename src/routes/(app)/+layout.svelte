@@ -37,16 +37,11 @@ $effect(() => {
 
 			// Si no está autenticado, la sesión ya no existe
 			if (!result.authenticated) {
-				handleLogout(
-					"Tu sesión diaria ha expirado o fue cerrada desde otro dispositivo.",
-				);
+				handleLogout("Tu sesión diaria ha expirado o fue cerrada desde otro dispositivo.");
 			}
 		} catch (e) {
 			// Tolerancia offline: Ignoramos fallos temporales de conexión
-			console.warn(
-				"[SESSION WATCHDOG]: Error temporal de conexión al validar sesión.",
-				e,
-			);
+			console.warn("[SESSION WATCHDOG]: Error temporal de conexión al validar sesión.", e);
 		}
 	};
 
@@ -106,12 +101,8 @@ $effect(() => {
 	class="flex min-h-dvh w-full overflow-x-hidden bg-zinc-50 text-zinc-800 dark:bg-zinc-950 dark:text-zinc-100"
 >
 	{#if navigating.to}
-		<div
-			class="fixed top-0 left-0 z-50 h-0.5 w-full bg-zinc-300 dark:bg-zinc-700"
-		>
-			<div
-				class="h-full w-full origin-left animate-pulse bg-zinc-900 dark:bg-zinc-100"
-			></div>
+		<div class="fixed top-0 left-0 z-50 h-0.5 w-full bg-zinc-300 dark:bg-zinc-700">
+			<div class="size-full origin-left animate-pulse bg-zinc-900 dark:bg-zinc-100"></div>
 		</div>
 	{/if}
 

@@ -15,26 +15,14 @@ interface Props {
 	children: Snippet;
 }
 
-let {
-	isOpen,
-	onRequestClose,
-	width,
-	title,
-	subtitle,
-	icon: Icon,
-	children,
-}: Props = $props();
+let { isOpen, onRequestClose, width, title, subtitle, icon: Icon, children }: Props = $props();
 </script>
 
 <Modal {isOpen} {onRequestClose} {width}>
-	<div
-		class="flex w-full flex-col overflow-hidden rounded-2xl bg-white dark:bg-zinc-900"
-	>
+	<div class="flex w-full flex-col overflow-hidden rounded-2xl bg-white dark:bg-zinc-900">
 		<div class="relative shrink-0">
 			<div class="relative bg-white dark:bg-zinc-900">
-				<div
-					class="relative flex items-center justify-between gap-4 px-5 py-4 sm:px-8 sm:py-5"
-				>
+				<div class="relative flex items-center justify-between gap-4 px-5 py-4 sm:px-8 sm:py-5">
 					<div class="flex flex-1 items-center gap-3 sm:gap-3.5">
 						<span
 							class="flex size-10 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-600 sm:size-11 sm:rounded-2xl dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
@@ -48,9 +36,7 @@ let {
 							>
 								{title}
 							</h2>
-							<p
-								class="text-xs font-medium text-zinc-500 sm:text-sm dark:text-zinc-400"
-							>
+							<p class="text-xs font-medium text-zinc-500 sm:text-sm dark:text-zinc-400">
 								{subtitle}
 							</p>
 						</div>

@@ -4,9 +4,7 @@ import { db } from "../prisma/db.js";
  * Responsabilidad única: Operación en base de datos.
  * Elimina de PostgreSQL las sesiones expiradas antes de la fecha indicada.
  */
-const deleteExpiredSessions = async (
-	beforeIsoDate: string,
-): Promise<number> => {
+const deleteExpiredSessions = async (beforeIsoDate: string): Promise<number> => {
 	const deletedCount = await db.orm.public.Session.where((s) =>
 		s.expiresAt.lt(beforeIsoDate),
 	).deleteAndCount();
@@ -28,14 +26,9 @@ export const runSessionCleanup = async (): Promise<void> => {
 
 		// 3. Notificar en consola si se realizaron eliminaciones
 		if (deletedCount > 0) {
-			console.info(
-				`[Session Cleanup] Se eliminaron ${deletedCount} sesiones expiradas.`,
-			);
+			console.info(`[Session Cleanup] Se eliminaron ${deletedCount} sesiones expiradas.`);
 		}
 	} catch (error) {
-		console.error(
-			"[ERROR] [Session Cleanup]: Fallo al depurar sesiones:",
-			error,
-		);
+		console.error("[ERROR] [Session Cleanup]: Fallo al depurar sesiones:", error);
 	}
 };

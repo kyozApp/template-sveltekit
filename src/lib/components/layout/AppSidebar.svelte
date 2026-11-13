@@ -29,9 +29,7 @@ let { isSidebarOpen = $bindable(), user }: Props = $props();
 <aside
 	class={[
 		"fixed top-0 left-0 z-40 flex h-dvh shrink-0 flex-col border-r border-zinc-200 bg-white transition-all duration-250 ease-in-out md:sticky md:z-35 dark:border-zinc-800 dark:bg-zinc-900",
-		isSidebarOpen
-			? "w-65 translate-x-0"
-			: "-translate-x-full md:w-20 md:translate-x-0",
+		isSidebarOpen ? "w-65 translate-x-0" : "-translate-x-full md:w-20 md:translate-x-0",
 	]}
 >
 	<div
@@ -46,10 +44,8 @@ let { isSidebarOpen = $bindable(), user }: Props = $props();
 			aria-label="Ir al panel principal"
 			in:fly={{ y: 4, duration: 300 }}
 		>
-			<span
-				class="flex items-center justify-center text-zinc-900 dark:text-zinc-100"
-			>
-				<img src={logo} alt="Logo de la aplicación" class="h-7 w-7">
+			<span class="flex items-center justify-center text-zinc-900 dark:text-zinc-100">
+				<img src={logo} alt="Logo de la aplicación" class="size-7">
 			</span>
 			{#if isSidebarOpen}
 				<span

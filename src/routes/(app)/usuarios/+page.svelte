@@ -16,7 +16,7 @@ let { data }: PageProps = $props();
 </svelte:head>
 
 <div
-	class="flex w-full flex-col gap-6 px-2 py-3 pb-8 text-zinc-900 md:gap-8 md:px-5 md:py-5 md:pb-10 dark:text-zinc-100"
+	class="flex w-full flex-col gap-6 px-2 py-3 pb-8 text-zinc-900 md:gap-8 md:p-5 md:pb-10 dark:text-zinc-100"
 	in:fly={{ y: 8, duration: 350 }}
 >
 	<header
@@ -29,17 +29,12 @@ let { data }: PageProps = $props();
 				<Shield size={14} />
 				Gestión de Accesos
 			</span>
-			<p
-				class="m-0 max-w-xl text-xs leading-relaxed font-medium text-zinc-500 dark:text-zinc-400"
-			>
-				Administra y gestiona los accesos, roles y cuentas del personal
-				registrado.
+			<p class="m-0 max-w-xl text-xs leading-relaxed font-medium text-zinc-500 dark:text-zinc-400">
+				Administra y gestiona los accesos, roles y cuentas del personal registrado.
 			</p>
 		</div>
 
-		<div
-			class="flex w-full flex-wrap items-center justify-start gap-3 md:w-auto md:justify-end"
-		>
+		<div class="flex w-full flex-wrap items-center justify-start gap-3 md:w-auto md:justify-end">
 			<button
 				type="button"
 				onclick={() => {

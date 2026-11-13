@@ -12,10 +12,7 @@ export const userCreateSchema = {
 			v.trim(),
 			v.nonEmpty("El nombre completo es obligatorio."),
 			v.minLength(3, "El nombre completo debe tener al menos 3 letras."),
-			v.maxLength(
-				255,
-				"El nombre completo no puede superar los 255 caracteres.",
-			),
+			v.maxLength(255, "El nombre completo no puede superar los 255 caracteres."),
 		),
 		username: v.pipe(
 			v.string("El usuario ingresado no es válido."),
@@ -23,23 +20,15 @@ export const userCreateSchema = {
 			v.toLowerCase(),
 			v.nonEmpty("El usuario es obligatorio."),
 			v.minLength(3, "El usuario debe tener al menos 3 caracteres."),
-			v.maxLength(
-				255,
-				"El nombre de usuario no puede superar los 255 caracteres.",
-			),
+			v.maxLength(255, "El nombre de usuario no puede superar los 255 caracteres."),
 		),
 		email: v.pipe(
 			v.string("El correo electrónico ingresado no es válido."),
 			v.trim(),
 			v.toLowerCase(),
 			v.nonEmpty("El correo electrónico es obligatorio."),
-			v.email(
-				"Ingresa un correo electrónico válido (ejemplo: nombre@correo.com).",
-			),
-			v.maxLength(
-				255,
-				"El correo electrónico no puede superar los 255 caracteres.",
-			),
+			v.email("Ingresa un correo electrónico válido (ejemplo: nombre@correo.com)."),
+			v.maxLength(255, "El correo electrónico no puede superar los 255 caracteres."),
 		),
 		password: v.pipe(
 			v.string("La contraseña ingresada no es válida."),
@@ -63,9 +52,7 @@ export type UserCreateBody = v.InferOutput<typeof userCreateSchema.body>;
 export const userUpdateSchema = {
 	body: v.object({
 		id: v.pipe(
-			v.string(
-				"El identificador de usuario no es válido y debe ser un string.",
-			),
+			v.string("El identificador de usuario no es válido y debe ser un string."),
 			v.uuid("El identificador de usuario no es un UUID válido."),
 		),
 		name: v.pipe(
@@ -73,10 +60,7 @@ export const userUpdateSchema = {
 			v.trim(),
 			v.nonEmpty("El nombre completo es obligatorio."),
 			v.minLength(3, "El nombre completo debe tener al menos 3 letras."),
-			v.maxLength(
-				255,
-				"El nombre completo no puede superar los 255 caracteres.",
-			),
+			v.maxLength(255, "El nombre completo no puede superar los 255 caracteres."),
 		),
 		username: v.pipe(
 			v.string("El usuario ingresado no es válido."),
@@ -84,23 +68,15 @@ export const userUpdateSchema = {
 			v.toLowerCase(),
 			v.nonEmpty("El usuario es obligatorio."),
 			v.minLength(3, "El usuario debe tener al menos 3 caracteres."),
-			v.maxLength(
-				255,
-				"El nombre de usuario no puede superar los 255 caracteres.",
-			),
+			v.maxLength(255, "El nombre de usuario no puede superar los 255 caracteres."),
 		),
 		email: v.pipe(
 			v.string("El correo electrónico ingresado no es válido."),
 			v.trim(),
 			v.toLowerCase(),
 			v.nonEmpty("El correo electrónico es obligatorio."),
-			v.email(
-				"Ingresa un correo electrónico válido (ejemplo: nombre@correo.com).",
-			),
-			v.maxLength(
-				255,
-				"El correo electrónico no puede superar los 255 caracteres.",
-			),
+			v.email("Ingresa un correo electrónico válido (ejemplo: nombre@correo.com)."),
+			v.maxLength(255, "El correo electrónico no puede superar los 255 caracteres."),
 		),
 		password: v.optional(
 			v.pipe(
@@ -111,14 +87,8 @@ export const userUpdateSchema = {
 					v.undefined(),
 					v.pipe(
 						v.string(),
-						v.minLength(
-							8,
-							"La contraseña debe tener al menos 8 letras o números.",
-						),
-						v.maxLength(
-							255,
-							"La contraseña no puede superar los 255 caracteres.",
-						),
+						v.minLength(8, "La contraseña debe tener al menos 8 letras o números."),
+						v.maxLength(255, "La contraseña no puede superar los 255 caracteres."),
 					),
 				]),
 			),

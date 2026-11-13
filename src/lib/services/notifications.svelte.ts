@@ -80,11 +80,7 @@ class NotificationService {
 	/**
 	 * Muestra un Alert (modal central) de forma interna.
 	 */
-	private showAlert(
-		type: NotificationType,
-		title: string,
-		message: string,
-	): void {
+	private showAlert(type: NotificationType, title: string, message: string): void {
 		this.alert.title = title;
 		this.alert.message = message;
 		this.alert.type = type;
@@ -94,27 +90,15 @@ class NotificationService {
 	/** --- API PÚBLICA --- **/
 
 	/** Métodos de Toast (Sonner) **/
-	showToastSuccess(
-		message: string,
-		duration?: number,
-		position?: ToastPosition,
-	): void {
+	showToastSuccess(message: string, duration?: number, position?: ToastPosition): void {
 		this.showToast("success", message, duration, position);
 	}
 
-	showToastWarning(
-		message: string,
-		duration?: number,
-		position?: ToastPosition,
-	): void {
+	showToastWarning(message: string, duration?: number, position?: ToastPosition): void {
 		this.showToast("warning", message, duration, position);
 	}
 
-	showToastError(
-		message: string,
-		duration?: number,
-		position?: ToastPosition,
-	): void {
+	showToastError(message: string, duration?: number, position?: ToastPosition): void {
 		this.showToast("error", message, duration, position);
 	}
 

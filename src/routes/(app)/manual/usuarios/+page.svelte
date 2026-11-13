@@ -1,11 +1,5 @@
 <script lang="ts">
-import {
-	ChevronDown,
-	KeyRound,
-	Pencil,
-	ToggleRight,
-	UserPlus,
-} from "@lucide/svelte";
+import { ChevronDown, KeyRound, Pencil, ToggleRight, UserPlus } from "@lucide/svelte";
 
 const faqs = [
 	{
@@ -31,19 +25,13 @@ const faqs = [
 	<title>Usuarios · Centro de Ayuda</title>
 </svelte:head>
 
-<header
-	class="flex flex-col gap-1 border-b border-zinc-200 pb-5 sm:pb-6 dark:border-zinc-800"
->
-	<h1
-		class="text-2xl font-extrabold tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-100"
-	>
+<header class="flex flex-col gap-1 border-b border-zinc-200 pb-5 sm:pb-6 dark:border-zinc-800">
+	<h1 class="text-2xl font-extrabold tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-100">
 		Usuarios
 	</h1>
-	<p
-		class="text-sm leading-relaxed font-normal text-zinc-500 md:text-base dark:text-zinc-400"
-	>
-		Gestión de colaboradores, alta, edición, control de estado activo/inactivo y
-		preguntas frecuentes.
+	<p class="text-sm leading-relaxed font-normal text-zinc-500 md:text-base dark:text-zinc-400">
+		Gestión de colaboradores, alta, edición, control de estado activo/inactivo y preguntas
+		frecuentes.
 	</p>
 </header>
 
@@ -51,17 +39,12 @@ const faqs = [
 	<!-- 1. Listar Usuarios y Cambio de Estado -->
 	<section id="listar-estados" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
-			<h3
-				class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100"
-			>
+			<h3 class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100">
 				1. Listar Usuarios y Cambio de Estado
 			</h3>
-			<p
-				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
-			>
-				La tabla principal de usuarios permite consultar a todo el personal
-				registrado y controlar en vivo su acceso al sistema mediante el
-				interruptor de estado:
+			<p class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400">
+				La tabla principal de usuarios permite consultar a todo el personal registrado y controlar
+				en vivo su acceso al sistema mediante el interruptor de estado:
 			</p>
 		</div>
 
@@ -75,9 +58,7 @@ const faqs = [
 					<ToggleRight size={20} />
 				</span>
 				<div>
-					<h4
-						class="m-0 text-sm font-bold text-zinc-900 sm:text-base dark:text-zinc-100"
-					>
+					<h4 class="m-0 text-sm font-bold text-zinc-900 sm:text-base dark:text-zinc-100">
 						Control de Estado (Activo / Inactivo)
 					</h4>
 					<span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
@@ -89,8 +70,8 @@ const faqs = [
 			<p
 				class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 sm:text-sm dark:text-zinc-400"
 			>
-				En la columna <strong>Estado</strong> de cada colaborador encontrarás un
-				interruptor deslizante para gestionar su acceso de forma inmediata:
+				En la columna <strong>Estado</strong> de cada colaborador encontrarás un interruptor
+				deslizante para gestionar su acceso de forma inmediata:
 			</p>
 
 			<ol
@@ -113,22 +94,19 @@ const faqs = [
 				<li>
 					<strong>Suspensión en vivo (Inactivo):</strong>
 					Al cambiar el estado a
-					<em>Inactivo</em>, el sistema cancela y expulsa inmediatamente todas
-					las sesiones activas que el usuario tenga abiertas en cualquier
-					dispositivo, impidiéndole volver a iniciar sesión.
+					<em>Inactivo</em>, el sistema cancela y expulsa inmediatamente todas las sesiones activas
+					que el usuario tenga abiertas en cualquier dispositivo, impidiéndole volver a iniciar
+					sesión.
 				</li>
 				<li>
 					<strong>Reactivación inmediata (Activo):</strong>
-					Para devolverle el acceso al personal reincorporado, vuelve a pulsar
-					el interruptor a
-					<em>Activo</em>. Sus credenciales funcionarán de nuevo sin necesidad
-					de reconfigurarlas.
+					Para devolverle el acceso al personal reincorporado, vuelve a pulsar el interruptor a
+					<em>Activo</em>. Sus credenciales funcionarán de nuevo sin necesidad de reconfigurarlas.
 				</li>
 				<li>
 					<strong>Protección de auto-bloqueo:</strong>
-					Por seguridad, el interruptor se encuentra deshabilitado en tu propia
-					fila de usuario para evitar que desactives accidentalmente tu propia
-					cuenta administrativa.
+					Por seguridad, el interruptor se encuentra deshabilitado en tu propia fila de usuario para
+					evitar que desactives accidentalmente tu propia cuenta administrativa.
 				</li>
 			</ol>
 		</div>
@@ -137,16 +115,11 @@ const faqs = [
 	<!-- 2. Crear Nuevo Usuario -->
 	<section id="crear-usuario" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
-			<h3
-				class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100"
-			>
+			<h3 class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100">
 				2. Registrar un Nuevo Colaborador
 			</h3>
-			<p
-				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
-			>
-				Procedimiento para dar de alta a un nuevo integrante del equipo en la
-				plataforma:
+			<p class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400">
+				Procedimiento para dar de alta a un nuevo integrante del equipo en la plataforma:
 			</p>
 		</div>
 
@@ -160,9 +133,7 @@ const faqs = [
 					<UserPlus size={20} />
 				</span>
 				<div>
-					<h4
-						class="m-0 text-sm font-bold text-zinc-900 sm:text-base dark:text-zinc-100"
-					>
+					<h4 class="m-0 text-sm font-bold text-zinc-900 sm:text-base dark:text-zinc-100">
 						Formulario de Alta de Usuario
 					</h4>
 					<span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
@@ -184,17 +155,13 @@ const faqs = [
 					</span>
 					ubicado en la cabecera superior derecha.
 				</li>
+				<li>Completa el <strong>Nombre Completo</strong> del colaborador (ej. "Juan Pérez").</li>
 				<li>
-					Completa el <strong>Nombre Completo</strong> del colaborador (ej.
-					"Juan Pérez").
+					Define un <strong>Nombre de Usuario</strong> único para su inicio de sesión (ej.
+					"jperez").
 				</li>
 				<li>
-					Define un <strong>Nombre de Usuario</strong> único para su inicio de
-					sesión (ej. "jperez").
-				</li>
-				<li>
-					Ingresa su <strong>Correo Electrónico Corporativo</strong>. Debe ser
-					único en el sistema.
+					Ingresa su <strong>Correo Electrónico Corporativo</strong>. Debe ser único en el sistema.
 				</li>
 				<li>
 					Selecciona el <strong>Rol</strong> adecuado:
@@ -209,13 +176,10 @@ const faqs = [
 						</li>
 					</ul>
 				</li>
+				<li>Asigna una <strong>Contraseña Inicial</strong> segura (mínimo 8 caracteres).</li>
 				<li>
-					Asigna una <strong>Contraseña Inicial</strong> segura (mínimo 8
-					caracteres).
-				</li>
-				<li>
-					Presiona <strong>"Crear Usuario"</strong>. Por defecto, todo usuario
-					nuevo se registra en estado <strong>Activo</strong> listo para operar.
+					Presiona <strong>"Crear Usuario"</strong>. Por defecto, todo usuario nuevo se registra en
+					estado <strong>Activo</strong> listo para operar.
 				</li>
 			</ol>
 		</div>
@@ -224,16 +188,12 @@ const faqs = [
 	<!-- 3. Editar Usuario y Resetear Claves -->
 	<section id="editar-usuario" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
-			<h3
-				class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100"
-			>
+			<h3 class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100">
 				3. Modificar Datos y Resetear Contraseñas
 			</h3>
-			<p
-				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
-			>
-				Instrucciones para corregir información del colaborador o asistir en la
-				recuperación de acceso:
+			<p class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400">
+				Instrucciones para corregir información del colaborador o asistir en la recuperación de
+				acceso:
 			</p>
 		</div>
 
@@ -247,9 +207,7 @@ const faqs = [
 					<KeyRound size={20} />
 				</span>
 				<div>
-					<h4
-						class="m-0 text-sm font-bold text-zinc-900 sm:text-base dark:text-zinc-100"
-					>
+					<h4 class="m-0 text-sm font-bold text-zinc-900 sm:text-base dark:text-zinc-100">
 						Actualización de Perfil y Claves
 					</h4>
 					<span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
@@ -272,30 +230,27 @@ const faqs = [
 				</li>
 				<li>
 					<strong>Modificar datos personales:</strong>
-					Puedes corregir el nombre, nombre de usuario, correo electrónico o
-					cambiar el rol asignado.
+					Puedes corregir el nombre, nombre de usuario, correo electrónico o cambiar el rol
+					asignado.
 				</li>
 				<li>
 					<strong>Resetear contraseña olvidada:</strong>
-					Si el colaborador no recuerda su contraseña, escribe una nueva clave
-					en el campo
+					Si el colaborador no recuerda su contraseña, escribe una nueva clave en el campo
 					<em>"Nueva Contraseña"</em>.
 				</li>
 				<li>
 					<strong>Conservar contraseña actual:</strong>
 					Si solo deseas cambiar el nombre, correo o rol, deja el campo
 					<em>"Nueva Contraseña"</em>
-					completamente en blanco; su clave anterior continuará funcionando sin
-					cambios.
+					completamente en blanco; su clave anterior continuará funcionando sin cambios.
 				</li>
 				<li>
 					<strong>Reglas de auto-protección:</strong>
-					Cuando edites tu propio usuario, el sistema protegerá tu rol y tu
-					estado activo para evitar auto-bloqueos.
+					Cuando edites tu propio usuario, el sistema protegerá tu rol y tu estado activo para
+					evitar auto-bloqueos.
 				</li>
 				<li>
-					Haz clic en <strong>"Guardar Cambios"</strong> para actualizar el
-					registro en tiempo real.
+					Haz clic en <strong>"Guardar Cambios"</strong> para actualizar el registro en tiempo real.
 				</li>
 			</ol>
 		</div>
@@ -304,16 +259,12 @@ const faqs = [
 	<!-- 4. Preguntas Frecuentes de Usuarios -->
 	<section id="faqs" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
-			<h3
-				class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100"
-			>
+			<h3 class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100">
 				Preguntas Frecuentes sobre Usuarios
 			</h3>
-			<p
-				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
-			>
-				Respuestas a las situaciones más comunes durante la administración de
-				cuentas de colaboradores:
+			<p class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400">
+				Respuestas a las situaciones más comunes durante la administración de cuentas de
+				colaboradores:
 			</p>
 		</div>
 

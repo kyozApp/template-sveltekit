@@ -149,12 +149,9 @@ $effect(() => {
 			"z-toast pointer-events-none fixed inset-auto m-0 flex w-full max-w-[calc(100%-2rem)] flex-col gap-3 overflow-visible border-0 bg-transparent p-0 sm:max-w-95",
 			pos === "top-left" && "top-4 left-4 sm:top-8 sm:left-8",
 			pos === "top-right" && "top-4 right-4 sm:top-8 sm:right-8",
-			pos === "top-center" &&
-				"top-4 left-1/2 -translate-x-1/2 items-center sm:top-8",
-			pos === "bottom-left" &&
-				"bottom-4 left-4 flex-col-reverse sm:bottom-8 sm:left-8",
-			pos === "bottom-right" &&
-				"right-4 bottom-4 flex-col-reverse sm:right-8 sm:bottom-8",
+			pos === "top-center" && "top-4 left-1/2 -translate-x-1/2 items-center sm:top-8",
+			pos === "bottom-left" && "bottom-4 left-4 flex-col-reverse sm:bottom-8 sm:left-8",
+			pos === "bottom-right" && "right-4 bottom-4 flex-col-reverse sm:right-8 sm:bottom-8",
 			pos === "bottom-center" &&
 				"bottom-4 left-1/2 -translate-x-1/2 flex-col-reverse items-center sm:bottom-8",
 		]}
@@ -167,8 +164,7 @@ $effect(() => {
 						"border-emerald-200 shadow-emerald-500/5 dark:border-emerald-900/60",
 					toast.type === "warning" &&
 						"border-amber-200 shadow-amber-500/5 dark:border-amber-900/60",
-					toast.type === "error" &&
-						"border-red-200 shadow-red-500/5 dark:border-red-900/60",
+					toast.type === "error" && "border-red-200 shadow-red-500/5 dark:border-red-900/60",
 				]}
 				transition:fly={{ y: pos.startsWith("top") ? -40 : 40, duration: 350 }}
 				role="status"
@@ -247,12 +243,9 @@ $effect(() => {
 		<div
 			class={[
 				"relative flex w-full max-w-md flex-col items-center overflow-hidden rounded-3xl border bg-white p-8 text-center shadow-2xl backdrop-blur-2xl dark:bg-zinc-900",
-				notifications.alert.type === "success" &&
-					"border-emerald-200 dark:border-emerald-900/60",
-				notifications.alert.type === "warning" &&
-					"border-amber-200 dark:border-amber-900/60",
-				notifications.alert.type === "error" &&
-					"border-red-200 dark:border-red-900/60",
+				notifications.alert.type === "success" && "border-emerald-200 dark:border-emerald-900/60",
+				notifications.alert.type === "warning" && "border-amber-200 dark:border-amber-900/60",
+				notifications.alert.type === "error" && "border-red-200 dark:border-red-900/60",
 			]}
 			transition:scale={{ start: 0.9, duration: 250 }}
 			role="alertdialog"
@@ -263,10 +256,8 @@ $effect(() => {
 			<div
 				class={[
 					"absolute inset-x-0 top-0 h-1.5",
-					notifications.alert.type === "success" &&
-						"bg-emerald-500 dark:bg-emerald-400",
-					notifications.alert.type === "warning" &&
-						"bg-amber-500 dark:bg-amber-400",
+					notifications.alert.type === "success" && "bg-emerald-500 dark:bg-emerald-400",
+					notifications.alert.type === "warning" && "bg-amber-500 dark:bg-amber-400",
 					notifications.alert.type === "error" && "bg-red-500 dark:bg-red-400",
 				]}
 			></div>
@@ -300,10 +291,7 @@ $effect(() => {
 			</div>
 
 			<div class="mt-3 w-full">
-				<p
-					id="alert-desc"
-					class="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400"
-				>
+				<p id="alert-desc" class="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
 					{notifications.alert.message}
 				</p>
 			</div>
@@ -347,9 +335,7 @@ $effect(() => {
 			aria-labelledby="confirm-title"
 			aria-describedby="confirm-desc"
 		>
-			<div
-				class="absolute inset-x-0 top-0 h-1.5 bg-amber-500 dark:bg-amber-400"
-			></div>
+			<div class="absolute inset-x-0 top-0 h-1.5 bg-amber-500 dark:bg-amber-400"></div>
 
 			<div class="flex w-full flex-col items-center gap-3">
 				<div
@@ -366,10 +352,7 @@ $effect(() => {
 			</div>
 
 			<div class="mt-3 w-full">
-				<p
-					id="confirm-desc"
-					class="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400"
-				>
+				<p id="confirm-desc" class="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
 					{notifications.confirmState.message}
 				</p>
 			</div>

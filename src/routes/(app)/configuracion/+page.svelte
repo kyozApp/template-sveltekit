@@ -47,14 +47,11 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 			<Settings class="size-6 sm:size-7" />
 		</div>
 		<div class="flex flex-col gap-1">
-			<h1
-				class="text-lg font-extrabold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-50"
-			>
+			<h1 class="text-lg font-extrabold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-50">
 				Configuración del Sistema
 			</h1>
 			<p class="text-xs text-zinc-500 dark:text-zinc-400">
-				Parámetros globales, políticas de seguridad y monitoreo operacional de
-				la plataforma.
+				Parámetros globales, políticas de seguridad y monitoreo operacional de la plataforma.
 			</p>
 		</div>
 	</header>
@@ -110,10 +107,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 	<!-- Contenido de la pestaña activa -->
 	<main class="flex flex-col">
 		{#if activeTab === "general"}
-			<div
-				class="grid grid-cols-1 gap-5 md:grid-cols-2"
-				in:fly={{ y: 6, duration: 250 }}
-			>
+			<div class="grid grid-cols-1 gap-5 md:grid-cols-2" in:fly={{ y: 6, duration: 250 }}>
 				<div
 					class="flex gap-3.5 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:gap-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
 				>
@@ -133,29 +127,19 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 							class="mt-2 flex flex-col gap-2.5 border-t border-zinc-200 pt-3 dark:border-zinc-800"
 						>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Aplicación:</span
-								>
-								<span
-									class="font-mono font-semibold text-zinc-900 dark:text-zinc-100"
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Aplicación:</span>
+								<span class="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
 									Template SvelteKit
 								</span>
 							</div>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Versión de Arquitectura:</span
-								>
-								<span
-									class="font-mono font-semibold text-zinc-900 dark:text-zinc-100"
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Versión de Arquitectura:</span>
+								<span class="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
 									SvelteKit 3 / Svelte 5
 								</span>
 							</div>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Zona Horaria:</span
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Zona Horaria:</span>
 								<span class="font-semibold text-zinc-900 dark:text-zinc-100">
 									America/Lima (UTC-5)
 								</span>
@@ -184,26 +168,18 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 						>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400">Motor:</span>
-								<span
-									class="font-mono font-semibold text-zinc-900 dark:text-zinc-100"
-								>
+								<span class="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
 									PostgreSQL 17+
 								</span>
 							</div>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Driver ORM:</span
-								>
-								<span
-									class="font-mono font-semibold text-zinc-900 dark:text-zinc-100"
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Driver ORM:</span>
+								<span class="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
 									@prisma/orm-postgres (v8)
 								</span>
 							</div>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Migraciones:</span
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Migraciones:</span>
 								<span
 									class="inline-flex shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide whitespace-nowrap text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
 								>
@@ -215,10 +191,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 				</div>
 			</div>
 		{:else if activeTab === "security"}
-			<div
-				class="grid grid-cols-1 gap-5 md:grid-cols-2"
-				in:fly={{ y: 6, duration: 250 }}
-			>
+			<div class="grid grid-cols-1 gap-5 md:grid-cols-2" in:fly={{ y: 6, duration: 250 }}>
 				<div
 					class="flex gap-3.5 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:gap-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
 				>
@@ -238,29 +211,19 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 							class="mt-2 flex flex-col gap-2.5 border-t border-zinc-200 pt-3 dark:border-zinc-800"
 						>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Algoritmo de Hashing:</span
-								>
-								<span
-									class="font-mono font-semibold text-zinc-900 dark:text-zinc-100"
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Algoritmo de Hashing:</span>
+								<span class="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
 									Argon2id
 								</span>
 							</div>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Cookies de Sesión:</span
-								>
-								<span
-									class="font-mono font-semibold text-zinc-900 dark:text-zinc-100"
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Cookies de Sesión:</span>
+								<span class="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
 									HttpOnly, SameSite=Lax
 								</span>
 							</div>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>TTL de Sesión:</span
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">TTL de Sesión:</span>
 								<span class="font-semibold text-zinc-900 dark:text-zinc-100">
 									24 horas continuas
 								</span>
@@ -278,41 +241,30 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 						<Activity size={20} />
 					</div>
 					<div class="flex min-w-0 flex-1 flex-col gap-2">
-						<h3 class="text-base font-bold text-zinc-900 dark:text-zinc-100">
-							Watchdog de Sesión
-						</h3>
+						<h3 class="text-base font-bold text-zinc-900 dark:text-zinc-100">Watchdog de Sesión</h3>
 						<p class="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-							Monitoreo activo para invalidación inmediata de cuentas
-							desactivadas.
+							Monitoreo activo para invalidación inmediata de cuentas desactivadas.
 						</p>
 						<div
 							class="mt-2 flex flex-col gap-2.5 border-t border-zinc-200 pt-3 dark:border-zinc-800"
 						>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Frecuencia de Polling:</span
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Frecuencia de Polling:</span>
 								<span class="font-semibold text-zinc-900 dark:text-zinc-100">
 									Cada 60 segundos
 								</span>
 							</div>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Revisión en Foco:</span
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Revisión en Foco:</span>
 								<span
 									class="inline-flex shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide whitespace-nowrap text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
 								>
 									<span class="sm:hidden">Activo</span
-									><span class="hidden sm:inline"
-										>Activo (visibilitychange)</span
-									>
+									><span class="hidden sm:inline">Activo (visibilitychange)</span>
 								</span>
 							</div>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Revocación Automática:</span
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Revocación Automática:</span>
 								<span
 									class="inline-flex shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide whitespace-nowrap text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
 								>
@@ -324,10 +276,7 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 				</div>
 			</div>
 		{:else if activeTab === "system"}
-			<div
-				class="grid grid-cols-1 gap-5 md:grid-cols-2"
-				in:fly={{ y: 6, duration: 250 }}
-			>
+			<div class="grid grid-cols-1 gap-5 md:grid-cols-2" in:fly={{ y: 6, duration: 250 }}>
 				<div
 					class="flex gap-3.5 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:gap-4 sm:p-6 dark:border-zinc-800 dark:bg-zinc-900"
 				>
@@ -348,25 +297,19 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 						>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
 								<span class="text-zinc-500 dark:text-zinc-400">Proceso:</span>
-								<span
-									class="font-mono font-semibold text-zinc-900 dark:text-zinc-100"
-								>
+								<span class="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
 									build/worker.js
 								</span>
 							</div>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Limpieza de Sesiones:</span
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Limpieza de Sesiones:</span>
 								<span class="font-semibold text-zinc-900 dark:text-zinc-100">
 									<span class="sm:hidden">03:00 AM diaria</span
 									><span class="hidden sm:inline">Diario a las 03:00 AM</span>
 								</span>
 							</div>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Estado de Ejecución:</span
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Estado de Ejecución:</span>
 								<span
 									class="inline-flex shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold tracking-wide whitespace-nowrap text-emerald-700 uppercase dark:bg-emerald-950/60 dark:text-emerald-300"
 								>
@@ -396,20 +339,14 @@ const handleSelectTab = (tab: "general" | "security" | "system") => {
 							class="mt-2 flex flex-col gap-2.5 border-t border-zinc-200 pt-3 dark:border-zinc-800"
 						>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Estructura Modular:</span
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Estructura Modular:</span>
 								<span class="font-semibold text-zinc-900 dark:text-zinc-100">
 									Pestañas dinámicas
 								</span>
 							</div>
 							<div class="flex items-baseline justify-between gap-2.5 text-xs">
-								<span class="text-zinc-500 dark:text-zinc-400"
-									>Nivel de Acceso:</span
-								>
-								<span
-									class="font-mono font-semibold text-zinc-900 dark:text-zinc-100"
-								>
+								<span class="text-zinc-500 dark:text-zinc-400">Nivel de Acceso:</span>
+								<span class="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
 									{settingsAccessLabel}
 								</span>
 							</div>

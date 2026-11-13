@@ -21,9 +21,7 @@ const handleToggle = async () => {
 	try {
 		await toggleUserStatus({ id: userId });
 
-		notifications.showToastSuccess(
-			`Usuario ${!isActive ? "activado" : "desactivado"} con éxito.`,
-		);
+		notifications.showToastSuccess(`Usuario ${!isActive ? "activado" : "desactivado"} con éxito.`);
 	} catch (e) {
 		if (isHttpError(e)) {
 			console.error("[USER TOGGLE STATUS][HTTP ERROR]", e);
@@ -51,9 +49,7 @@ const handleToggle = async () => {
 	disabled={isSubmitting}
 	class={[
 		"relative inline-flex h-7.5 w-13.5 shrink-0 cursor-pointer items-center rounded-full border border-zinc-300 p-0.5 transition-colors duration-250 ease-in-out disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-700",
-		isActive
-			? "bg-emerald-600 dark:bg-emerald-500"
-			: "bg-zinc-200 dark:bg-zinc-800",
+		isActive ? "bg-emerald-600 dark:bg-emerald-500" : "bg-zinc-200 dark:bg-zinc-800",
 	]}
 >
 	<span
@@ -62,7 +58,5 @@ const handleToggle = async () => {
 			isActive ? "translate-x-6" : "translate-x-0.5",
 		]}
 	></span>
-	<span class="sr-only">
-		Estado del usuario: {isActive ? "Activo" : "Inactivo"}
-	</span>
+	<span class="sr-only"> Estado del usuario: {isActive ? "Activo" : "Inactivo"} </span>
 </button>

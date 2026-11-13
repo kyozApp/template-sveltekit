@@ -12,6 +12,4 @@ export const profileRevokeSessionSchema = {
 	}),
 };
 
-export type ProfileRevokeSessionBody = v.InferOutput<
-	typeof profileRevokeSessionSchema.body
->;
+export type ProfileRevokeSessionBody = v.InferOutput<typeof profileRevokeSessionSchema.body>;

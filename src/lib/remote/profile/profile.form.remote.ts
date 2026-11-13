@@ -70,55 +70,49 @@ export const updateProfile = form(profileUpdateSchema.body, async (data) => {
 /**
  * Cambia la contraseña del usuario en sesión y revoca todas las demás sesiones activas.
  */
-export const changeProfilePassword = form(
-	profilePasswordChangeSchema.body,
-	async (data) => {
-		// 1. Validar autenticación
-		const actor = assertAuthenticated();
+export const changeProfilePassword = form(profilePasswordChangeSchema.body, async (data) => {
+	// 1. Validar autenticación
+	const actor = assertAuthenticated();
 
-		// 2. Obtener credenciales actuales del usuario
-		const user = await db.orm.public.User.where({
-			id: actor.user.id,
-		}).first();
-		if (!user) {
-			return {
-				success: false,
-				error: "Usuario no encontrado.",
-			};
+	// 2. Obtener credenciales actuales del usuario
+	const user = await db.orm.public.User.where({
+		id: actor.user.id,
+	}).first();
+	if (!user) {
+		return {
+			success: false,
+			error: "Usuario no encontrado.",
+		};
+	}
+
+	// 3. Verificar contraseña actual con Argon2
+	const isPasswordValid = await argon2.verify(user.password, data.currentPassword);
+	if (!isPasswordValid) {
+		return {
+			success: false,
+			error: "La contraseña actual no es correcta.",
+		};
+	}
+
+	// 4. Hashear nueva contraseña
+	const newHashedPassword = await argon2.hash(data.newPassword);
+
+	// 5. Actualizar en base de datos
+	await db.orm.public.User.where({ id: actor.user.id }).update({
+		password: newHashedPassword,
+	});
+
+	// 6. Revocar todas las sesiones del usuario excepto la actual
+	const allSessions = await db.orm.public.Session.where({
+		userId: actor.user.id,
+	}).all();
+
+	for (const s of allSessions) {
+		if (s.id !== actor.sessionToken) {
+			await db.orm.public.Session.where({ id: s.id }).delete();
 		}
+	}
 
-		// 3. Verificar contraseña actual con Argon2
-		const isPasswordValid = await argon2.verify(
-			user.password,
-			data.currentPassword,
-		);
-		if (!isPasswordValid) {
-			return {
-				success: false,
-				error: "La contraseña actual no es correcta.",
-			};
-		}
-
-		// 4. Hashear nueva contraseña
-		const newHashedPassword = await argon2.hash(data.newPassword);
-
-		// 5. Actualizar en base de datos
-		await db.orm.public.User.where({ id: actor.user.id }).update({
-			password: newHashedPassword,
-		});
-
-		// 6. Revocar todas las sesiones del usuario excepto la actual
-		const allSessions = await db.orm.public.Session.where({
-			userId: actor.user.id,
-		}).all();
-
-		for (const s of allSessions) {
-			if (s.id !== actor.sessionToken) {
-				await db.orm.public.Session.where({ id: s.id }).delete();
-			}
-		}
-
-		// 7. Refrescar estado
-		void getProfileData().refresh();
-	},
-);
+	// 7. Refrescar estado
+	void getProfileData().refresh();
+});

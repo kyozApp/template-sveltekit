@@ -14,41 +14,38 @@ import { getUserDetails, getUserList } from "./user.query.remote.ts";
 /**
  * Cambia el estado de activación de un usuario (isActive).
  */
-export const toggleUserStatus = command(
-	userToggleStatusSchema.body,
-	async (data) => {
-		// 1. Validar permisos
-		const actor = assertPermission("users:manage");
+export const toggleUserStatus = command(userToggleStatusSchema.body, async (data) => {
+	// 1. Validar permisos
+	const actor = assertPermission("users:manage");
 
-		// 2. Prohibir auto-desactivación
-		if (actor.user.id === data.id) {
-			error(400, "No puedes desactivar tu propia cuenta en sesión.");
-		}
+	// 2. Prohibir auto-desactivación
+	if (actor.user.id === data.id) {
+		error(400, "No puedes desactivar tu propia cuenta en sesión.");
+	}
 
-		// 3. Validar existencia del usuario
-		const existing = await db.orm.public.User.where({ id: data.id }).first();
-		if (!existing) {
-			error(404, "El usuario no se encontró.");
-		}
+	// 3. Validar existencia del usuario
+	const existing = await db.orm.public.User.where({ id: data.id }).first();
+	if (!existing) {
+		error(404, "El usuario no se encontró.");
+	}
 
-		// 4. Determinar nuevo estado e invalidar sesiones si se desactiva
-		const newIsActive = !existing.isActive;
+	// 4. Determinar nuevo estado e invalidar sesiones si se desactiva
+	const newIsActive = !existing.isActive;
 
-		if (!newIsActive) {
-			await db.orm.public.Session.where({ userId: data.id }).deleteAll();
-		}
+	if (!newIsActive) {
+		await db.orm.public.Session.where({ userId: data.id }).deleteAll();
+	}
 
-		// 5. Actualizar estado del usuario en la base de datos
-		await db.orm.public.User.where({ id: data.id }).update({
-			isActive: newIsActive,
-		});
+	// 5. Actualizar estado del usuario en la base de datos
+	await db.orm.public.User.where({ id: data.id }).update({
+		isActive: newIsActive,
+	});
 
-		// 6. Invalidar caché y refrescar datos
-		void getUserList().refresh();
-		void getUserDetails({ id: data.id }).refresh();
-		void getProfileData().refresh();
-	},
-);
+	// 6. Invalidar caché y refrescar datos
+	void getUserList().refresh();
+	void getUserDetails({ id: data.id }).refresh();
+	void getProfileData().refresh();
+});
 
 /**
  * Elimina lógicamente a un usuario del sistema (Soft Delete).

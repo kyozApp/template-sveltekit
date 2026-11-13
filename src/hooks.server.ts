@@ -1,8 +1,4 @@
-import {
-	type Handle,
-	type HandleServerError,
-	sequence,
-} from "@sveltejs/kit/hooks";
+import { type Handle, type HandleServerError, sequence } from "@sveltejs/kit/hooks";
 
 import type { Role } from "#lib/constants.ts";
 import { db } from "#lib/server/db.ts";
@@ -17,9 +13,7 @@ const handleSession: Handle = async ({ event, resolve }) => {
 	}
 
 	try {
-		const session = await db.orm.public.Session.where({ id: sessionId })
-			.include("user")
-			.first();
+		const session = await db.orm.public.Session.where({ id: sessionId }).include("user").first();
 
 		if (
 			!session?.user ||

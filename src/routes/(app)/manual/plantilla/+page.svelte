@@ -1,12 +1,5 @@
 <script lang="ts">
-import {
-	ChevronDown,
-	FolderTree,
-	Lock,
-	Palette,
-	ShieldCheck,
-	Zap,
-} from "@lucide/svelte";
+import { ChevronDown, FolderTree, Lock, Palette, ShieldCheck, Zap } from "@lucide/svelte";
 
 const faqs = [
 	{
@@ -32,19 +25,13 @@ const faqs = [
 	<title>Plantilla · Centro de Ayuda</title>
 </svelte:head>
 
-<header
-	class="flex flex-col gap-1 border-b border-zinc-200 pb-5 sm:pb-6 dark:border-zinc-800"
->
-	<h1
-		class="text-2xl font-extrabold tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-100"
-	>
+<header class="flex flex-col gap-1 border-b border-zinc-200 pb-5 sm:pb-6 dark:border-zinc-800">
+	<h1 class="text-2xl font-extrabold tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-100">
 		Manual de la Plantilla
 	</h1>
-	<p
-		class="text-sm leading-relaxed font-normal text-zinc-500 md:text-base dark:text-zinc-400"
-	>
-		Guía base de arquitectura, tecnologías integradas, convenciones y flujo de
-		desarrollo para iniciar nuevos proyectos sobre este repositorio.
+	<p class="text-sm leading-relaxed font-normal text-zinc-500 md:text-base dark:text-zinc-400">
+		Guía base de arquitectura, tecnologías integradas, convenciones y flujo de desarrollo para
+		iniciar nuevos proyectos sobre este repositorio.
 	</p>
 </header>
 
@@ -52,19 +39,14 @@ const faqs = [
 	<!-- 1. Visión General -->
 	<section id="vision-general" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
-			<h3
-				class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100"
-			>
+			<h3 class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100">
 				1. Visión General y Propósito
 			</h3>
-			<p
-				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
-			>
-				Esta plantilla (<strong>template-sveltekit</strong>) ha sido diseñada
-				como una base robusta, moderna y lista para producción, permitiéndote
-				iniciar aplicaciones SaaS, paneles administrativos o plataformas
-				empresariales sin tener que configurar autenticación, roles o diseño
-				desde cero.
+			<p class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400">
+				Esta plantilla (<strong>template-sveltekit</strong>) ha sido diseñada como una base robusta,
+				moderna y lista para producción, permitiéndote iniciar aplicaciones SaaS, paneles
+				administrativos o plataformas empresariales sin tener que configurar autenticación, roles o
+				diseño desde cero.
 			</p>
 		</div>
 
@@ -77,15 +59,9 @@ const faqs = [
 				>
 					<Zap size={20} />
 				</div>
-				<h4 class="m-0 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-					Svelte 5 Universal
-				</h4>
-				<p
-					class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
-				>
-					Reactividad limpia con Runes (<code class="font-mono text-xs"
-						>$state</code
-					>,
+				<h4 class="m-0 text-sm font-bold text-zinc-900 dark:text-zinc-100">Svelte 5 Universal</h4>
+				<p class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400">
+					Reactividad limpia con Runes (<code class="font-mono text-xs">$state</code>,
 					<code class="font-mono text-xs">$derived</code>,
 					<code class="font-mono text-xs">$props</code>) sin tiendas obsoletas.
 				</p>
@@ -99,14 +75,10 @@ const faqs = [
 				>
 					<Lock size={20} />
 				</div>
-				<h4 class="m-0 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-					Seguridad y Sesiones
-				</h4>
-				<p
-					class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
-				>
-					Cookies <code class="font-mono text-xs">httpOnly</code>, roles (ADMIN
-					/ USER) y vigilancia pasiva de expiración en tiempo real.
+				<h4 class="m-0 text-sm font-bold text-zinc-900 dark:text-zinc-100">Seguridad y Sesiones</h4>
+				<p class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400">
+					Cookies <code class="font-mono text-xs">httpOnly</code>, roles (ADMIN / USER) y vigilancia
+					pasiva de expiración en tiempo real.
 				</p>
 			</div>
 
@@ -118,14 +90,10 @@ const faqs = [
 				>
 					<Palette size={20} />
 				</div>
-				<h4 class="m-0 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-					Tailwind CSS v4
-				</h4>
-				<p
-					class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
-				>
-					Diseño 100% utilitario, cero bloques de estilo heredados y soporte
-					nativo de modo claro y oscuro.
+				<h4 class="m-0 text-sm font-bold text-zinc-900 dark:text-zinc-100">Tailwind CSS v4</h4>
+				<p class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400">
+					Diseño 100% utilitario, cero bloques de estilo heredados y soporte nativo de modo claro y
+					oscuro.
 				</p>
 			</div>
 
@@ -137,14 +105,10 @@ const faqs = [
 				>
 					<ShieldCheck size={20} />
 				</div>
-				<h4 class="m-0 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-					TypeScript Estricto
-				</h4>
-				<p
-					class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
-				>
-					Tipado estricto en layouts, páginas, locals de servidor y componentes
-					para evitar errores en tiempo de ejecución.
+				<h4 class="m-0 text-sm font-bold text-zinc-900 dark:text-zinc-100">TypeScript Estricto</h4>
+				<p class="m-0 text-xs leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400">
+					Tipado estricto en layouts, páginas, locals de servidor y componentes para evitar errores
+					en tiempo de ejecución.
 				</p>
 			</div>
 		</div>
@@ -153,16 +117,11 @@ const faqs = [
 	<!-- 2. Arquitectura y Tecnologías -->
 	<section id="arquitectura" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
-			<h3
-				class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100"
-			>
+			<h3 class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100">
 				2. Arquitectura y Tecnologías
 			</h3>
-			<p
-				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
-			>
-				La solución adopta las mejores prácticas y estándares de la comunidad de
-				SvelteKit:
+			<p class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400">
+				La solución adopta las mejores prácticas y estándares de la comunidad de SvelteKit:
 			</p>
 		</div>
 
@@ -174,35 +133,31 @@ const faqs = [
 			>
 				<li>
 					<strong>SvelteKit 3:</strong>
-					Enrutamiento basado en archivos, carga de datos con SSR (Server-Side
-					Rendering) y shallow routing para modales elegantes sin recargar la
-					página.
+					Enrutamiento basado en archivos, carga de datos con SSR (Server-Side Rendering) y shallow
+					routing para modales elegantes sin recargar la página.
 				</li>
 				<li>
 					<strong>Svelte 5 Runes:</strong>
-					Sin componentes complejos de wrapper de estado. Los datos y estados
-					reactivos fluyen de forma transparente mediante props fuertemente
-					tipadas.
+					Sin componentes complejos de wrapper de estado. Los datos y estados reactivos fluyen de
+					forma transparente mediante props fuertemente tipadas.
 				</li>
 				<li>
 					<strong>Prisma:</strong>
-					Consultas a base de datos eficientes, migraciones seguras y tipado
-					estricto integrado desde el esquema hasta el cliente.
+					Consultas a base de datos eficientes, migraciones seguras y tipado estricto integrado
+					desde el esquema hasta el cliente.
 				</li>
 				<li>
 					<strong>Tailwind CSS v4:</strong>
-					Sin archivos CSS inflados. Uso de clases utilitarias estándar y
-					variante
-					<code
-						class="rounded-md bg-zinc-200/70 px-1.5 py-0.5 font-mono text-xs dark:bg-zinc-800"
+					Sin archivos CSS inflados. Uso de clases utilitarias estándar y variante
+					<code class="rounded-md bg-zinc-200/70 px-1.5 py-0.5 font-mono text-xs dark:bg-zinc-800"
 						>dark:</code
 					>
 					para soportar contraste automático.
 				</li>
 				<li>
 					<strong>Biome:</strong>
-					Herramienta ultrarrápida de linting y formateo automatizado que
-					garantiza código limpio, consistente y libre de errores sintácticos.
+					Herramienta ultrarrápida de linting y formateo automatizado que garantiza código limpio,
+					consistente y libre de errores sintácticos.
 				</li>
 			</ul>
 		</div>
@@ -211,14 +166,10 @@ const faqs = [
 	<!-- 3. Estructura de Directorios -->
 	<section id="estructura" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
-			<h3
-				class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100"
-			>
+			<h3 class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100">
 				3. Estructura de Directorios
 			</h3>
-			<p
-				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
-			>
+			<p class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400">
 				El proyecto organiza las responsabilidades de forma predecible:
 			</p>
 		</div>
@@ -226,9 +177,7 @@ const faqs = [
 		<div
 			class="flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-4 font-mono text-xs wrap-break-word text-zinc-800 sm:p-6 dark:border-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-200"
 		>
-			<div
-				class="flex items-center gap-2 font-bold text-zinc-800 dark:text-zinc-200"
-			>
+			<div class="flex items-center gap-2 font-bold text-zinc-800 dark:text-zinc-200">
 				<FolderTree size={16} />
 				<span>src/</span>
 			</div>
@@ -236,28 +185,28 @@ const faqs = [
 				class="flex flex-col gap-1.5 border-l-2 border-zinc-200 pl-3 sm:pl-4 dark:border-zinc-700"
 			>
 				<div>
-					<strong>routes/(app)/</strong>: Zona autenticada protegida. Contiene
-					la barra lateral, cabecera y módulos privados.
+					<strong>routes/(app)/</strong>: Zona autenticada protegida. Contiene la barra lateral,
+					cabecera y módulos privados.
 				</div>
 				<div>
-					<strong>routes/(public)/</strong>: Zona pública de inicio de sesión y
-					recuperación de credenciales.
+					<strong>routes/(public)/</strong>: Zona pública de inicio de sesión y recuperación de
+					credenciales.
 				</div>
 				<div>
-					<strong>lib/components/</strong>: Componentes visuales reutilizables
-					(modales, cabecera, sidebar, formularios).
+					<strong>lib/components/</strong>: Componentes visuales reutilizables (modales, cabecera,
+					sidebar, formularios).
 				</div>
 				<div>
-					<strong>lib/remote/</strong>: Funciones remotas tipadas para
-					interactuar con la base de datos y lógica de negocio.
+					<strong>lib/remote/</strong>: Funciones remotas tipadas para interactuar con la base de
+					datos y lógica de negocio.
 				</div>
 				<div>
-					<strong>lib/services/</strong>: Servicios reactivos compartidos
-					(notificaciones toast, preferencias de usuario).
+					<strong>lib/services/</strong>: Servicios reactivos compartidos (notificaciones toast,
+					preferencias de usuario).
 				</div>
 				<div>
-					<strong>lib/server/</strong>: Lógica exclusiva del servidor (base de
-					datos, hashes de contraseñas, validación de sesiones).
+					<strong>lib/server/</strong>: Lógica exclusiva del servidor (base de datos, hashes de
+					contraseñas, validación de sesiones).
 				</div>
 			</div>
 		</div>
@@ -266,16 +215,11 @@ const faqs = [
 	<!-- 4. Preguntas Frecuentes -->
 	<section id="faqs" class="flex scroll-mt-6 flex-col gap-5">
 		<div class="flex flex-col gap-1.5">
-			<h3
-				class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100"
-			>
+			<h3 class="m-0 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl dark:text-zinc-100">
 				Preguntas Frecuentes de la Plantilla
 			</h3>
-			<p
-				class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400"
-			>
-				Respuestas a las dudas más frecuentes al comenzar a construir sobre esta
-				base:
+			<p class="m-0 text-sm leading-relaxed wrap-break-word text-zinc-600 dark:text-zinc-400">
+				Respuestas a las dudas más frecuentes al comenzar a construir sobre esta base:
 			</p>
 		</div>
 

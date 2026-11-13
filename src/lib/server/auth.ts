@@ -12,9 +12,7 @@ export const assertAuthenticated = (): App.AuthenticatedLocals => {
 	return event.locals as App.AuthenticatedLocals;
 };
 
-export const assertPermission = (
-	permission: Permission,
-): App.AuthenticatedLocals => {
+export const assertPermission = (permission: Permission): App.AuthenticatedLocals => {
 	const locals = assertAuthenticated();
 
 	if (!hasPermission(locals.user.role, permission)) {

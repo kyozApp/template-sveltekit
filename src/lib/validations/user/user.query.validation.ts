@@ -23,9 +23,7 @@ export const userListSchema = {
 	),
 };
 
-export type UserListItemResponse = v.InferOutput<
-	typeof userListSchema.response
->[number];
+export type UserListItemResponse = v.InferOutput<typeof userListSchema.response>[number];
 
 /**
  * Obtener los detalles del usuario
@@ -53,6 +51,4 @@ export const userDetailSchema = {
 };
 
 export type UserDetailParams = v.InferOutput<typeof userDetailSchema.params>;
-export type UserDetailResponse = v.InferOutput<
-	typeof userDetailSchema.response
->;
+export type UserDetailResponse = v.InferOutput<typeof userDetailSchema.response>;

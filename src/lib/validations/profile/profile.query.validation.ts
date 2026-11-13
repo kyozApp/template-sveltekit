@@ -28,6 +28,4 @@ export const profileDataSchema = {
 	}),
 };
 
-export type ProfileDataResponse = v.InferOutput<
-	typeof profileDataSchema.response
->;
+export type ProfileDataResponse = v.InferOutput<typeof profileDataSchema.response>;

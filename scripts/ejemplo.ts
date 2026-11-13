@@ -1,9 +1,7 @@
 import { db } from "../src/prisma/db.js";
 
 async function main() {
-	console.info(
-		"🚀 [Script] Iniciando auditoría y normalización de usuarios...",
-	);
+	console.info("🚀 [Script] Iniciando auditoría y normalización de usuarios...");
 	const startTime = Date.now();
 
 	try {
@@ -58,9 +56,7 @@ async function main() {
 	} finally {
 		// 4. Obligatorio: Cerrar el pool de conexiones de Prisma 8 para liberar recursos
 		await db.close();
-		console.info(
-			"🔌 [Script] Conexión a la base de datos cerrada limpiamente.",
-		);
+		console.info("🔌 [Script] Conexión a la base de datos cerrada limpiamente.");
 	}
 }
 

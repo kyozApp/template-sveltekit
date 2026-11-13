@@ -10,10 +10,7 @@ export const profileUpdateSchema = {
 			v.trim(),
 			v.nonEmpty("El nombre completo es obligatorio."),
 			v.minLength(3, "El nombre completo debe tener al menos 3 letras."),
-			v.maxLength(
-				255,
-				"El nombre completo no puede superar los 255 caracteres.",
-			),
+			v.maxLength(255, "El nombre completo no puede superar los 255 caracteres."),
 		),
 		username: v.pipe(
 			v.string("El usuario ingresado no es válido."),
@@ -21,23 +18,15 @@ export const profileUpdateSchema = {
 			v.toLowerCase(),
 			v.nonEmpty("El usuario es obligatorio."),
 			v.minLength(3, "El usuario debe tener al menos 3 caracteres."),
-			v.maxLength(
-				255,
-				"El nombre de usuario no puede superar los 255 caracteres.",
-			),
+			v.maxLength(255, "El nombre de usuario no puede superar los 255 caracteres."),
 		),
 		email: v.pipe(
 			v.string("El correo electrónico ingresado no es válido."),
 			v.trim(),
 			v.toLowerCase(),
 			v.nonEmpty("El correo electrónico es obligatorio."),
-			v.email(
-				"Ingresa un correo electrónico válido (ejemplo: nombre@correo.com).",
-			),
-			v.maxLength(
-				255,
-				"El correo electrónico no puede superar los 255 caracteres.",
-			),
+			v.email("Ingresa un correo electrónico válido (ejemplo: nombre@correo.com)."),
+			v.maxLength(255, "El correo electrónico no puede superar los 255 caracteres."),
 		),
 	}),
 };
@@ -72,6 +61,4 @@ export const profilePasswordChangeSchema = {
 	),
 };
 
-export type ProfilePasswordChangeBody = v.InferOutput<
-	typeof profilePasswordChangeSchema.body
->;
+export type ProfilePasswordChangeBody = v.InferOutput<typeof profilePasswordChangeSchema.body>;

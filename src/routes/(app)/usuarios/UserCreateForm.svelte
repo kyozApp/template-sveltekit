@@ -39,7 +39,7 @@ const submitting = $derived(createForm.pending > 0);
 </script>
 
 <div
-	class="min-h-0 flex-1 overflow-auto overscroll-contain bg-zinc-50 px-5 py-5 sm:px-8 sm:py-6 dark:bg-zinc-950"
+	class="min-h-0 flex-1 overflow-auto overscroll-contain bg-zinc-50 p-5 sm:px-8 sm:py-6 dark:bg-zinc-950"
 >
 	<form
 		class="flex flex-col gap-5"
@@ -102,8 +102,7 @@ const submitting = $derived(createForm.pending > 0);
 							id="user-create-name"
 							class={[
 								"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
-								fieldName.issues()?.length &&
-									"border-red-500 dark:border-red-400",
+								fieldName.issues()?.length && "border-red-500 dark:border-red-400",
 							]}
 							placeholder="Nombre del usuario"
 							autocomplete="name"
@@ -139,8 +138,7 @@ const submitting = $derived(createForm.pending > 0);
 							id="user-create-username"
 							class={[
 								"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
-								fieldUsername.issues()?.length &&
-									"border-red-500 dark:border-red-400",
+								fieldUsername.issues()?.length && "border-red-500 dark:border-red-400",
 							]}
 							placeholder="usuario123"
 							autocomplete="username"
@@ -176,8 +174,7 @@ const submitting = $derived(createForm.pending > 0);
 							id="user-create-email"
 							class={[
 								"min-h-12 w-full rounded-xl border border-zinc-200 bg-white py-3 pr-4 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none placeholder:text-xs placeholder:text-zinc-400 focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
-								fieldEmail.issues()?.length &&
-									"border-red-500 dark:border-red-400",
+								fieldEmail.issues()?.length && "border-red-500 dark:border-red-400",
 							]}
 							placeholder="correo@ejemplo.com"
 							autocomplete="email"
@@ -217,8 +214,7 @@ const submitting = $derived(createForm.pending > 0);
 						id="user-create-role"
 						class={[
 							"peer min-h-12 w-full cursor-pointer appearance-none rounded-xl border border-zinc-200 bg-white bg-none py-3 pr-10 pl-11 text-sm font-medium text-zinc-900 transition-all duration-200 outline-none focus:border-zinc-500 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-400 dark:focus:bg-zinc-900 dark:focus:ring-zinc-600/30",
-							fieldRole.issues()?.length &&
-								"border-red-500 dark:border-red-400",
+							fieldRole.issues()?.length && "border-red-500 dark:border-red-400",
 						]}
 						onchange={(e) => e.currentTarget.blur()}
 						disabled={submitting}

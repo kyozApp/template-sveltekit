@@ -5,10 +5,7 @@ import argon2 from "argon2";
 
 import { assertPermission } from "#lib/server/auth.ts";
 import { db } from "#lib/server/db.ts";
-import {
-	userCreateSchema,
-	userUpdateSchema,
-} from "#lib/validations/user/user.form.validation.ts";
+import { userCreateSchema, userUpdateSchema } from "#lib/validations/user/user.form.validation.ts";
 
 import { getProfileData } from "../profile/profile.query.remote.ts";
 import { getUserDetails, getUserList } from "./user.query.remote.ts";

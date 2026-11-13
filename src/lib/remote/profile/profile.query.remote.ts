@@ -16,16 +16,7 @@ export const getProfileData = query(async () => {
 
 	// 2. Obtener datos actualizados del usuario
 	const user = await db.orm.public.User.where({ id: actor.user.id })
-		.select(
-			"id",
-			"name",
-			"username",
-			"email",
-			"role",
-			"isActive",
-			"createdAt",
-			"updatedAt",
-		)
+		.select("id", "name", "username", "email", "role", "isActive", "createdAt", "updatedAt")
 		.first();
 
 	if (!user) {

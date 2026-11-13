@@ -2,13 +2,7 @@
 import { fly } from "svelte/transition";
 import { resolve } from "$app/paths";
 
-import {
-	Activity,
-	BookOpen,
-	ShieldCheck,
-	UserCheck,
-	Users,
-} from "@lucide/svelte";
+import { Activity, BookOpen, ShieldCheck, UserCheck, Users } from "@lucide/svelte";
 
 import { hasPermission, ROLE_LABELS } from "#lib/constants.ts";
 
@@ -65,14 +59,10 @@ const user = $derived(data.user);
 				<Users size={22} />
 			</div>
 			<div class="flex flex-col gap-1">
-				<span
-					class="text-xs font-bold tracking-wider text-zinc-500 uppercase dark:text-zinc-400"
-				>
+				<span class="text-xs font-bold tracking-wider text-zinc-500 uppercase dark:text-zinc-400">
 					Gestión de Acceso
 				</span>
-				<span class="text-lg font-extrabold text-zinc-900 dark:text-zinc-100">
-					Usuarios
-				</span>
+				<span class="text-lg font-extrabold text-zinc-900 dark:text-zinc-100"> Usuarios </span>
 				<a
 					href={resolve("usuarios")}
 					class="mt-1 text-xs font-semibold text-zinc-700 hover:text-zinc-900 hover:underline dark:text-zinc-300 dark:hover:text-zinc-100"
@@ -92,14 +82,10 @@ const user = $derived(data.user);
 				<UserCheck size={22} />
 			</div>
 			<div class="flex min-w-0 flex-col gap-1">
-				<span
-					class="text-xs font-bold tracking-wider text-zinc-500 uppercase dark:text-zinc-400"
-				>
+				<span class="text-xs font-bold tracking-wider text-zinc-500 uppercase dark:text-zinc-400">
 					Sesión Actual
 				</span>
-				<span
-					class="truncate text-lg font-extrabold text-zinc-900 dark:text-zinc-100"
-				>
+				<span class="truncate text-lg font-extrabold text-zinc-900 dark:text-zinc-100">
 					{user.username}
 				</span>
 				<span class="truncate text-xs text-zinc-500 dark:text-zinc-400">
@@ -118,14 +104,10 @@ const user = $derived(data.user);
 				<Activity size={22} />
 			</div>
 			<div class="flex flex-col gap-1">
-				<span
-					class="text-xs font-bold tracking-wider text-zinc-500 uppercase dark:text-zinc-400"
-				>
+				<span class="text-xs font-bold tracking-wider text-zinc-500 uppercase dark:text-zinc-400">
 					Estado del Servidor
 				</span>
-				<span class="text-lg font-extrabold text-zinc-900 dark:text-zinc-100">
-					Operativo
-				</span>
+				<span class="text-lg font-extrabold text-zinc-900 dark:text-zinc-100"> Operativo </span>
 				<span class="text-xs text-zinc-500 dark:text-zinc-400">
 					Node.js · SvelteKit · Prisma 8
 				</span>
@@ -143,14 +125,10 @@ const user = $derived(data.user);
 					<BookOpen size={22} />
 				</div>
 				<div class="flex flex-col gap-1">
-					<span
-						class="text-xs font-bold tracking-wider text-zinc-500 uppercase dark:text-zinc-400"
-					>
+					<span class="text-xs font-bold tracking-wider text-zinc-500 uppercase dark:text-zinc-400">
 						Documentación
 					</span>
-					<span class="text-lg font-extrabold text-zinc-900 dark:text-zinc-100">
-						Manual
-					</span>
+					<span class="text-lg font-extrabold text-zinc-900 dark:text-zinc-100"> Manual </span>
 					<a
 						href={resolve("manual")}
 						class="mt-1 text-xs font-semibold text-zinc-700 hover:text-zinc-900 hover:underline dark:text-zinc-300 dark:hover:text-zinc-100"

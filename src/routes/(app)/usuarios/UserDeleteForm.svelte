@@ -23,9 +23,7 @@ const handleDelete = async () => {
 
 	try {
 		await deleteUser({ id: userId });
-		notifications.showToastSuccess(
-			`Usuario "${userName}" eliminado con éxito.`,
-		);
+		notifications.showToastSuccess(`Usuario "${userName}" eliminado con éxito.`);
 		onClose();
 	} catch (e) {
 		if (isHttpError(e)) {
@@ -46,22 +44,17 @@ const handleDelete = async () => {
 </script>
 
 <div
-	class="min-h-0 flex-1 overflow-auto overscroll-contain bg-zinc-50 px-5 py-5 sm:px-8 sm:py-6 dark:bg-zinc-950"
+	class="min-h-0 flex-1 overflow-auto overscroll-contain bg-zinc-50 p-5 sm:px-8 sm:py-6 dark:bg-zinc-950"
 >
 	<div class="flex flex-col gap-5">
 		<!-- Advertencia de baja permanente -->
 		<div
 			class="flex items-start gap-3 rounded-xl border border-red-300/40 bg-red-500/10 p-4 dark:border-red-900/50"
 		>
-			<TriangleAlert
-				size={18}
-				class="mt-0.5 shrink-0 text-red-600 dark:text-red-400"
-			/>
-			<p
-				class="text-sm leading-relaxed font-medium text-red-700 dark:text-red-300"
-			>
-				¿Estás seguro de que deseas dar de baja a "{userName}"? El usuario será
-				eliminado del sistema y sus sesiones serán canceladas.
+			<TriangleAlert size={18} class="mt-0.5 shrink-0 text-red-600 dark:text-red-400" />
+			<p class="text-sm leading-relaxed font-medium text-red-700 dark:text-red-300">
+				¿Estás seguro de que deseas dar de baja a "{userName}"? El usuario será eliminado del
+				sistema y sus sesiones serán canceladas.
 			</p>
 		</div>
 

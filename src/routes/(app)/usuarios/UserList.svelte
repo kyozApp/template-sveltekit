@@ -3,11 +3,7 @@ import { goto } from "$app/navigation";
 
 import { LoaderCircle, Pencil, Trash } from "@lucide/svelte";
 
-import {
-	hasPermission,
-	ROLE_LABELS,
-	type SessionUser,
-} from "#lib/constants.ts";
+import { hasPermission, ROLE_LABELS, type SessionUser } from "#lib/constants.ts";
 import { getUserList } from "#lib/remote/user/user.query.remote.ts";
 
 import UserStatusToggle from "./UserStatusToggle.svelte";
@@ -18,9 +14,7 @@ interface Props {
 
 let { currentUser }: Props = $props();
 
-const canManageUsers = $derived(
-	hasPermission(currentUser.role, "users:manage"),
-);
+const canManageUsers = $derived(hasPermission(currentUser.role, "users:manage"));
 
 /** Determina si el usuario en sesión puede alternar el estado del usuario objetivo. */
 const canToggleUserStatus = (targetUser: { id: string }) => {
@@ -47,9 +41,7 @@ const canDeleteUser = (targetUser: { id: string }) => {
 	>
 		<table class="w-full border-collapse text-left">
 			<thead>
-				<tr
-					class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/80"
-				>
+				<tr class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/80">
 					<th
 						class="w-16 min-w-16 px-5 py-4 text-xs font-bold tracking-wider whitespace-nowrap text-zinc-500 uppercase dark:text-zinc-400"
 					>
@@ -89,12 +81,8 @@ const canDeleteUser = (targetUser: { id: string }) => {
 			</thead>
 			<tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
 				{#each list as user, index (user.id)}
-					<tr
-						class="transition-colors duration-150 hover:bg-zinc-50/80 dark:hover:bg-zinc-800/40"
-					>
-						<td
-							class="px-5 py-4 text-sm font-medium text-zinc-500 dark:text-zinc-400"
-						>
+					<tr class="transition-colors duration-150 hover:bg-zinc-50/80 dark:hover:bg-zinc-800/40">
+						<td class="px-5 py-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">
 							{index + 1}
 						</td>
 						<td class="px-5 py-4">
@@ -118,14 +106,10 @@ const canDeleteUser = (targetUser: { id: string }) => {
 								{/if}
 							</div>
 						</td>
-						<td
-							class="px-5 py-4 font-mono text-xs text-zinc-600 dark:text-zinc-300"
-						>
+						<td class="px-5 py-4 font-mono text-xs text-zinc-600 dark:text-zinc-300">
 							{user.username}
 						</td>
-						<td
-							class="px-5 py-4 text-sm font-medium text-zinc-700 dark:text-zinc-300"
-						>
+						<td class="px-5 py-4 text-sm font-medium text-zinc-700 dark:text-zinc-300">
 							{user.email}
 						</td>
 						<td class="px-5 py-4 text-center">
@@ -221,10 +205,7 @@ const canDeleteUser = (targetUser: { id: string }) => {
 		<div
 			class="flex items-center justify-center gap-3 rounded-2xl border border-zinc-200 bg-white p-12 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
 		>
-			<LoaderCircle
-				size={20}
-				class="animate-spin text-zinc-600 dark:text-zinc-400"
-			/>
+			<LoaderCircle size={20} class="animate-spin text-zinc-600 dark:text-zinc-400" />
 			<span class="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
 				Cargando usuarios...
 			</span>

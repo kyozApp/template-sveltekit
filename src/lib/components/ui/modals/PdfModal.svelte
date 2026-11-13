@@ -15,21 +15,11 @@ interface Props {
 	children: Snippet;
 }
 
-let {
-	isOpen,
-	onRequestClose,
-	width,
-	title,
-	subtitle,
-	icon: Icon,
-	children,
-}: Props = $props();
+let { isOpen, onRequestClose, width, title, subtitle, icon: Icon, children }: Props = $props();
 </script>
 
 <Modal {isOpen} {onRequestClose} {width}>
-	<div
-		class="flex w-full flex-col overflow-hidden rounded-2xl bg-white dark:bg-zinc-900"
-	>
+	<div class="flex w-full flex-col overflow-hidden rounded-2xl bg-white dark:bg-zinc-900">
 		<div
 			class="flex items-center justify-between border-b border-zinc-200 bg-white px-5 py-4 sm:px-7 sm:py-5 dark:border-zinc-800 dark:bg-zinc-900"
 		>
@@ -47,9 +37,7 @@ let {
 						>
 							{title}
 						</h2>
-						<p
-							class="text-xs font-medium text-zinc-500 sm:text-sm dark:text-zinc-400"
-						>
+						<p class="text-xs font-medium text-zinc-500 sm:text-sm dark:text-zinc-400">
 							{subtitle}
 						</p>
 					</div>

@@ -32,14 +32,10 @@ const handleRevoke = async (sessionId: string) => {
 	} catch (e) {
 		if (isHttpError(e)) {
 			console.error("[PROFILE REVOKE SESSION][HTTP ERROR]", e);
-			notifications.showToastError(
-				"No pudimos revocar la sesión en este momento.",
-			);
+			notifications.showToastError("No pudimos revocar la sesión en este momento.");
 		} else {
 			console.error("[PROFILE REVOKE SESSION][CONNECTION ERROR]", e);
-			notifications.showToastError(
-				"No se pudo establecer comunicación con el servidor.",
-			);
+			notifications.showToastError("No se pudo establecer comunicación con el servidor.");
 		}
 	} finally {
 		revokingId = null;
@@ -55,8 +51,8 @@ const handleRevoke = async (sessionId: string) => {
 			Dispositivos y Sesiones Activas
 		</h2>
 		<p class="text-xs text-zinc-500 dark:text-zinc-400">
-			Supervisa los dispositivos donde mantienes iniciada tu sesión. Puedes
-			cerrar el acceso en cualquier sesión remota.
+			Supervisa los dispositivos donde mantienes iniciada tu sesión. Puedes cerrar el acceso en
+			cualquier sesión remota.
 		</p>
 	</div>
 
@@ -66,9 +62,7 @@ const handleRevoke = async (sessionId: string) => {
 				class="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-zinc-200 py-10 text-center text-zinc-400 dark:border-zinc-800 dark:text-zinc-500"
 			>
 				<ShieldAlert size={28} />
-				<p class="text-sm font-medium">
-					No se encontraron registros de sesiones activas.
-				</p>
+				<p class="text-sm font-medium">No se encontraron registros de sesiones activas.</p>
 			</div>
 		{:else}
 			{#each sessions as session (session.id)}
@@ -94,9 +88,7 @@ const handleRevoke = async (sessionId: string) => {
 					<div class="flex min-w-0 flex-1 flex-col gap-1">
 						<div class="flex items-center gap-2.5">
 							<span class="text-sm font-bold text-zinc-900 dark:text-zinc-100">
-								{session.isCurrent
-									? "Dispositivo Actual"
-									: "Dispositivo Remoto"}
+								{session.isCurrent ? "Dispositivo Actual" : "Dispositivo Remoto"}
 							</span>
 							{#if session.isCurrent}
 								<span
@@ -120,9 +112,7 @@ const handleRevoke = async (sessionId: string) => {
 									minute: "2-digit",
 								})}
 							</span>
-							<span class="hidden text-zinc-300 sm:inline dark:text-zinc-600"
-								>•</span
-							>
+							<span class="hidden text-zinc-300 sm:inline dark:text-zinc-600">•</span>
 							<span>
 								Expira el
 								{new Date(session.expiresAt).toLocaleDateString("es-PE", {

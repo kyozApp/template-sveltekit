@@ -1,13 +1,7 @@
 <script lang="ts">
 import { fly } from "svelte/transition";
 
-import {
-	CircleAlert,
-	KeyRound,
-	Laptop,
-	LoaderCircle,
-	User,
-} from "@lucide/svelte";
+import { CircleAlert, KeyRound, Laptop, LoaderCircle, User } from "@lucide/svelte";
 
 import { hasPermission, ROLE_LABELS } from "#lib/constants.ts";
 import { getProfileData } from "#lib/remote/profile/profile.query.remote.ts";
@@ -126,9 +120,7 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 			>
 				<Laptop size={16} />
 				<span class="sm:hidden">Sesiones ({profile.sessions.length})</span>
-				<span class="hidden sm:inline"
-					>Sesiones ({profile.sessions.length})</span
-				>
+				<span class="hidden sm:inline">Sesiones ({profile.sessions.length})</span>
 			</button>
 		</div>
 
@@ -156,9 +148,7 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 		</main>
 
 		{#snippet pending()}
-			<div
-				class="flex min-h-80 flex-col items-center justify-center gap-2.5 p-8"
-			>
+			<div class="flex min-h-80 flex-col items-center justify-center gap-2.5 p-8">
 				<div
 					class="flex size-14 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300"
 				>
@@ -174,9 +164,7 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 		{/snippet}
 
 		{#snippet failed()}
-			<div
-				class="flex min-h-80 flex-col items-center justify-center gap-2.5 p-8"
-			>
+			<div class="flex min-h-80 flex-col items-center justify-center gap-2.5 p-8">
 				<div
 					class="flex size-14 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-red-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-red-400"
 				>
@@ -186,8 +174,7 @@ const handleSelectTab = (tab: "info" | "security" | "sessions") => {
 					Error al cargar el perfil
 				</p>
 				<p class="m-0 text-xs font-medium text-zinc-500 dark:text-zinc-400">
-					Ocurrió un error al cargar la información. Por favor, recarga la
-					página.
+					Ocurrió un error al cargar la información. Por favor, recarga la página.
 				</p>
 			</div>
 		{/snippet}
